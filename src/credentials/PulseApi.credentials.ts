@@ -6,7 +6,7 @@ import {
 export class PulseApi implements ICredentialType {
 	name = 'pulseApi';
 	displayName = 'Pulse API';
-	documentationUrl = 'https://pulse.ingedata.ai/documentation';
+	documentationUrl = 'https://developers.ingedata.ai/';
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Key',
@@ -28,7 +28,7 @@ export class PulseApi implements ICredentialType {
 			name: 'apiUrl',
 			type: 'string',
 			default: 'https://pulse.ingedata.ai',
-			description: 'The URL of the Pulse API',
+			description: 'The URL of the Pulse API. Update to use with the staging environment.',
 		},
 	];
 }
