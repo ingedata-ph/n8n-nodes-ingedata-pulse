@@ -1,0 +1,11 @@
+This project is made to allow users to communicate from and to the Pulse platform
+(pulse.ingedata.ai), by using n8n workflow system.
+
+It contains all the nodes we deemed to be interesting both for the power users
+internal to our team, and both for the customers of Ingedata.
+
+## Structure
+
+The src folder contains all the nodes that are available in the n8n workflow +
+all the utilitary classes to manage API call etc...
+
