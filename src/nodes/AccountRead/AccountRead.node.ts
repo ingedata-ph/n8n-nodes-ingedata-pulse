@@ -4,7 +4,7 @@ import { getPulseApiHelper } from '../../utils/PulseApiHelper';
 
 export class AccountRead implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Pulse Account Reads',
+		displayName: 'Pulse Account Read',
 		name: 'accountRead',
 		group: ['input'],
 		version: 1,
