@@ -6,6 +6,7 @@ export class AccountRead implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Pulse Account Read',
 		name: 'accountRead',
+		icon: 'file:pulse.svg',
 		group: ['input'],
 		version: 1,
 		description: 'Reads account information from Pulse API',
