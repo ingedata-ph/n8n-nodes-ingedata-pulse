@@ -1,10 +1,10 @@
 import { IExecuteFunctions, NodeConnectionType } from 'n8n-workflow';
 import { INodeType, INodeTypeDescription } from 'n8n-workflow';
-import { getPulseApiHelper } from '../utils/PulseApiHelper';
+import { getPulseApiHelper } from '../../utils/PulseApiHelper';
 
-export class AccountReadNode implements INodeType {
+export class AccountRead implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Pulse Account Read',
+		displayName: 'Pulse Account Reads',
 		name: 'accountRead',
 		group: ['input'],
 		version: 1,

@@ -25,7 +25,7 @@ export class PulseApiHelper {
 	 */
 	async authenticate(): Promise<string> {
 		try {
-			const response = await fetch(`${this.apiUrl}/accounts/auth/api/login`, {
+			const response = await fetch(`${this.apiUrl}/iam/auth/api/login`, {
 				method: 'POST',
 				headers: this.headers,
 				body: JSON.stringify({
@@ -74,7 +74,6 @@ export class PulseApiHelper {
 			const options: RequestInit = {
 				method,
 				headers: {
-					...this.headers,
 					Authorization: `Bearer ${token}`,
 				},
 			};
@@ -103,14 +102,14 @@ export class PulseApiHelper {
 	 * Get account information for a user
 	 */
 	async getAccount(userId: string): Promise<any> {
-		return this.request<any>('GET', `/accounts/users/${userId}`);
+		return this.request<any>('GET', `/office/employees/${userId}`);
 	}
 
 	/**
 	 * Get current user account information
 	 */
 	async getCurrentAccount(): Promise<any> {
-		return this.request<any>('GET', '/accounts/me');
+		return this.request<any>('GET', '/iam/accounts/me');
 	}
 }
 

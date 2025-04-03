@@ -1,18 +1,18 @@
-import { AccountReadNode } from '../../nodes/AccountRead.node';
-import { getPulseApiHelper } from '../../utils/PulseApiHelper';
+import { AccountRead } from '../../../nodes/AccountRead/AccountRead.node';
+import { getPulseApiHelper } from '../../../utils/PulseApiHelper';
 import { NodeConnectionType } from 'n8n-workflow';
 
 // Mock the PulseApiHelper
 jest.mock('../../utils/PulseApiHelper');
 
 describe('AccountReadNode', () => {
-  let accountReadNode: AccountReadNode;
+  let accountReadNode: AccountRead;
   let mockExecuteFunctions: any;
   let mockPulseApi: any;
 
   beforeEach(() => {
     // Create a new instance of the node
-    accountReadNode = new AccountReadNode();
+    accountReadNode = new AccountRead();
 
     // Create mock for the execute functions
     mockExecuteFunctions = {
