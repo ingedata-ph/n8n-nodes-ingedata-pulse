@@ -43,13 +43,7 @@ pnpm add n8n-ingedata-pulse
    ```bash
    pnpm install
    ```
-3. Build the project:
-   ```bash
-   pnpm build
-   ```
-
-### Development
-1. Run local dev, this will watch any changes to your `./src` files
+3. Run local dev, this will watch any changes to your `./src` files
    ```bash
    pnpm dev
    ```
@@ -57,11 +51,11 @@ pnpm add n8n-ingedata-pulse
    ```bash
    pnpm dev:icons
    ```
-2. Run docker compose
+4. Run docker compose
    ```bash
    docker compose up
    ```
-3. Go to http://localhost:5678
+5. Go to http://localhost:5678
 
 **Note**: You will need to restart docker compose to reload the n8n node as n8n currently have issue with with linking node correctly to n8n.
 
