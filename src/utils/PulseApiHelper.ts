@@ -102,7 +102,7 @@ export class PulseApiHelper {
 	 * Get account information for a user
 	 */
 	async getAccount(userId: string): Promise<any> {
-		return this.request<any>('GET', `/office/employees/${userId}`);
+		return this.request<any>('GET', `/api/v3/iam/accounts/${userId}`);
 	}
 
 	/**

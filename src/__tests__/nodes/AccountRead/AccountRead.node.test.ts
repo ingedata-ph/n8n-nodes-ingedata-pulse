@@ -3,7 +3,7 @@ import { getPulseApiHelper } from '../../../utils/PulseApiHelper';
 import { NodeConnectionType } from 'n8n-workflow';
 
 // Mock the PulseApiHelper
-jest.mock('../../utils/PulseApiHelper');
+jest.mock('../../../utils/PulseApiHelper');
 
 describe('AccountReadNode', () => {
   let accountReadNode: AccountRead;

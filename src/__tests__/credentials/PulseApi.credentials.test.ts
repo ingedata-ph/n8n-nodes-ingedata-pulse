@@ -13,7 +13,7 @@ describe('PulseApi Credentials', () => {
   });
 
   it('should have a documentation URL', () => {
-    expect(pulseApiCredentials.documentationUrl).toBe('https://pulse.ingedata.ai/documentation');
+    expect(pulseApiCredentials.documentationUrl).toBe('https://developers.ingedata.ai');
   });
 
   it('should have the required properties', () => {
@@ -40,6 +40,6 @@ describe('PulseApi Credentials', () => {
     expect(apiUrlProperty?.displayName).toBe('API URL');
     expect(apiUrlProperty?.type).toBe('string');
     expect(apiUrlProperty?.default).toBe('https://pulse.ingedata.ai');
-    expect(apiUrlProperty?.description).toBe('The URL of the Pulse API');
+    expect(apiUrlProperty?.description).toBe('The URL of the Pulse API. Update to use with the staging environment.');
   });
 });

@@ -33,7 +33,7 @@ describe('PulseApiHelper', () => {
       const token = await pulseApi.authenticate();
 
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://pulse.ingedata.ai/accounts/auth/api/login',
+        'https://pulse.ingedata.ai/api/v3/iam/auth/api/login',
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify({
@@ -188,7 +188,7 @@ describe('PulseApiHelper', () => {
 
       const result = await pulseApi.getAccount(userId);
 
-      expect(pulseApi.request).toHaveBeenCalledWith('GET', `/accounts/users/${userId}`);
+      expect(pulseApi.request).toHaveBeenCalledWith('GET', `/api/v3/iam/accounts/${userId}`);
       expect(result).toEqual(mockResponse);
     });
   });
@@ -202,7 +202,7 @@ describe('PulseApiHelper', () => {
 
       const result = await pulseApi.getCurrentAccount();
 
-      expect(pulseApi.request).toHaveBeenCalledWith('GET', '/accounts/me');
+      expect(pulseApi.request).toHaveBeenCalledWith('GET', '/api/v3/iam/accounts/me');
       expect(result).toEqual(mockResponse);
     });
   });
