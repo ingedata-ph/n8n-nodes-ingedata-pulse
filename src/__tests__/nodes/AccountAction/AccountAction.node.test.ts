@@ -1,18 +1,18 @@
-import { AccountRead } from '../../../nodes/AccountRead/AccountRead.node';
+import { AccountAction } from '../../../nodes/AccountAction/AccountAction.node';
 import { getPulseApiHelper } from '../../../utils/PulseApiHelper';
 import { NodeConnectionType } from 'n8n-workflow';
 
 // Mock the PulseApiHelper
 jest.mock('../../../utils/PulseApiHelper');
 
-describe('AccountReadNode', () => {
-  let accountReadNode: AccountRead;
+describe('AccountActionNode', () => {
+  let accountActionNode: AccountAction;
   let mockExecuteFunctions: any;
   let mockPulseApi: any;
 
   beforeEach(() => {
     // Create a new instance of the node
-    accountReadNode = new AccountRead();
+    accountActionNode = new AccountAction();
 
     // Create mock for the execute functions
     mockExecuteFunctions = {
@@ -45,13 +45,13 @@ describe('AccountReadNode', () => {
 
   describe('description', () => {
     it('should have the correct properties', () => {
-      expect(accountReadNode.description).toHaveProperty('displayName', 'Pulse Account Read');
-      expect(accountReadNode.description).toHaveProperty('name', 'accountRead');
-      expect(accountReadNode.description).toHaveProperty('group', ['input']);
-      expect(accountReadNode.description).toHaveProperty('version', 1);
-      expect(accountReadNode.description).toHaveProperty('inputs', [NodeConnectionType.Main]);
-      expect(accountReadNode.description).toHaveProperty('outputs', [NodeConnectionType.Main]);
-      expect(accountReadNode.description.credentials).toEqual([
+      expect(accountActionNode.description).toHaveProperty('displayName', 'Pulse Account Read');
+      expect(accountActionNode.description).toHaveProperty('name', 'accountAction');
+      expect(accountActionNode.description).toHaveProperty('group', ['input']);
+      expect(accountActionNode.description).toHaveProperty('version', 1);
+      expect(accountActionNode.description).toHaveProperty('inputs', [NodeConnectionType.Main]);
+      expect(accountActionNode.description).toHaveProperty('outputs', [NodeConnectionType.Main]);
+      expect(accountActionNode.description.credentials).toEqual([
         {
           name: 'pulseApi',
           required: true,
@@ -60,7 +60,7 @@ describe('AccountReadNode', () => {
     });
 
     it('should have the correct operations', () => {
-      const operations = accountReadNode.description.properties.find(
+      const operations = accountActionNode.description.properties.find(
         (prop: any) => prop.name === 'operation'
       );
       expect(operations).toBeDefined();
@@ -79,7 +79,7 @@ describe('AccountReadNode', () => {
       mockExecuteFunctions.getNodeParameter.mockReturnValue('getCurrentUser');
       mockPulseApi.getCurrentAccount.mockResolvedValue(mockUserData);
 
-      const result = await accountReadNode.execute.call(mockExecuteFunctions);
+      const result = await accountActionNode.execute.call(mockExecuteFunctions);
 
       expect(mockExecuteFunctions.getNodeParameter).toHaveBeenCalledWith('operation', 0);
       expect(getPulseApiHelper).toHaveBeenCalled();
@@ -98,7 +98,7 @@ describe('AccountReadNode', () => {
         .mockReturnValueOnce(userId);
       mockPulseApi.getAccount.mockResolvedValue(mockUserData);
 
-      const result = await accountReadNode.execute.call(mockExecuteFunctions);
+      const result = await accountActionNode.execute.call(mockExecuteFunctions);
 
       expect(mockExecuteFunctions.getNodeParameter).toHaveBeenCalledWith('operation', 0);
       expect(mockExecuteFunctions.getNodeParameter).toHaveBeenCalledWith('userId', 0);
@@ -113,7 +113,7 @@ describe('AccountReadNode', () => {
     it('should throw an error for unsupported operations', async () => {
       mockExecuteFunctions.getNodeParameter.mockReturnValue('unsupportedOperation');
 
-      await expect(accountReadNode.execute.call(mockExecuteFunctions)).rejects.toThrow(
+      await expect(accountActionNode.execute.call(mockExecuteFunctions)).rejects.toThrow(
         'The operation "unsupportedOperation" is not supported!'
       );
     });
@@ -123,7 +123,7 @@ describe('AccountReadNode', () => {
       mockPulseApi.getCurrentAccount.mockRejectedValue(new Error('API Error'));
       mockExecuteFunctions.continueOnFail.mockReturnValue(true);
 
-      const result = await accountReadNode.execute.call(mockExecuteFunctions);
+      const result = await accountActionNode.execute.call(mockExecuteFunctions);
 
       expect(mockExecuteFunctions.continueOnFail).toHaveBeenCalled();
       expect(mockExecuteFunctions.prepareOutputData).toHaveBeenCalledWith([
@@ -138,7 +138,7 @@ describe('AccountReadNode', () => {
       mockPulseApi.getCurrentAccount.mockRejectedValue(error);
       mockExecuteFunctions.continueOnFail.mockReturnValue(false);
 
-      await expect(accountReadNode.execute.call(mockExecuteFunctions)).rejects.toThrow('API Error');
+      await expect(accountActionNode.execute.call(mockExecuteFunctions)).rejects.toThrow('API Error');
     });
   });
 });

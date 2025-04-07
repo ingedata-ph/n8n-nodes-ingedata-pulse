@@ -34,6 +34,9 @@ export class PulseApiHelper {
 				}),
 			});
 
+			console.log('Response:', response);
+			
+
 			if (!response.ok) {
 				const errorData = await response.json() as any;
 				throw new Error(`Authentication failed: ${errorData.message || response.statusText}`);
@@ -55,6 +58,8 @@ export class PulseApiHelper {
 	 */
 	async getToken(): Promise<string> {
 		if (this.token === '') {
+			console.log('Token is empty, authenticating...', this.apiUrl);
+			
 			return this.authenticate();
 		}
 		return this.token;
@@ -69,7 +74,7 @@ export class PulseApiHelper {
 		data?: object,
 	): Promise<T> {
 		const token = await this.getToken();
-
+		console.log('Token:', token);
 		try {
 			const options: RequestInit = {
 				method,
@@ -109,7 +114,47 @@ export class PulseApiHelper {
 	 * Get current user account information
 	 */
 	async getCurrentAccount(): Promise<any> {
+		console.log('Fetching current account information');
 		return this.request<any>('GET', '/api/v3/iam/accounts/me');
+	}
+
+	/**
+	 * Get a list of people
+	 */
+	async getPeopleList(): Promise<any> {
+		return this.request<any>('GET', '/api/v3/iam/people');
+	}
+	/**
+	 * Create a new person
+	 */
+	async createPerson(personData: object): Promise<any> {
+		return this.request<any>('POST', '/api/v3/iam/people', personData);
+	}
+	/**
+	 * Get a person by ID
+	 */
+	async getPersonById(personId: string): Promise<any> {
+		return this.request<any>('GET', `/api/v3/iam/people/${personId}`);
+	}
+	/**
+	 * Update a person by ID
+	 */
+	async updatePersonById(personId: string, personData: object): Promise<any> {
+		return this.request<any>('PUT', `/api/v3/iam/people/${personId}`, personData);
+	}
+
+	/**
+	 * Create a new account
+	 */
+	async createAccount(accountData: object): Promise<any> {
+		return this.request<any>('POST', '/api/v3/iam/accounts', accountData);
+	}
+
+	/**
+	 * Update an account
+	 */
+	async updateAccount(accountId: string, accountData: object): Promise<any> {
+		return this.request<any>('PUT', `/api/v3/iam/accounts/${accountId}`, accountData);
 	}
 }
 

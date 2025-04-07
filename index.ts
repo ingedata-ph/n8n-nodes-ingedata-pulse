@@ -4,7 +4,8 @@ import { INodeType, INodeTypeDescription, ICredentialType } from 'n8n-workflow';
 import { PulseApi } from './src/credentials/PulseApi.credentials';
 
 // Import nodes
-import { AccountRead } from './src/nodes/AccountRead/AccountRead.node';
+import { AccountAction } from './src/nodes/AccountAction/AccountAction.node';
+import { PeopleAction } from './src/nodes/PeopleAction/PeopleAction.node';
 
 // Export the credentials
 export const credentials = {
@@ -16,5 +17,6 @@ export const credentials = {
 
 // Export the nodes
 export const nodes = [
-	AccountRead,
+	AccountAction,
+	PeopleAction,
 ];
