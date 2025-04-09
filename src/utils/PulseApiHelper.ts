@@ -69,25 +69,52 @@ export class PulseApiHelper {
 	 * Make an authenticated request to the Pulse API
 	 */
 	async request<T>(
-		method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+		method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
 		endpoint: string,
 		data?: object,
+		queryParams?: Record<string, string | string[]>,
 	): Promise<T> {
 		const token = await this.getToken();
 		console.log('Token:', token);
 		try {
+			const headers: Record<string, string> = {
+				Authorization: `Bearer ${token}`,
+			};
+
+			if (data && method !== 'GET') {
+				headers['Content-Type'] = 'application/json';
+			}
+
 			const options: RequestInit = {
 				method,
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
+				headers
 			};
 
 			if (data && method !== 'GET') {
 				options.body = JSON.stringify(data);
 			}
 
-			const response = await fetch(`${this.apiUrl}${endpoint}`, options);
+			// Build URL with query parameters if provided
+			let url = `${this.apiUrl}${endpoint}`;
+			if (queryParams && Object.keys(queryParams).length > 0) {
+				const queryParts: string[] = [];
+				
+				for (const [key, value] of Object.entries(queryParams)) {
+					if (Array.isArray(value)) {
+						// Handle array values with array notation (e.g., included[]=account&included[]=role)
+						value.forEach(v => queryParts.push(`${encodeURIComponent(key)}[]=${encodeURIComponent(v)}`));
+					} else {
+						// Handle string values normally (e.g., sort=name)
+						queryParts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+					}
+				}
+				
+				url += `?${queryParts.join('&')}`;
+			}
+			console.log('Request URL:', url);
+			console.log('options:', options);
+			
+			const response = await fetch(url, options);
 
 			if (!response.ok) {
 				const errorData = await response.json() as any;
@@ -105,24 +132,49 @@ export class PulseApiHelper {
 
 	/**
 	 * Get account information for a user
+	 * @param userId ID of the user account to retrieve
+	 * @param included Optional array of related resources to include
 	 */
-	async getAccount(userId: string): Promise<any> {
-		return this.request<any>('GET', `/api/v3/iam/accounts/${userId}`);
+	async getAccount(userId: string, included?: string[]): Promise<any> {
+		const queryParams: Record<string, string | string[]> = {};
+		
+		if (included && included.length > 0) {
+			queryParams.included = included;
+		}
+		
+		return this.request<any>('GET', `/api/v3/iam/accounts/${userId}`, undefined, queryParams);
 	}
 
 	/**
 	 * Get current user account information
+	 * @param included Optional array of related resources to include
 	 */
-	async getCurrentAccount(): Promise<any> {
+	async getCurrentAccount(included?: string[]): Promise<any> {
 		console.log('Fetching current account information');
-		return this.request<any>('GET', '/api/v3/iam/accounts/me');
+		const queryParams: Record<string, string | string[]> = {};
+		
+		if (included && included.length > 0) {
+			queryParams.included = included;
+		}
+		
+		return this.request<any>('GET', '/api/v3/iam/accounts/me', undefined, queryParams);
 	}
 
 	/**
 	 * Get a list of people
+	 * @param included Optional array of related resources to include (e.g., ['account'])
 	 */
-	async getPeopleList(): Promise<any> {
-		return this.request<any>('GET', '/api/v3/iam/people');
+	async getPeopleList(included?: string[]): Promise<any> {
+		const queryParams: Record<string, string | string[]> = {};
+		
+		if (included && included.length > 0) {
+			queryParams.included = included;
+		}
+
+		console.log('Fetching people list');
+		console.log('Query Params:', queryParams);
+		
+		return this.request<any>('GET', '/api/v3/iam/people', undefined, queryParams);
 	}
 	/**
 	 * Create a new person
@@ -132,15 +184,23 @@ export class PulseApiHelper {
 	}
 	/**
 	 * Get a person by ID
+	 * @param personId ID of the person to retrieve
+	 * @param included Optional array of related resources to include (e.g., ['account'])
 	 */
-	async getPersonById(personId: string): Promise<any> {
-		return this.request<any>('GET', `/api/v3/iam/people/${personId}`);
+	async getPersonById(personId: string, included?: string[]): Promise<any> {
+		const queryParams: Record<string, string | string[]> = {};
+		
+		if (included && included.length > 0) {
+			queryParams.included = included;
+		}
+		
+		return this.request<any>('GET', `/api/v3/iam/people/${personId}`, undefined, queryParams);
 	}
 	/**
 	 * Update a person by ID
 	 */
 	async updatePersonById(personId: string, personData: object): Promise<any> {
-		return this.request<any>('PUT', `/api/v3/iam/people/${personId}`, personData);
+		return this.request<any>('PATCH', `/api/v3/iam/people/${personId}`, personData);
 	}
 
 	/**
@@ -154,7 +214,7 @@ export class PulseApiHelper {
 	 * Update an account
 	 */
 	async updateAccount(accountId: string, accountData: object): Promise<any> {
-		return this.request<any>('PUT', `/api/v3/iam/accounts/${accountId}`, accountData);
+		return this.request<any>('PATCH', `/api/v3/iam/accounts/${accountId}`, accountData);
 	}
 }
 

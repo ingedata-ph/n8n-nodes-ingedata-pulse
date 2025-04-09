@@ -74,27 +74,57 @@ export class AccountAction implements INodeType {
 						action: 'Create new user account',
 					},
 					{
-						name: 'Update Account Status',
+						name: 'Activate/Deactivate Account',
 						value: 'updateAccountStatus',
 						description: 'Activate or deactivate an account',
 						action: 'Update account status',
 					},
+					{
+						name: 'Update Account',
+						value: 'updateAccount',
+						description: 'Update an account',
+						action: 'Update account',
+					}
 				],
 				default: 'getCurrentUser',
 			},
 			{
-				displayName: 'User ID',
-				name: 'userId',
+				displayName: 'Include Related Resources',
+				name: 'included',
+				type: 'multiOptions',
+				options: [
+					{
+						name: 'Person',
+						value: 'person',
+					},
+					{
+						name: 'Roles',
+						value: 'roles',
+					},
+				],
+				default: [],
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['getCurrentUser', 'getUserById'],
+						resource: ['account'],
+					},
+				},
+				description: 'Related resources to include in the response',
+			},
+			{
+				displayName: 'Account ID',
+				name: 'accountId',
 				type: 'string',
 				default: '',
 				required: true,
 				displayOptions: {
 					show: {
-						operation: ['getUserById'],
+						operation: ['getUserById', 'updateAccountStatus', 'updateAccount'],
 						resource: ['account'],
 					},
 				},
-				description: 'The ID of the user to get account information for',
+				description: 'The ID of the account to get/update',
 			},
 			{
 				displayName: 'Email',
@@ -104,7 +134,7 @@ export class AccountAction implements INodeType {
 				required: true,
 				displayOptions: {
 					show: {
-						operation: ['createAccount'],
+						operation: ['createAccount', 'updateAccount'],
 						resource: ['account'],
 					}
 				},
@@ -132,7 +162,7 @@ export class AccountAction implements INodeType {
 				default: 'personal_account',
 				displayOptions: {
 					show: {
-						operation: ['createAccount'],
+						operation: ['createAccount', 'updateAccount'],
 						resource: ['account'],
 					},
 				},
@@ -153,20 +183,6 @@ export class AccountAction implements INodeType {
 				description: 'The ID of the person to associate with this account',
 			},
 			{
-				displayName: 'Account ID',
-				name: 'accountId',
-				type: 'string',
-				default: '',
-				required: true,
-				displayOptions: {
-					show: {
-						operation: ['updateAccountStatus'],
-						resource: ['account'],
-					},
-				},
-				description: 'The ID of the account to update',
-			},
-			{
 				displayName: 'Status',
 				name: 'enabled',
 				type: 'boolean',
@@ -179,6 +195,27 @@ export class AccountAction implements INodeType {
 					},
 				},
 				description: 'Whether the account should be enabled or disabled',
+				typeOptions: {
+					labelTrue: 'Activate',
+					labelFalse: 'Deactivate',
+				},
+			},
+			{
+				displayName: 'Expired At',
+				name: 'expiredAt',
+				type: 'dateTime',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updateAccount', 'createAccount'],
+						resource: ['account'],
+					},
+				},
+				description: 'The expiration date of the account',
+				typeOptions: {
+					dateOnly: true
+				},
 			}
 		],
 	};
@@ -197,16 +234,19 @@ export class AccountAction implements INodeType {
 
 				if (operation === 'getCurrentUser') {
 					// Get current user account information
-					result = await pulseApi.getCurrentAccount();
+					const included = this.getNodeParameter('included', i, []) as string[];
+					result = await pulseApi.getCurrentAccount(included);
 				} else if (operation === 'getUserById') {
 					// Get user account by ID
-					const userId = this.getNodeParameter('userId', i) as string;
-					result = await pulseApi.getAccount(userId);
+					const accountId = this.getNodeParameter('accountId', i) as string;
+					const included = this.getNodeParameter('included', i, []) as string[];
+					result = await pulseApi.getAccount(accountId, included);
 				} else if (operation === 'createAccount') {
 					// Create a new user account
 					const email = this.getNodeParameter('email', i) as string;
 					const accountType = this.getNodeParameter('accountType', i) as string;
 					const personId = this.getNodeParameter('personId', i) as string;
+					const expiredAt = this.getNodeParameter('expiredAt', i, '') as string;
 					
 					const accountData = {
 						data: {
@@ -214,6 +254,8 @@ export class AccountAction implements INodeType {
 							attributes: {
 								email: email,
 								accountType: accountType,
+								enabled: true,
+								expiredAt: expiredAt ? new Date(expiredAt).toISOString() : undefined,
 							},
 							relationships: {
 								person: {
@@ -232,13 +274,38 @@ export class AccountAction implements INodeType {
 					const accountId = this.getNodeParameter('accountId', i) as string;
 					const enabled = this.getNodeParameter('enabled', i) as boolean;
 					
+					const attributes: {
+						enabled: boolean;
+					} = {
+						enabled: enabled
+					};
+
+					const accountData = {
+						data: {
+							type: "iam/accounts",
+							id: accountId,
+							attributes
+						}
+					};
+					
+					result = await pulseApi.updateAccount(accountId, accountData);
+				} else if (operation === 'updateAccount') {
+					// Update an account
+					const accountId = this.getNodeParameter('accountId', i) as string;
+					const email = this.getNodeParameter('email', i) as string;
+					const accountType = this.getNodeParameter('accountType', i) as string;
+					const expiredAt = this.getNodeParameter('expiredAt', i, '') as string;
+					
 					const accountData = {
 						data: {
 							type: "iam/accounts",
 							id: accountId,
 							attributes: {
-								enabled: enabled
-							}
+								email: email,
+								accountType: accountType,
+								enabled: true,
+								expiredAt: expiredAt ? new Date(expiredAt).toISOString() : undefined,
+							},
 						}
 					};
 					

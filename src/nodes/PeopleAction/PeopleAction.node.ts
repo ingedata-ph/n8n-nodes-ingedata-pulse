@@ -93,6 +93,26 @@ export class PeopleAction implements INodeType {
 				description: 'The ID of the person to get or update',
 			},
 			{
+				displayName: 'Include Related Resources',
+				name: 'included',
+				type: 'multiOptions',
+				options: [
+					{
+						name: 'Account',
+						value: 'account',
+					},
+				],
+				default: [],
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['getPeopleList', 'getPersonById'],
+						resource: ['people'],
+					},
+				},
+				description: 'Related resources to include in the response',
+			},
+			{
 				displayName: 'First Name',
 				name: 'firstName',
 				type: 'string',
@@ -278,78 +298,80 @@ export class PeopleAction implements INodeType {
 
 				if (operation === 'getPeopleList') {
 					// Get list of people
-					result = await pulseApi.getPeopleList();
+					const included = this.getNodeParameter('included', i, []) as string[];
+					result = await pulseApi.getPeopleList(included);
 				} else if (operation === 'createPerson') {
 					// Get new person
-					const firstName = this.getNodeParameter('firstName', i) as string;
-					const lastName = this.getNodeParameter('lastName', i) as string;
-					const middleName = this.getNodeParameter('middleName', i) as string;
+					const first_name = this.getNodeParameter('firstName', i) as string;
+					const last_name = this.getNodeParameter('lastName', i) as string;
+					const middle_name = this.getNodeParameter('middleName', i) as string;
 					const gender = this.getNodeParameter('gender', i) as string;
 					const birthday = this.getNodeParameter('birthday', i) as string;
-					const relationshipStatus = this.getNodeParameter('relationshipStatus', i) as string;
-					const numberOfKids = this.getNodeParameter('numberOfKids', i) as number;
-					const secondaryEmail = this.getNodeParameter('secondaryEmail', i) as string;
-					const contactNumber = this.getNodeParameter('contactNumber', i) as string;
-					const address = this.getNodeParameter('address', i) as string;
-					const organizationalUnit = this.getNodeParameter('organizationalUnit', i) as string;
+					const relationship_status = this.getNodeParameter('relationshipStatus', i) as string;
+					const number_of_kids = this.getNodeParameter('numberOfKids', i) as number;
+					const secondary_email = this.getNodeParameter('secondaryEmail', i) as string;
+					const contact_number = this.getNodeParameter('contactNumber', i) as string;
+					const physical_address = this.getNodeParameter('address', i) as string;
+					const organizational_unit = this.getNodeParameter('organizationalUnit', i) as string;
 					
 					const personData = {
 						data: {
 							type: "iam/people",
 							attributes: {
-								firstName,
-								lastName,
-								middleName,
+								first_name,
+								last_name,
+								middle_name,
 								gender,
 								birthday,
-								relationshipStatus,
-								numberOfKids,
-								secondaryEmail,
-								contactNumber,
-								address,
-								organizationalUnit,
+								relationship_status,
+								number_of_kids,
+								secondary_email,
+								contact_number,
+								physical_address,
+								organizational_unit,
 							}
 						}
 					};
-
+					console.log('Updating person with ID:', personData);
 					// Create a new person
 					result = await pulseApi.createPerson(personData);
 				} else if (operation === 'getPersonById') {
 					// Get person by ID
 					const personId = this.getNodeParameter('personId', i) as string;
-					result = await pulseApi.getPersonById(personId);
+					const included = this.getNodeParameter('included', i, []) as string[];
+					result = await pulseApi.getPersonById(personId, included);
 				} else if (operation === 'updatePerson') {
 					// Update person by ID
 					const personId = this.getNodeParameter('personId', i) as string;
 
-					const firstName = this.getNodeParameter('firstName', i) as string;
-					const lastName = this.getNodeParameter('lastName', i) as string;
-					const middleName = this.getNodeParameter('middleName', i) as string;
+					const first_name = this.getNodeParameter('firstName', i) as string;
+					const last_name = this.getNodeParameter('lastName', i) as string;
+					const middle_name = this.getNodeParameter('middleName', i) as string;
 					const gender = this.getNodeParameter('gender', i) as string;
 					const birthday = this.getNodeParameter('birthday', i) as string;
-					const relationshipStatus = this.getNodeParameter('relationshipStatus', i) as string;
-					const numberOfKids = this.getNodeParameter('numberOfKids', i) as number;
-					const secondaryEmail = this.getNodeParameter('secondaryEmail', i) as string;
-					const contactNumber = this.getNodeParameter('contactNumber', i) as string;
-					const address = this.getNodeParameter('address', i) as string;
-					const organizationalUnit = this.getNodeParameter('organizationalUnit', i) as string;
+					const relationship_status = this.getNodeParameter('relationshipStatus', i) as string;
+					const number_of_kids = this.getNodeParameter('numberOfKids', i) as number;
+					const secondary_email = this.getNodeParameter('secondaryEmail', i) as string;
+					const contact_number = this.getNodeParameter('contactNumber', i) as string;
+					const physical_address = this.getNodeParameter('address', i) as string;
+					const organizational_unit = this.getNodeParameter('organizationalUnit', i) as string;
 					
 					const personData = {
 						data: {
 							type: "iam/people",
 							id: personId,
 							attributes: {
-								firstName,
-								lastName,
-								middleName,
+								first_name,
+								last_name,
+								middle_name,
 								gender,
 								birthday,
-								relationshipStatus,
-								numberOfKids,
-								secondaryEmail,
-								contactNumber,
-								address,
-								organizationalUnit,
+								relationship_status,
+								number_of_kids,
+								secondary_email,
+								contact_number,
+								physical_address,
+								organizational_unit,
 							}
 						}
 					};
