@@ -244,18 +244,18 @@ export class AccountAction implements INodeType {
 				} else if (operation === 'createAccount') {
 					// Create a new user account
 					const email = this.getNodeParameter('email', i) as string;
-					const accountType = this.getNodeParameter('accountType', i) as string;
+					const account_type = this.getNodeParameter('accountType', i) as string;
 					const personId = this.getNodeParameter('personId', i) as string;
-					const expiredAt = this.getNodeParameter('expiredAt', i, '') as string;
+					const expires_at = this.getNodeParameter('expiredAt', i, '') as string;
 					
 					const accountData = {
 						data: {
 							type: "iam/accounts",
 							attributes: {
 								email: email,
-								accountType: accountType,
+								account_type: account_type,
 								enabled: true,
-								expiredAt: expiredAt ? new Date(expiredAt).toISOString() : undefined,
+								expires_at: expires_at ? new Date(expires_at).toISOString() : undefined,
 							},
 							relationships: {
 								person: {
@@ -293,8 +293,8 @@ export class AccountAction implements INodeType {
 					// Update an account
 					const accountId = this.getNodeParameter('accountId', i) as string;
 					const email = this.getNodeParameter('email', i) as string;
-					const accountType = this.getNodeParameter('accountType', i) as string;
-					const expiredAt = this.getNodeParameter('expiredAt', i, '') as string;
+					const account_type = this.getNodeParameter('accountType', i) as string;
+					const expires_at = this.getNodeParameter('expiredAt', i, '') as string;
 					
 					const accountData = {
 						data: {
@@ -302,9 +302,9 @@ export class AccountAction implements INodeType {
 							id: accountId,
 							attributes: {
 								email: email,
-								accountType: accountType,
+								account_type: account_type,
 								enabled: true,
-								expiredAt: expiredAt ? new Date(expiredAt).toISOString() : undefined,
+								expires_at: expires_at ? new Date(expires_at).toISOString() : undefined,
 							},
 						}
 					};
