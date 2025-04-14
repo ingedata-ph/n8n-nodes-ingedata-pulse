@@ -118,7 +118,13 @@ export class PulseApiHelper {
 
 			if (!response.ok) {
 				const errorData = await response.json() as any;
+
 				throw new Error(`API request failed: ${errorData.message || response.statusText}`);
+			}
+
+			// if method is DELETE return true
+			if (method === 'DELETE') {
+				return true as unknown as T;
 			}
 
 			return await response.json() as T;
@@ -215,6 +221,39 @@ export class PulseApiHelper {
 	 */
 	async updateAccount(accountId: string, accountData: object): Promise<any> {
 		return this.request<any>('PATCH', `/api/v3/iam/accounts/${accountId}`, accountData);
+	}
+
+	/**
+		* Create a new account role
+	 */
+	async createAccountRole(roleData: object): Promise<any> {
+		return this.request<any>('POST', '/api/v3/iam/account_roles', roleData);
+	}
+
+	async updateAccountRole(roleId: string, roleData: object): Promise<any> {
+		return this.request<any>('PATCH', `/api/v3/iam/account_roles/${roleId}`, roleData);
+	}
+
+	/**
+	 * Get a role by ID
+	 * @param roleId ID of the role to retrieve
+	 * @param included Optional array of related resources to include (e.g., ['account'])
+	 */
+	async getAccountRoleById(roleId: string, included?: string[]): Promise<any> {
+		const queryParams: Record<string, string | string[]> = {};
+
+		if (included && included.length > 0) {
+			queryParams.included = included;
+		}
+
+		return this.request<any>('GET', `/api/v3/iam/account_roles/${roleId}`, undefined, queryParams);
+	}
+
+	/**
+	 * Delete an account role by ID
+	 */
+	async deleteAccountRole(accountRoleId: string): Promise<any> {
+		return this.request<any>('DELETE', `/api/v3/iam/account_roles/${accountRoleId}`);
 	}
 }
 
