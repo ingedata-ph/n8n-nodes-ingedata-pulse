@@ -1,5 +1,6 @@
-import { IExecuteFunctions, NodeConnectionType } from 'n8n-workflow';
+import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-workflow';
 import { INodeTypeDescription } from 'n8n-workflow';
+import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
 import { peopleOperations } from './operations';
 
@@ -287,29 +288,60 @@ export class PeopleAction extends BasePulseNode {
 		});
 	}
 
-	protected async processOperation(
-		resource: string,
-		operation: string,
-		itemIndex: number,
-		pulseApi: any,
-		executeFunctions: IExecuteFunctions,
-	): Promise<any> {
-		// Handle people operations
-		if (resource === 'people') {
-			switch (operation) {
-				case 'getPeopleList':
-					return peopleOperations.getPeopleList(executeFunctions, itemIndex, pulseApi);
-				case 'createPerson':
-					return peopleOperations.createPerson(executeFunctions, itemIndex, pulseApi);
-				case 'getPersonById':
-					return peopleOperations.getPersonById(executeFunctions, itemIndex, pulseApi);
-				case 'updatePerson':
-					return peopleOperations.updatePerson(executeFunctions, itemIndex, pulseApi);
-				default:
-					throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const items = this.getInputData();
+		const returnData: INodeExecutionData[] = [];
+
+		// For each item (though there will usually just be one)
+		for (let i = 0; i < items.length; i++) {
+			try {
+				const resource = this.getNodeParameter('resource', i) as string;
+				const operation = this.getNodeParameter('operation', i) as string;
+				// Cast the API helper to the appropriate type
+				const pulseApi = await PulseApiFactory.getPulseApiHelper(this, resource) as any;
+
+				let result;
+
+				// Handle people operations
+				if (resource === 'people') {
+					switch (operation) {
+						case 'getPeopleList':
+							result = await peopleOperations.getPeopleList(this, i, pulseApi);
+							break;
+						case 'createPerson':
+							result = await peopleOperations.createPerson(this, i, pulseApi);
+							break;
+						case 'getPersonById':
+							result = await peopleOperations.getPersonById(this, i, pulseApi);
+							break;
+						case 'updatePerson':
+							result = await peopleOperations.updatePerson(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				}
+				
+				else {
+					throw new Error(`The resource "${resource}" is not supported!`);
+				}
+				
+				returnData.push({
+					json: result,
+				});
+			} catch (error) {
+				if (this.continueOnFail()) {
+					returnData.push({
+						json: {
+							error: (error as Error).message,
+						},
+					});
+					continue;
+				}
+				throw error;
 			}
 		}
-		
-		throw new Error(`The resource "${resource}" is not supported!`);
+
+		return [returnData];
 	}
 }

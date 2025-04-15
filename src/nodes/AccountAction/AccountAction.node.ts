@@ -1,5 +1,6 @@
-import { IExecuteFunctions, NodeConnectionType, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, NodeConnectionType, IDataObject, INodeExecutionData } from 'n8n-workflow';
 import { INodeTypeDescription } from 'n8n-workflow';
+import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
 import { accountOperations, accountRoleOperations } from './operations';
 
@@ -408,47 +409,83 @@ export class AccountAction extends BasePulseNode {
 		});
 	}
 
-	protected async processOperation(
-		resource: string,
-		operation: string,
-		itemIndex: number,
-		pulseApi: any,
-		executeFunctions: IExecuteFunctions,
-	): Promise<any> {
-		// Handle account role operations
-		if (resource === 'accountRole') {
-			switch (operation) {
-				case 'addAccountRole':
-					return accountRoleOperations.addAccountRole(executeFunctions, itemIndex, pulseApi);
-				case 'getAccountRoleById':
-					return accountRoleOperations.getAccountRoleById(executeFunctions, itemIndex, pulseApi);
-				case 'updateAccountRole':
-					return accountRoleOperations.updateAccountRole(executeFunctions, itemIndex, pulseApi);
-				case 'deleteAccountRole':
-					return accountRoleOperations.deleteAccountRole(executeFunctions, itemIndex, pulseApi);
-				default:
-					throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const items = this.getInputData();
+		const returnData: INodeExecutionData[] = [];
+
+		// For each item (though there will usually just be one)
+		for (let i = 0; i < items.length; i++) {
+			try {
+				const resource = this.getNodeParameter('resource', i) as string;
+				const operation = this.getNodeParameter('operation', i) as string;
+				// Cast the API helper to the appropriate type
+				const pulseApi = await PulseApiFactory.getPulseApiHelper(this, resource) as any;
+
+				let result;
+
+				// Handle account role operations
+				if (resource === 'accountRole') {
+					switch (operation) {
+						case 'addAccountRole':
+							result = await accountRoleOperations.addAccountRole(this, i, pulseApi);
+							break;
+						case 'getAccountRoleById':
+							result = await accountRoleOperations.getAccountRoleById(this, i, pulseApi);
+							break;
+						case 'updateAccountRole':
+							result = await accountRoleOperations.updateAccountRole(this, i, pulseApi);
+							break;
+						case 'deleteAccountRole':
+							result = await accountRoleOperations.deleteAccountRole(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				}
+				
+				// Handle account operations
+				else if (resource === 'account') {
+					switch (operation) {
+						case 'getCurrentUser':
+							result = await accountOperations.getCurrentUser(this, i, pulseApi);
+							break;
+						case 'getUserById':
+							result = await accountOperations.getUserById(this, i, pulseApi);
+							break;
+						case 'createAccount':
+							result = await accountOperations.createAccount(this, i, pulseApi);
+							break;
+						case 'updateAccountStatus':
+							result = await accountOperations.updateAccountStatus(this, i, pulseApi);
+							break;
+						case 'updateAccount':
+							result = await accountOperations.updateAccount(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				}
+				
+				else {
+					throw new Error(`The resource "${resource}" is not supported!`);
+				}
+				
+				returnData.push({
+					json: result,
+				});
+			} catch (error) {
+				if (this.continueOnFail()) {
+					returnData.push({
+						json: {
+							error: (error as Error).message,
+						},
+					});
+					continue;
+				}
+				throw error;
 			}
 		}
-		
-		// Handle account operations
-		if (resource === 'account') {
-			switch (operation) {
-				case 'getCurrentUser':
-					return accountOperations.getCurrentUser(executeFunctions, itemIndex, pulseApi);
-				case 'getUserById':
-					return accountOperations.getUserById(executeFunctions, itemIndex, pulseApi);
-				case 'createAccount':
-					return accountOperations.createAccount(executeFunctions, itemIndex, pulseApi);
-				case 'updateAccountStatus':
-					return accountOperations.updateAccountStatus(executeFunctions, itemIndex, pulseApi);
-				case 'updateAccount':
-					return accountOperations.updateAccount(executeFunctions, itemIndex, pulseApi);
-				default:
-					throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
-			}
-		}
-		
-		throw new Error(`The resource "${resource}" is not supported!`);
+
+		return [returnData];
 	}
 }
