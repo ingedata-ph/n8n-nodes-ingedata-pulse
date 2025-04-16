@@ -16,7 +16,7 @@ export class PulseApiFactory {
       return new AccountApi(credentials);
     } else if (resource === 'people') {
       return new PeopleApi(credentials);
-    } else if (resource === 'talent') {
+    } else if (resource === 'talent' || resource === 'skill' || resource === 'language') {
       return new TalentApi(credentials);
     }
     

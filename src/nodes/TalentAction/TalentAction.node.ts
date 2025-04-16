@@ -2,7 +2,7 @@ import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-w
 import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { talentOperations } from './operations';
+import { talentOperations, skillOperations, languageOperations } from './operations';
 
 export class TalentAction extends BasePulseNode {
 	constructor() {
@@ -35,11 +35,19 @@ export class TalentAction extends BasePulseNode {
 							name: 'Talent',
 							value: 'talent',
 						},
+						{
+							name: 'Skill',
+							value: 'skill',
+						},
+						{
+							name: 'Language',
+							value: 'language',
+						},
 					],
 					default: 'talent',
 					noDataExpression: true,
 					required: true,
-					description: 'Talents Resource Action',
+					description: 'Talent resources',
 				},
 				{
 					displayName: 'Operation',
@@ -102,6 +110,284 @@ export class TalentAction extends BasePulseNode {
 						},
 					},
 					description: 'The ID of the person to associate with this talent',
+				},
+				// Skill operations
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'skill',
+							],
+						},
+					},
+					options: [
+						{
+							name: 'Get Skills List',
+							value: 'getSkillsList',
+							description: 'Get a list of skills',
+							action: 'Get skills list',
+						},
+						{
+							name: 'Create Skill',
+							value: 'createSkill',
+							description: 'Create a new skill',
+							action: 'Create skill',
+						},
+						{
+							name: 'Update Skill',
+							value: 'updateSkill',
+							description: 'Update a skill',
+							action: 'Update skill',
+						},
+						{
+							name: 'Delete Skill',
+							value: 'deleteSkill',
+							description: 'Delete a skill',
+							action: 'Delete skill',
+						},
+					],
+					default: 'getSkillsList',
+					noDataExpression: true,
+				},
+				{
+					displayName: 'Talent ID',
+					name: 'talentId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createSkill', 'updateSkill'],
+							resource: ['skill'],
+						},
+					},
+					description: 'The ID of the talent to associate with this skill',
+				},
+				{
+					displayName: 'Skill ID',
+					name: 'skillId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['updateSkill', 'deleteSkill'],
+							resource: ['skill'],
+						},
+					},
+					description: 'The ID of the skill to update or delete',
+				},
+				{
+					displayName: 'Skill Name',
+					name: 'skillName',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createSkill', 'updateSkill'],
+							resource: ['skill'],
+						},
+					},
+					description: 'The name of the skill',
+				},
+				{
+					displayName: 'Skill Level',
+					name: 'level',
+					type: 'number',
+					typeOptions: {
+						minValue: 1,
+						maxValue: 5,
+					},
+					default: 1,
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createSkill', 'updateSkill'],
+							resource: ['skill'],
+						},
+					},
+					description: 'The level of the skill (1-5)',
+				},
+				{
+					displayName: 'Include Related Resources',
+					name: 'included',
+					type: 'multiOptions',
+					options: [
+						{
+							name: 'Talent',
+							value: 'talent',
+						},
+					],
+					default: [],
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['getSkillsList'],
+							resource: ['skill'],
+						},
+					},
+					description: 'Related resources to include in the response',
+				},
+				// Language operations
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'language',
+							],
+						},
+					},
+					options: [
+						{
+							name: 'Get Languages List',
+							value: 'getLanguagesList',
+							description: 'Get a list of languages',
+							action: 'Get languages list',
+						},
+						{
+							name: 'Create Language',
+							value: 'createLanguage',
+							description: 'Create a new language',
+							action: 'Create language',
+						},
+						{
+							name: 'Update Language',
+							value: 'updateLanguage',
+							description: 'Update a language',
+							action: 'Update language',
+						},
+						{
+							name: 'Delete Language',
+							value: 'deleteLanguage',
+							description: 'Delete a language',
+							action: 'Delete language',
+						},
+					],
+					default: 'getLanguagesList',
+					noDataExpression: true,
+				},
+				{
+					displayName: 'Talent ID',
+					name: 'talentId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLanguage', 'updateLanguage'],
+							resource: ['language'],
+						},
+					},
+					description: 'The ID of the talent to associate with this language',
+				},
+				{
+					displayName: 'Language ID',
+					name: 'languageId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['updateLanguage', 'deleteLanguage'],
+							resource: ['language'],
+						},
+					},
+					description: 'The ID of the language to update or delete',
+				},
+				{
+					displayName: 'ISO Code',
+					name: 'isoCode',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLanguage', 'updateLanguage'],
+							resource: ['language'],
+						},
+					},
+					description: 'The ISO code of the language',
+				},
+				{
+					displayName: 'Reading Level',
+					name: 'readingLevel',
+					type: 'number',
+					typeOptions: {
+						minValue: 1,
+						maxValue: 5,
+					},
+					default: 1,
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLanguage', 'updateLanguage'],
+							resource: ['language'],
+						},
+					},
+					description: 'The reading level of the language (1-5)',
+				},
+				{
+					displayName: 'Writing Level',
+					name: 'writingLevel',
+					type: 'number',
+					typeOptions: {
+						minValue: 1,
+						maxValue: 5,
+					},
+					default: 1,
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLanguage', 'updateLanguage'],
+							resource: ['language'],
+						},
+					},
+					description: 'The writing level of the language (1-5)',
+				},
+				{
+					displayName: 'Speaking Level',
+					name: 'speakingLevel',
+					type: 'number',
+					typeOptions: {
+						minValue: 1,
+						maxValue: 5,
+					},
+					default: 1,
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLanguage', 'updateLanguage'],
+							resource: ['language'],
+						},
+					},
+					description: 'The speaking level of the language (1-5)',
+				},
+				{
+					displayName: 'Include Related Resources',
+					name: 'included',
+					type: 'multiOptions',
+					options: [
+						{
+							name: 'Talent',
+							value: 'talent',
+						},
+					],
+					default: [],
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['getLanguagesList'],
+							resource: ['language'],
+						},
+					},
+					description: 'Related resources to include in the response',
 				}
 			],
 		});
@@ -121,7 +407,7 @@ export class TalentAction extends BasePulseNode {
 
 				let result;
 
-				// Handle talent operations
+				// Handle operations based on resource
 				if (resource === 'talent') {
 					switch (operation) {
 						case 'getTalentList':
@@ -136,9 +422,41 @@ export class TalentAction extends BasePulseNode {
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
 					}
-				}
-				
-				else {
+				} else if (resource === 'skill') {
+					switch (operation) {
+						case 'getSkillsList':
+							result = await skillOperations.getSkillsList(this, i, pulseApi);
+							break;
+						case 'createSkill':
+							result = await skillOperations.createSkill(this, i, pulseApi);
+							break;
+						case 'updateSkill':
+							result = await skillOperations.updateSkill(this, i, pulseApi);
+							break;
+						case 'deleteSkill':
+							result = await skillOperations.deleteSkill(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'language') {
+					switch (operation) {
+						case 'getLanguagesList':
+							result = await languageOperations.getLanguagesList(this, i, pulseApi);
+							break;
+						case 'createLanguage':
+							result = await languageOperations.createLanguage(this, i, pulseApi);
+							break;
+						case 'updateLanguage':
+							result = await languageOperations.updateLanguage(this, i, pulseApi);
+							break;
+						case 'deleteLanguage':
+							result = await languageOperations.deleteLanguage(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				} else {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
 				
