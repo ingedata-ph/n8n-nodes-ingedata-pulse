@@ -1,20 +1,23 @@
 import { IExecuteFunctions, ICredentialDataDecryptedObject } from 'n8n-workflow';
 import { AccountApi } from './AccountApi';
 import { PeopleApi } from './PeopleApi';
+import { TalentApi } from './TalentApi';
 import { BasePulseApi } from './BasePulseApi';
 
 export class PulseApiFactory {
   /**
    * Create an API helper instance based on the resource type
    * @param credentials The credentials to use for the API
-   * @param resource The resource type (account, people, etc.)
+   * @param resource The resource type (account, people, talent, etc.)
    * @returns The appropriate API helper instance
    */
-  static createApiHelper(credentials: ICredentialDataDecryptedObject, resource?: string): BasePulseApi | AccountApi | PeopleApi {
+  static createApiHelper(credentials: ICredentialDataDecryptedObject, resource?: string): BasePulseApi | AccountApi | PeopleApi | TalentApi {
     if (!resource || resource === 'account' || resource === 'accountRole') {
       return new AccountApi(credentials);
     } else if (resource === 'people') {
       return new PeopleApi(credentials);
+    } else if (resource === 'talent') {
+      return new TalentApi(credentials);
     }
     
     // Default to base API if resource type is not recognized
@@ -27,7 +30,7 @@ export class PulseApiFactory {
   static async getPulseApiHelper(
     executeFunctions: IExecuteFunctions,
     resource?: string,
-  ): Promise<BasePulseApi | AccountApi | PeopleApi> {
+  ): Promise<BasePulseApi | AccountApi | PeopleApi | TalentApi> {
     const credentials = await executeFunctions.getCredentials('pulseApi');
 
     if (!credentials) {

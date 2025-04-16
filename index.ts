@@ -6,6 +6,7 @@ import { PulseApi } from './src/credentials/PulseApi.credentials';
 // Import nodes
 import { AccountAction } from './src/nodes/AccountAction/AccountAction.node';
 import { PeopleAction } from './src/nodes/PeopleAction/PeopleAction.node';
+import { TalentAction } from './src/nodes/TalentAction/TalentAction.node';
 
 // Export the credentials
 export const credentials = {
@@ -19,4 +20,5 @@ export const credentials = {
 export const nodes = [
 	AccountAction,
 	PeopleAction,
+	TalentAction,
 ];
