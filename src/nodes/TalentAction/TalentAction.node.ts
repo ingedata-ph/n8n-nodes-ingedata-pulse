@@ -1,8 +1,14 @@
 import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-workflow';
-import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { talentOperations, skillOperations, languageOperations } from './operations';
+import {
+	talentOperations,
+	skillOperations,
+	languageOperations,
+	educationOperations,
+	certificationOperations,
+	experienceOperations
+} from './operations';
 
 export class TalentAction extends BasePulseNode {
 	constructor() {
@@ -42,6 +48,18 @@ export class TalentAction extends BasePulseNode {
 						{
 							name: 'Language',
 							value: 'language',
+						},
+						{
+							name: 'Education',
+							value: 'education',
+						},
+						{
+							name: 'Certification',
+							value: 'certification',
+						},
+						{
+							name: 'Experience',
+							value: 'experience',
 						},
 					],
 					default: 'talent',
@@ -131,10 +149,10 @@ export class TalentAction extends BasePulseNode {
 							action: 'Get skills list',
 						},
 						{
-							name: 'Create Skill',
+							name: 'Add new Skill',
 							value: 'createSkill',
-							description: 'Create a new skill',
-							action: 'Create skill',
+							description: 'Add new skill',
+							action: 'Add skill',
 						},
 						{
 							name: 'Update Skill',
@@ -252,10 +270,10 @@ export class TalentAction extends BasePulseNode {
 							action: 'Get languages list',
 						},
 						{
-							name: 'Create Language',
+							name: 'Add Language',
 							value: 'createLanguage',
-							description: 'Create a new language',
-							action: 'Create language',
+							description: 'Add new language',
+							action: 'Add language',
 						},
 						{
 							name: 'Update Language',
@@ -388,6 +406,475 @@ export class TalentAction extends BasePulseNode {
 						},
 					},
 					description: 'Related resources to include in the response',
+				},
+
+				// Education operations
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'education',
+							],
+						},
+					},
+					options: [
+						{
+							name: 'Get Education List',
+							value: 'getEducationList',
+							description: 'Get a list of education entries',
+							action: 'Get education list',
+						},
+						{
+							name: 'Add Education',
+							value: 'createEducation',
+							description: 'Add new education entry',
+							action: 'Add education',
+						},
+						{
+							name: 'Update Education',
+							value: 'updateEducation',
+							description: 'Update an education entry',
+							action: 'Update education',
+						},
+						{
+							name: 'Delete Education',
+							value: 'deleteEducation',
+							description: 'Delete an education entry',
+							action: 'Delete education',
+						},
+					],
+					default: 'getEducationList',
+					noDataExpression: true,
+				},
+				{
+					displayName: 'Talent ID',
+					name: 'talentId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createEducation', 'updateEducation'],
+							resource: ['education'],
+						},
+					},
+					description: 'The ID of the talent to associate with this education entry',
+				},
+				{
+					displayName: 'Education ID',
+					name: 'educationId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['updateEducation', 'deleteEducation'],
+							resource: ['education'],
+						},
+					},
+					description: 'The ID of the education entry to update or delete',
+				},
+				{
+					displayName: 'Education Name',
+					name: 'educationName',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createEducation', 'updateEducation'],
+							resource: ['education'],
+						},
+					},
+					description: 'The name of the education',
+				},
+				{
+					displayName: 'Institution',
+					name: 'institution',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createEducation', 'updateEducation'],
+							resource: ['education'],
+						},
+					},
+					description: 'The institution where the education was obtained',
+				},
+				{
+					displayName: 'Degree',
+					name: 'degree',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createEducation', 'updateEducation'],
+							resource: ['education'],
+						},
+					},
+					description: 'The degree obtained',
+				},
+				{
+					displayName: 'Start Date',
+					name: 'startDate',
+					type: 'dateTime',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createEducation', 'updateEducation'],
+							resource: ['education'],
+						},
+					},
+					description: 'The start date of the education',
+				},
+				{
+					displayName: 'End Date',
+					name: 'endDate',
+					type: 'dateTime',
+					default: '',
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['createEducation', 'updateEducation'],
+							resource: ['education'],
+						},
+					},
+					description: 'The end date of the education (leave empty if ongoing)',
+				},
+				{
+					displayName: 'Include Related Resources',
+					name: 'included',
+					type: 'multiOptions',
+					options: [
+						{
+							name: 'Talent',
+							value: 'talent',
+						},
+					],
+					default: [],
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['getEducationList'],
+							resource: ['education'],
+						},
+					},
+					description: 'Related resources to include in the response',
+				},
+
+				// Certification operations
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'certification',
+							],
+						},
+					},
+					options: [
+						{
+							name: 'Get Certification List',
+							value: 'getCertificationList',
+							description: 'Get a list of certification entries',
+							action: 'Get certification list',
+						},
+						{
+							name: 'Add Certification',
+							value: 'createCertification',
+							description: 'Add new certification entry',
+							action: 'Add certification',
+						},
+						{
+							name: 'Update Certification',
+							value: 'updateCertification',
+							description: 'Update a certification entry',
+							action: 'Update certification',
+						},
+						{
+							name: 'Delete Certification',
+							value: 'deleteCertification',
+							description: 'Delete a certification entry',
+							action: 'Delete certification',
+						},
+					],
+					default: 'getCertificationList',
+					noDataExpression: true,
+				},
+				{
+					displayName: 'Talent ID',
+					name: 'talentId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createCertification', 'updateCertification'],
+							resource: ['certification'],
+						},
+					},
+					description: 'The ID of the talent to associate with this certification entry',
+				},
+				{
+					displayName: 'Certification ID',
+					name: 'certificationId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['updateCertification', 'deleteCertification'],
+							resource: ['certification'],
+						},
+					},
+					description: 'The ID of the certification entry to update or delete',
+				},
+				{
+					displayName: 'Certification Name',
+					name: 'certificationName',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createCertification', 'updateCertification'],
+							resource: ['certification'],
+						},
+					},
+					description: 'The name of the certification',
+				},
+				{
+					displayName: 'Organization',
+					name: 'organization',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createCertification', 'updateCertification'],
+							resource: ['certification'],
+						},
+					},
+					description: 'The organization that issued the certification',
+				},
+				{
+					displayName: 'Certificate URL',
+					name: 'url',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createCertification', 'updateCertification'],
+							resource: ['certification'],
+						},
+					},
+					description: 'The URL associated with the certification',
+				},
+				{
+					displayName: 'Obtention Date',
+					name: 'obtentionDate',
+					type: 'dateTime',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createCertification', 'updateCertification'],
+							resource: ['certification'],
+						},
+					},
+					description: 'The date when the certification was obtained',
+				},
+				{
+					displayName: 'Include Related Resources',
+					name: 'included',
+					type: 'multiOptions',
+					options: [
+						{
+							name: 'Talent',
+							value: 'talent',
+						},
+					],
+					default: [],
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['getCertificationList'],
+							resource: ['certification'],
+						},
+					},
+					description: 'Related resources to include in the response',
+				},
+
+				// Experience operations
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'experience',
+							],
+						},
+					},
+					options: [
+						{
+							name: 'Get Experience List',
+							value: 'getExperienceList',
+							description: 'Get a list of experience entries',
+							action: 'Get experience list',
+						},
+						{
+							name: 'Add Experience',
+							value: 'createExperience',
+							description: 'Add new experience entry',
+							action: 'Add experience',
+						},
+						{
+							name: 'Update Experience',
+							value: 'updateExperience',
+							description: 'Update an experience entry',
+							action: 'Update experience',
+						},
+						{
+							name: 'Delete Experience',
+							value: 'deleteExperience',
+							description: 'Delete an experience entry',
+							action: 'Delete experience',
+						},
+					],
+					default: 'getExperienceList',
+					noDataExpression: true,
+				},
+				{
+					displayName: 'Talent ID',
+					name: 'talentId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createExperience', 'updateExperience'],
+							resource: ['experience'],
+						},
+					},
+					description: 'The ID of the talent to associate with this experience entry',
+				},
+				{
+					displayName: 'Experience ID',
+					name: 'experienceId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['updateExperience', 'deleteExperience'],
+							resource: ['experience'],
+						},
+					},
+					description: 'The ID of the experience entry to update or delete',
+				},
+				{
+					displayName: 'Organization',
+					name: 'organization',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createExperience', 'updateExperience'],
+							resource: ['experience'],
+						},
+					},
+					description: 'The organization where the experience was gained',
+				},
+				{
+					displayName: 'Position',
+					name: 'position',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createExperience', 'updateExperience'],
+							resource: ['experience'],
+						},
+					},
+					description: 'The position held during the experience',
+				},
+				{
+					displayName: 'Start Date',
+					name: 'startDate',
+					type: 'dateTime',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createExperience', 'updateExperience'],
+							resource: ['experience'],
+						},
+					},
+					description: 'The start date of the experience',
+				},
+				{
+					displayName: 'End Date',
+					name: 'endDate',
+					type: 'dateTime',
+					default: '',
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['createExperience', 'updateExperience'],
+							resource: ['experience'],
+						},
+					},
+					description: 'The end date of the experience (leave empty if ongoing)',
+				},
+				{
+					displayName: 'Summary',
+					name: 'summary',
+					type: 'string',
+					typeOptions: {
+						rows: 4,
+					},
+					default: '',
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['createExperience', 'updateExperience'],
+							resource: ['experience'],
+						},
+					},
+					description: 'A summary of the experience',
+				},
+				{
+					displayName: 'Include Related Resources',
+					name: 'included',
+					type: 'multiOptions',
+					options: [
+						{
+							name: 'Talent',
+							value: 'talent',
+						},
+					],
+					default: [],
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['getExperienceList'],
+							resource: ['experience'],
+						},
+					},
+					description: 'Related resources to include in the response',
 				}
 			],
 		});
@@ -452,6 +939,57 @@ export class TalentAction extends BasePulseNode {
 							break;
 						case 'deleteLanguage':
 							result = await languageOperations.deleteLanguage(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'education') {
+					switch (operation) {
+						case 'getEducationList':
+							result = await educationOperations.getEducationList(this, i, pulseApi);
+							break;
+						case 'createEducation':
+							result = await educationOperations.createEducation(this, i, pulseApi);
+							break;
+						case 'updateEducation':
+							result = await educationOperations.updateEducation(this, i, pulseApi);
+							break;
+						case 'deleteEducation':
+							result = await educationOperations.deleteEducation(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'certification') {
+					switch (operation) {
+						case 'getCertificationList':
+							result = await certificationOperations.getCertificationList(this, i, pulseApi);
+							break;
+						case 'createCertification':
+							result = await certificationOperations.createCertification(this, i, pulseApi);
+							break;
+						case 'updateCertification':
+							result = await certificationOperations.updateCertification(this, i, pulseApi);
+							break;
+						case 'deleteCertification':
+							result = await certificationOperations.deleteCertification(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'experience') {
+					switch (operation) {
+						case 'getExperienceList':
+							result = await experienceOperations.getExperienceList(this, i, pulseApi);
+							break;
+						case 'createExperience':
+							result = await experienceOperations.createExperience(this, i, pulseApi);
+							break;
+						case 'updateExperience':
+							result = await experienceOperations.updateExperience(this, i, pulseApi);
+							break;
+						case 'deleteExperience':
+							result = await experienceOperations.deleteExperience(this, i, pulseApi);
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);

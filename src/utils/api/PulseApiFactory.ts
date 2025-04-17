@@ -12,16 +12,29 @@ export class PulseApiFactory {
    * @returns The appropriate API helper instance
    */
   static createApiHelper(credentials: ICredentialDataDecryptedObject, resource?: string): BasePulseApi | AccountApi | PeopleApi | TalentApi {
-    if (!resource || resource === 'account' || resource === 'accountRole') {
-      return new AccountApi(credentials);
-    } else if (resource === 'people') {
-      return new PeopleApi(credentials);
-    } else if (resource === 'talent' || resource === 'skill' || resource === 'language') {
-      return new TalentApi(credentials);
+    switch (resource) {
+      case 'account':
+      case 'accountRole':
+        return new AccountApi(credentials);
+
+      case 'people':
+        return new PeopleApi(credentials);
+
+      case 'talent':
+      case 'skill':
+      case 'language':
+      case 'education':
+      case 'certification':
+      case 'experience':
+        return new TalentApi(credentials);
+
+      case undefined:
+        return new AccountApi(credentials);
+
+      default:
+        // Default to base API if resource type is not recognized
+        return new BasePulseApi(credentials);
     }
-    
-    // Default to base API if resource type is not recognized
-    return new BasePulseApi(credentials);
   }
 
   /**

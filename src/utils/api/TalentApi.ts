@@ -157,4 +157,160 @@ export class TalentApi extends BasePulseApi {
   async deleteLanguageById(languageId: string): Promise<any> {
     return this.request<any>('DELETE', `/api/v3/talent/languages/${languageId}`);
   }
+
+  // Education methods
+
+  /**
+   * Get a list of education entries for a talent
+   * @param included Optional array of related resources to include
+   */
+  async getEducationList(included?: string[]): Promise<any> {
+    const queryParams: Record<string, string | string[]> = {};
+
+    if (included && included.length > 0) {
+      queryParams.included = included;
+    }
+
+    return this.request<any>('GET', '/api/v3/talent/educations', undefined, queryParams);
+  }
+
+  /**
+   * Create a new education entry
+   */
+  async createEducation(educationData: object): Promise<any> {
+    return this.request<any>('POST', '/api/v3/talent/educations', educationData);
+  }
+
+  /**
+   * Get an education entry by ID
+   * @param educationId ID of the education entry to retrieve
+   * @param included Optional array of related resources to include
+   */
+  async getEducationById(educationId: string, included?: string[]): Promise<any> {
+    const queryParams: Record<string, string | string[]> = {};
+
+    if (included && included.length > 0) {
+      queryParams.included = included;
+    }
+
+    return this.request<any>('GET', `/api/v3/talent/educations/${educationId}`, undefined, queryParams);
+  }
+
+  /**
+   * Update an education entry by ID
+   */
+  async updateEducationById(educationId: string, educationData: object): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/talent/educations/${educationId}`, educationData);
+  }
+
+  /**
+   * Delete an education entry by ID
+   */
+  async deleteEducationById(educationId: string): Promise<any> {
+    return this.request<any>('DELETE', `/api/v3/talent/educations/${educationId}`);
+  }
+
+  // Certification methods
+
+  /**
+   * Get a list of certification entries for a talent
+   * @param included Optional array of related resources to include
+   */
+  async getCertificationList(included?: string[]): Promise<any> {
+    const queryParams: Record<string, string | string[]> = {};
+
+    if (included && included.length > 0) {
+      queryParams.included = included;
+    }
+
+    return this.request<any>('GET', '/api/v3/talent/certifications', undefined, queryParams);
+  }
+
+  /**
+   * Create a new certification entry
+   */
+  async createCertification(certificationData: object): Promise<any> {
+    return this.request<any>('POST', '/api/v3/talent/certifications', certificationData);
+  }
+
+  /**
+   * Get a certification entry by ID
+   * @param certificationId ID of the certification entry to retrieve
+   * @param included Optional array of related resources to include
+   */
+  async getCertificationById(certificationId: string, included?: string[]): Promise<any> {
+    const queryParams: Record<string, string | string[]> = {};
+
+    if (included && included.length > 0) {
+      queryParams.included = included;
+    }
+
+    return this.request<any>('GET', `/api/v3/talent/certifications/${certificationId}`, undefined, queryParams);
+  }
+
+  /**
+   * Update a certification entry by ID
+   */
+  async updateCertificationById(certificationId: string, certificationData: object): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/talent/certifications/${certificationId}`, certificationData);
+  }
+
+  /**
+   * Delete a certification entry by ID
+   */
+  async deleteCertificationById(certificationId: string): Promise<any> {
+    return this.request<any>('DELETE', `/api/v3/talent/certifications/${certificationId}`);
+  }
+
+  // Experience methods
+
+  /**
+   * Get a list of experience entries for a talent
+   * @param included Optional array of related resources to include
+   */
+  async getExperienceList(included?: string[]): Promise<any> {
+    const queryParams: Record<string, string | string[]> = {};
+
+    if (included && included.length > 0) {
+      queryParams.included = included;
+    }
+
+    return this.request<any>('GET', '/api/v3/talent/experiences', undefined, queryParams);
+  }
+
+  /**
+   * Create a new experience entry
+   */
+  async createExperience(experienceData: object): Promise<any> {
+    return this.request<any>('POST', '/api/v3/talent/experiences', experienceData);
+  }
+
+  /**
+   * Get an experience entry by ID
+   * @param experienceId ID of the experience entry to retrieve
+   * @param included Optional array of related resources to include
+   */
+  async getExperienceById(experienceId: string, included?: string[]): Promise<any> {
+    const queryParams: Record<string, string | string[]> = {};
+
+    if (included && included.length > 0) {
+      queryParams.included = included;
+    }
+
+    return this.request<any>('GET', `/api/v3/talent/experiences/${experienceId}`, undefined, queryParams);
+  }
+
+  /**
+   * Update an experience entry by ID
+   */
+  async updateExperienceById(experienceId: string, experienceData: object): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/talent/experiences/${experienceId}`, experienceData);
+  }
+
+  /**
+   * Delete an experience entry by ID
+   */
+  async deleteExperienceById(experienceId: string): Promise<any> {
+    return this.request<any>('DELETE', `/api/v3/talent/experiences/${experienceId}`);
+  }
 }
