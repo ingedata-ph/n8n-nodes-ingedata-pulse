@@ -47,12 +47,30 @@ export class TalentApi extends BasePulseApi {
     return this.request<any>('GET', `/api/v3/talent/talents/${talentId}`, undefined, queryParams);
   }
 
-  // /**
-  //  * Update a talent by ID
-  //  */
-  // async updateTalentById(talentId: string, talentData: object): Promise<any> {
-  //   return this.request<any>('PATCH', `/api/v3/talent/talents/${talentId}`, talentData);
-  // }
+  /**
+   * Upload a resume to create a talent
+   * @param fileUrl The URL of the resume file
+   * @param organizationalUnit The organizational unit to associate with the talent
+   * @param mimeType The MIME type of the resume file
+   */
+  async createTalentFromResume(fileUrl: string, organizationalUnit: string, mimeType: string): Promise<any> {
+    const queryParams: Record<string, string | string[]> = {
+      file_url: fileUrl,
+      organizational_unit: organizationalUnit,
+      mime_type: mimeType
+    };
+    
+    return this.request<any>('POST', '/api/v3/talent/talents/upload_resume', undefined, queryParams);
+  }
+
+  /**
+   * Query talent using a prompt
+   * @param queryPrompt The prompt to query talent
+   */
+  async queryTalent(queryData: object): Promise<any> {
+    
+    return this.request<any>('POST', '/api/v3/talent/queries', queryData);
+  }
 
   // Skill methods
 

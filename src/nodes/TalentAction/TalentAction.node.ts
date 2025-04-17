@@ -97,6 +97,12 @@ export class TalentAction extends BasePulseNode {
 							description: 'Get a talent details',
 							action: 'Get talent details',
 						},
+						{
+							name: 'Query Talent',
+							value: 'queryTalent',
+							description: 'Search for talents by making a query',
+							action: 'Query talent',
+						}
 					],
 					default: 'getTalentList',
 					noDataExpression: true,
@@ -116,6 +122,64 @@ export class TalentAction extends BasePulseNode {
 					description: 'The ID of the talent to get or update',
 				},
 				{
+					displayName: "Upload Resume",
+					name: "fromResume",
+					type: "boolean",
+					default: true,
+					displayOptions: {
+						show: {
+							operation: ['createTalent'],
+							resource: ['talent'],
+						},
+					},
+					description: "If true, the talent will be created from a resume. If false, need to add person Id.",
+				},
+				{
+					displayName: 'Organizational Unit',
+					name: 'organizationalUnit',
+					type: 'string',
+					default: 'MG',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createTalent'],
+							resource: ['talent'],
+							fromResume: [true],
+						},
+					},
+					description: 'The organizational unit to associate with this talent',
+				},
+				{
+					displayName: 'Resume URL',
+					name: 'resumeUrl',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createTalent'],
+							resource: ['talent'],
+							fromResume: [true],
+						},
+					},
+					description: 'The URL of the talent\'s resume',
+				},
+				{
+					displayName: 'Mime Type',
+					name: 'mimeType',
+					type: 'string',
+					default: 'application/pdf',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createTalent'],
+							resource: ['talent'],
+							fromResume: [true],
+						},
+					},
+					description: 'The MIME type of the uploaded resume, e.g., application/pdf',
+				},
+				{
 					displayName: 'Person ID',
 					name: 'personId',
 					type: 'string',
@@ -125,9 +189,24 @@ export class TalentAction extends BasePulseNode {
 						show: {
 							operation: ['createTalent'],
 							resource: ['talent'],
+							fromResume: [false],
 						},
 					},
 					description: 'The ID of the person to associate with this talent',
+				},
+				{
+					displayName: 'Query',
+					name: 'queryPrompt',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['queryTalent'],
+							resource: ['talent'],
+						},
+					},
+					description: 'The query string to search for talents',
 				},
 				// Skill operations
 				{
@@ -905,6 +984,9 @@ export class TalentAction extends BasePulseNode {
 							break;
 						case 'getTalentById':
 							result = await talentOperations.getTalentById(this, i, pulseApi);
+							break;
+						case 'queryTalent':
+							result = await talentOperations.queryTalent(this, i, pulseApi);
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
