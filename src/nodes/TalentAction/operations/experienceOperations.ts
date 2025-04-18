@@ -7,7 +7,8 @@ export async function getExperienceList(
   pulseApi: TalentApi,
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
-  return pulseApi.getExperienceList(included);
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as object;
+  return pulseApi.getExperienceList(additionalFields, included);
 }
 
 export async function createExperience(

@@ -132,4 +132,46 @@ export class BasePulseApi {
       throw error;
     }
   }
+
+  protected buildQueryParams(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[],
+  ): Record<string, string | string[]> {
+    const queryParams: Record<string, string | string[]> = {};
+
+    if (included && included.length > 0) {
+      queryParams.included = included;
+    }
+
+    if (additionalFields.sort) {
+      queryParams.sort = additionalFields.sort;
+    }
+
+    if (additionalFields.pageNumber && additionalFields.pageSize) {
+      queryParams['page[number]'] = (additionalFields.pageNumber).toString();
+      queryParams['page[size]'] = (additionalFields.pageSize).toString();
+    }
+
+    if (additionalFields.filters?.filter) {
+      for (const { key, values } of additionalFields.filters?.filter || []) {
+        const valuesArray = values.split(',').map((v: string) => v.trim());
+        queryParams[`filter[${key}]`] = valuesArray;
+      }
+    }
+
+    if (additionalFields.fields?.field) {
+      for (const { key, fields } of additionalFields.fields?.field || []) {
+        const fieldsArray = fields.split(',').map((v: string) => v.trim());
+        queryParams[`fields[${key}]`] = fieldsArray;
+      }
+    }
+
+    return queryParams;
+  }
 }

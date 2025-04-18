@@ -7,7 +7,8 @@ export async function getEducationList(
   pulseApi: TalentApi,
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
-  return pulseApi.getEducationList(included);
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as object;
+  return pulseApi.getEducationList(additionalFields, included);
 }
 
 export async function createEducation(

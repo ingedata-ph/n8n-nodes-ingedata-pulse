@@ -7,7 +7,14 @@ export async function getTalentList(
   pulseApi: TalentApi,
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
-  return pulseApi.getTalentList(included);
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', 0, {}) as {
+    sort?: string;
+    pageNumber?: number;
+    pageSize?: number;
+    filters?: { filter: Array<{ key: string; values: string }> };
+    fields?: { field: Array<{ key: string; fields: string }> };
+  };
+  return pulseApi.getTalentList(additionalFields, included);
 }
 
 export async function createTalent(

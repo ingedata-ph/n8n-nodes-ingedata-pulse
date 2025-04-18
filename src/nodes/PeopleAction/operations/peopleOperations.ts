@@ -7,7 +7,17 @@ export async function getPeopleList(
   pulseApi: PeopleApi,
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
-  return pulseApi.getPeopleList(included);
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as {
+    operation?: string[];
+    inputs?: object;
+    sort?: string;
+    pageNumber?: number;
+    pageSize?: number;
+    filters?: { filter: Array<{ key: string; values: string }> };
+    fields?: { field: Array<{ key: string; fields: string }> };
+  };
+
+  return pulseApi.getPeopleList(additionalFields, included);
 }
 
 export async function createPerson(

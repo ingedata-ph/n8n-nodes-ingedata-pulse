@@ -7,7 +7,8 @@ export async function getCertificationList(
   pulseApi: TalentApi,
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
-  return pulseApi.getCertificationList(included);
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as object;
+  return pulseApi.getCertificationList(additionalFields, included);
 }
 
 export async function createCertification(

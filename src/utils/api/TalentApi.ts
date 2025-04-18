@@ -13,16 +13,19 @@ export class TalentApi extends BasePulseApi {
    * Get a list of talents
    * @param included Optional array of related resources to include (e.g., ['person'])
    */
-  async getTalentList(included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-    
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
+  async getTalentList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[],
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields, included);
+    console.log('Fetching talent list:', queryParams);
 
-    console.log('Fetching talent list');
-    console.log('Query Params:', queryParams);
-    
     return this.request<any>('GET', '/api/v3/talent/talents', undefined, queryParams);
   }
 
@@ -38,13 +41,12 @@ export class TalentApi extends BasePulseApi {
    * @param talentId ID of the talent to retrieve
    * @param included Optional array of related resources to include (e.g., ['person'])
    */
-  async getTalentById(talentId: string, included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-    
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
-    
+  async getTalentById(
+    talentId: string,
+    included?: string[],
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams({}, included);
+
     return this.request<any>('GET', `/api/v3/talent/talents/${talentId}`, undefined, queryParams);
   }
 
@@ -96,14 +98,19 @@ export class TalentApi extends BasePulseApi {
    * Get a list of skills for a talent
    * @param included Optional array of related resources to include
    */
-  async getSkillsList(included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-    
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
-    
-    return this.request<any>('GET', '/api/v3/talent/skills', undefined, queryParams);
+  async getSkillsList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[],
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields, included);
+
+    return await this.request<any>('GET', '/api/v3/talent/skills', undefined, queryParams);
   }
 
   /**
@@ -119,12 +126,8 @@ export class TalentApi extends BasePulseApi {
    * @param included Optional array of related resources to include
    */
   async getSkillById(skillId: string, included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-    
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
-    
+    const queryParams = this.buildQueryParams({}, included);
+
     return this.request<any>('GET', `/api/v3/talent/skills/${skillId}`, undefined, queryParams);
   }
 
@@ -148,14 +151,20 @@ export class TalentApi extends BasePulseApi {
    * Get a list of languages for a talent
    * @param included Optional array of related resources to include
    */
-  async getLanguagesList(included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-    
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
-    
-    return this.request<any>('GET', '/api/v3/talent/languages', undefined, queryParams);
+  async getLanguagesList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[],
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields, included);
+
+    return await this.request<any>('GET', '/api/v3/talent/languages', undefined, queryParams);
+
   }
 
   /**
@@ -171,12 +180,8 @@ export class TalentApi extends BasePulseApi {
    * @param included Optional array of related resources to include
    */
   async getLanguageById(languageId: string, included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-    
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
-    
+    const queryParams = this.buildQueryParams({}, included);
+
     return this.request<any>('GET', `/api/v3/talent/languages/${languageId}`, undefined, queryParams);
   }
 
@@ -200,14 +205,19 @@ export class TalentApi extends BasePulseApi {
    * Get a list of education entries for a talent
    * @param included Optional array of related resources to include
    */
-  async getEducationList(included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
+  async getEducationList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[],
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields, included);
 
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
-
-    return this.request<any>('GET', '/api/v3/talent/educations', undefined, queryParams);
+    return await this.request<any>('GET', '/api/v3/talent/educations', undefined, queryParams);
   }
 
   /**
@@ -223,11 +233,7 @@ export class TalentApi extends BasePulseApi {
    * @param included Optional array of related resources to include
    */
   async getEducationById(educationId: string, included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
+    const queryParams = this.buildQueryParams({}, included);
 
     return this.request<any>('GET', `/api/v3/talent/educations/${educationId}`, undefined, queryParams);
   }
@@ -252,14 +258,18 @@ export class TalentApi extends BasePulseApi {
    * Get a list of certification entries for a talent
    * @param included Optional array of related resources to include
    */
-  async getCertificationList(included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
-
-    return this.request<any>('GET', '/api/v3/talent/certifications', undefined, queryParams);
+  async getCertificationList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[],
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields, included);
+    return await this.request<any>('GET', '/api/v3/talent/certifications', undefined, queryParams);
   }
 
   /**
@@ -275,11 +285,7 @@ export class TalentApi extends BasePulseApi {
    * @param included Optional array of related resources to include
    */
   async getCertificationById(certificationId: string, included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
+    const queryParams = this.buildQueryParams({}, included);
 
     return this.request<any>('GET', `/api/v3/talent/certifications/${certificationId}`, undefined, queryParams);
   }
@@ -304,14 +310,19 @@ export class TalentApi extends BasePulseApi {
    * Get a list of experience entries for a talent
    * @param included Optional array of related resources to include
    */
-  async getExperienceList(included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
+  async getExperienceList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[]
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields, included);
 
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
-
-    return this.request<any>('GET', '/api/v3/talent/experiences', undefined, queryParams);
+    return await this.request<any>('GET', '/api/v3/talent/experiences', undefined, queryParams);
   }
 
   /**
@@ -327,11 +338,7 @@ export class TalentApi extends BasePulseApi {
    * @param included Optional array of related resources to include
    */
   async getExperienceById(experienceId: string, included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
+    const queryParams = this.buildQueryParams({}, included);
 
     return this.request<any>('GET', `/api/v3/talent/experiences/${experienceId}`, undefined, queryParams);
   }

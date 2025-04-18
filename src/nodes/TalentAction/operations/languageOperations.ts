@@ -7,7 +7,8 @@ export async function getLanguagesList(
   pulseApi: TalentApi,
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
-  return pulseApi.getLanguagesList(included);
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as object;
+  return pulseApi.getLanguagesList(additionalFields, included);
 }
 
 export async function createLanguage(

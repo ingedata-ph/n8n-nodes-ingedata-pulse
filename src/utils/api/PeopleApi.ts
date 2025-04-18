@@ -10,16 +10,23 @@ export class PeopleApi extends BasePulseApi {
    * Get a list of people
    * @param included Optional array of related resources to include (e.g., ['account'])
    */
-  async getPeopleList(included?: string[]): Promise<any> {
-    const queryParams: Record<string, string | string[]> = {};
-    
-    if (included && included.length > 0) {
-      queryParams.included = included;
-    }
+  async getPeopleList(
+    additionalFields: {
+      operation?: string[];
+      inputs?: object;
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[],
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields, included);
 
     console.log('Fetching people list');
     console.log('Query Params:', queryParams);
-    
+
     return this.request<any>('GET', '/api/v3/iam/people', undefined, queryParams);
   }
 
