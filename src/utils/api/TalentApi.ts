@@ -1,5 +1,6 @@
 import { ICredentialDataDecryptedObject } from 'n8n-workflow';
 import { BasePulseApi } from './BasePulseApi';
+import { log } from 'console';
 
 export class TalentApi extends BasePulseApi {
   constructor(credentials: ICredentialDataDecryptedObject) {
@@ -66,14 +67,31 @@ export class TalentApi extends BasePulseApi {
   /**
    * Query talent using a prompt
    * @param queryPrompt The prompt to query talent
+   * returns the relevant talent data
    */
   async queryTalent(queryData: object): Promise<any> {
-    
-    return this.request<any>('POST', '/api/v3/talent/queries', queryData);
+    const query_data = await this.request<any>('POST', '/api/v3/talent/queries', queryData);
+
+    const query_id = query_data.data.id;
+
+    const queryParams: Record<string, string | string[]> = {
+      sort: '-relevance',
+      'page[number]': '1',
+      'page[size]': '10',
+    };
+
+    const relevant_data = await this.request<any>('GET', `/api/v3/talent/queries/${query_id}/results`, undefined, queryParams);
+
+    const relevant_talent_id = relevant_data.data.map((item: any) => item.id);
+
+    // Return the relevant talent IDs
+    const talentQueryParams: Record<string, string | string[]> = {
+      'filter[id]': relevant_talent_id,
+    }
+    return  await this.request<any>('GET', `/api/v3/talent/talents`, undefined, talentQueryParams);
   }
 
   // Skill methods
-
   /**
    * Get a list of skills for a talent
    * @param included Optional array of related resources to include
