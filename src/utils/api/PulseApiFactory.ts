@@ -3,6 +3,7 @@ import { AccountApi } from './AccountApi';
 import { PeopleApi } from './PeopleApi';
 import { TalentApi } from './TalentApi';
 import { BasePulseApi } from './BasePulseApi';
+import { OfficeApi } from './OfficeApi';
 
 export class PulseApiFactory {
   /**
@@ -27,6 +28,8 @@ export class PulseApiFactory {
       case 'certification':
       case 'experience':
         return new TalentApi(credentials);
+      case 'employee':
+        return new OfficeApi(credentials);
 
       case undefined:
         return new AccountApi(credentials);
@@ -43,7 +46,7 @@ export class PulseApiFactory {
   static async getPulseApiHelper(
     executeFunctions: IExecuteFunctions,
     resource?: string,
-  ): Promise<BasePulseApi | AccountApi | PeopleApi | TalentApi> {
+  ): Promise<BasePulseApi | AccountApi | PeopleApi | TalentApi | OfficeApi> {
     const credentials = await executeFunctions.getCredentials('pulseApi');
 
     if (!credentials) {
