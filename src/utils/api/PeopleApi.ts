@@ -24,9 +24,6 @@ export class PeopleApi extends BasePulseApi {
   ): Promise<any> {
     const queryParams = this.buildQueryParams(additionalFields, included);
 
-    console.log('Fetching people list');
-    console.log('Query Params:', queryParams);
-
     return this.request<any>('GET', '/api/v3/iam/people', undefined, queryParams);
   }
 

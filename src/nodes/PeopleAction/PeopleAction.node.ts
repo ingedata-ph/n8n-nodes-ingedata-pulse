@@ -215,7 +215,8 @@ export class PeopleAction extends BasePulseNode {
               ],
             },
           ],
-        },				{
+        },
+				{
 					displayName: 'First Name',
 					name: 'firstName',
 					type: 'string',
@@ -230,6 +231,19 @@ export class PeopleAction extends BasePulseNode {
 					description: 'The first name of the person to create',
 				},
 				{
+					displayName: 'Middle Name',
+					name: 'middleName',
+					type: 'string',
+					default: '',
+					displayOptions: {
+						show: {
+							operation: ['createPerson', 'updatePerson'],
+							resource: ['people'],
+						},
+					},
+					description: 'The middle name of the person to create',
+				},
+				{
 					displayName: 'Last Name',
 					name: 'lastName',
 					type: 'string',
@@ -242,19 +256,6 @@ export class PeopleAction extends BasePulseNode {
 						},
 					},
 					description: 'The last name of the person to create',
-				},
-				{
-					displayName: 'Middle Name',
-					name: 'middleName',
-					type: 'string',
-					default: '',
-					displayOptions: {
-						show: {
-							operation: ['createPerson', 'updatePerson'],
-							resource: ['people'],
-						},
-					},
-					description: 'The middle name of the person to create',
 				},
 				{
 					displayName: 'Gender',

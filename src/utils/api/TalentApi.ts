@@ -1,7 +1,5 @@
 import { ICredentialDataDecryptedObject } from 'n8n-workflow';
 import { BasePulseApi } from './BasePulseApi';
-import { log } from 'console';
-
 export class TalentApi extends BasePulseApi {
   constructor(credentials: ICredentialDataDecryptedObject) {
     super(credentials);
@@ -24,7 +22,6 @@ export class TalentApi extends BasePulseApi {
     included?: string[],
   ): Promise<any> {
     const queryParams = this.buildQueryParams(additionalFields, included);
-    console.log('Fetching talent list:', queryParams);
 
     return this.request<any>('GET', '/api/v3/talent/talents', undefined, queryParams);
   }

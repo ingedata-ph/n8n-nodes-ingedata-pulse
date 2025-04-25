@@ -32,7 +32,7 @@ export class BasePulseApi {
         }),
       });
 
-      console.log('Response:', response);
+      // console.log('Response:', response);
       
       if (!response.ok) {
         const errorData = await response.json() as any;
@@ -108,8 +108,8 @@ export class BasePulseApi {
         
         url += `?${queryParts.join('&')}`;
       }
-      console.log('Request URL:', url);
-      console.log('options:', options);
+      // console.log('Request URL:', url);
+      // console.log('options:', options);
       
       const response = await fetch(url, options);
 
