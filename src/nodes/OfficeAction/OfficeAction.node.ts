@@ -1,7 +1,7 @@
 import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { employeeOperations, planningOperations } from './operations';
+import { employeeOperations, planningOperations, announcementOperations } from './operations';
 
 export class OfficeAction extends BasePulseNode {
 	constructor() {
@@ -31,6 +31,10 @@ export class OfficeAction extends BasePulseNode {
 					type: 'options',
 					options: [
 						{
+							name: 'Announcement',
+							value: 'announcement',
+						},
+						{
 							name: 'Employee',
 							value: 'employee',
 						},
@@ -42,7 +46,7 @@ export class OfficeAction extends BasePulseNode {
 					default: 'employee',
 					noDataExpression: true,
 					required: true,
-					description: 'Get employee information',
+					description: 'Select the resource to work with',
 				},
 				{
 					displayName: 'Operation',
@@ -77,6 +81,40 @@ export class OfficeAction extends BasePulseNode {
 						},
 					],
 					default: 'getEmployeeList',
+				},
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'announcement',
+							],
+						},
+					},
+					noDataExpression: true,
+					options: [
+						{
+							name: 'Create Announcement',
+							value: 'createAnnouncement',
+							description: 'Create a new announcement',
+							action: 'Create a new announcement',
+						},
+						{
+							name: 'Get Announcement List',
+							value: 'getAnnouncementList',
+							description: 'Get a list of announcements',
+							action: 'Get announcement list',
+						},
+						{
+							name: 'Update Announcement',
+							value: 'updateAnnouncement',
+							description: 'Update an existing announcement',
+							action: 'Update an existing announcement',
+						},
+					],
+					default: 'getAnnouncementList',
 				},
 				{
 					displayName: 'Operation',
@@ -159,14 +197,14 @@ export class OfficeAction extends BasePulseNode {
 				},
 				{
           displayName: 'Additional Fields',
-          name: 'additionalFields',
+          name: 'fieldsToUpdate',
           type: 'collection',
           placeholder: 'Add Field',
           default: {},
           displayOptions: {
             show: {
-              resource: ['employee'],
-              operation: ['getEmployeeList'],
+              resource: ['planning', 'employee', 'announcement'],
+              operation: ['getPlanningList', 'getEmployeeList', 'getAnnouncementList'],
             },
           },
           description: 'Additional fields to include in the request',
@@ -872,107 +910,129 @@ export class OfficeAction extends BasePulseNode {
 					},
 					description: 'Related resources to include in the response',
 				},
+				// Announcement properties
 				{
-          displayName: 'Additional Fields',
+					displayName: 'Announcement ID',
+					name: 'announcementId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							resource: ['announcement'],
+							operation: ['updateAnnouncement'],
+						},
+					},
+					description: 'The ID of the announcement to update',
+				},
+				{
+          displayName: 'Fields to Update',
           name: 'additionalFields',
           type: 'collection',
           placeholder: 'Add Field',
           default: {},
           displayOptions: {
             show: {
-              resource: ['planning'],
-              operation: ['getPlanningList'],
+							resource: ['announcement'],
+              operation: ['updateAnnouncement'],
             },
           },
-          description: 'Additional fields to include in the request',
+          description: 'Additional fields to update in the announcement',
           options: [
 						{
-              displayName: 'Sort',
-              name: 'sort',
+              displayName: 'Title',
+              name: 'title',
               type: 'string',
               default: '',
-              description: 'The sort order to use in the request',
+              description: 'The title of the announcement',
             },
             {
-              displayName: 'Page Number',
-              name: 'pageNumber',
-              type: 'number',
-              default: 1,
-              description: 'Pagination - page number',
-            },
-            {
-              displayName: 'Page Size',
-              name: 'pageSize',
-              type: 'number',
-              default: 10,
-              description: 'Pagination - page size',
-            },
-            {
-              displayName: 'Filters',
-              name: 'filters',
-              type: 'fixedCollection',
+              displayName: 'Content (Markdown)',
+              name: 'contentMd',
+              type: 'string',
               typeOptions: {
-                multipleValues: true,
+                rows: 5,
               },
-              description: 'The filters to use in the request',
-              default: {},
-              options: [
-                {
-                  name: 'filter',
-                  displayName: 'Filter Values',
-                  values: [
-										{
-											displayName: 'Filter Key',
-											name: 'key',
-											type: 'string',
-											default: '',
-											placeholder: 'e.g., organization_id',
-										},
-										{
-											displayName: 'Values',
-											name: 'values',
-											type: 'string',
-											default: '',
-											placeholder: 'Comma-separated values (e.g., 1,2,3)',
-										},
-									],
-                },
-              ],
+              default: '',
+              description: 'The content of the announcement in Markdown format',
             },
             {
-              displayName: 'Fields',
-              name: 'fields',
-              type: 'fixedCollection',
-              typeOptions: {
-                multipleValues: true,
-              },
-              description: 'The fields to use in the request',
-              default: {},
-              options: [
-                {
-                  displayName: 'Field',
-                  name: 'field',
-									values: [
-										{
-											displayName: 'Field Key',
-											name: 'key',
-											type: 'string',
-											default: '',
-											placeholder: 'e.g., office/plannings',
-										},
-										{
-											displayName: 'Fields',
-											name: 'fields',
-											type: 'string',
-											default: '',
-											placeholder: 'Comma-separated field names (e.g., id,name)',
-										},
-									],
-                },
-              ],
+              displayName: 'Publishing Date',
+              name: 'publishingAt',
+              type: 'dateTime',
+              default: '',
+              description: 'The date when the announcement will be published (cannot be before today)',
+            },
+            {
+              displayName: 'Organizational Units',
+              name: 'organizationalUnits',
+              type: 'string',
+              default: '',
+              description: 'Comma-separated list of organizational units for the announcement',
+              placeholder: 'MG, IT, HR',
             },
           ],
-        }
+        },
+				{
+					displayName: 'Title',
+					name: 'title',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createAnnouncement'],
+							resource: ['announcement'],
+						},
+					},
+					description: 'The title of the announcement',
+				},
+				{
+					displayName: 'Content (Markdown)',
+					name: 'contentMd',
+					type: 'string',
+					typeOptions: {
+						rows: 5,
+					},
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createAnnouncement'],
+							resource: ['announcement'],
+						},
+					},
+					description: 'The content of the announcement in Markdown format',
+				},
+				{
+					displayName: 'Publishing Date',
+					name: 'publishingAt',
+					type: 'dateTime',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createAnnouncement'],
+							resource: ['announcement'],
+						},
+					},
+					description: 'The date when the announcement will be published (cannot be before today)',
+				},
+				{
+					displayName: 'Organizational Units',
+					name: 'organizationalUnits',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createAnnouncement'],
+							resource: ['announcement'],
+						},
+					},
+					description: 'Comma-separated list of organizational units for the announcement',
+					placeholder: 'MG, IT, HR',
+				},
 			],
 		});
 	}
@@ -1016,6 +1076,20 @@ export class OfficeAction extends BasePulseNode {
 							break;
 						case 'deletePlanning':
 							result = await planningOperations.deletePlanning(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'announcement') {
+					switch (operation) {
+						case 'createAnnouncement':
+							result = await announcementOperations.createAnnouncement(this, i, pulseApi);
+							break;
+						case 'getAnnouncementList':
+							result = await announcementOperations.getAnnouncementList(this, i, pulseApi);
+							break;
+						case 'updateAnnouncement':
+							result = await announcementOperations.updateAnnouncement(this, i, pulseApi);
 							break;
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);

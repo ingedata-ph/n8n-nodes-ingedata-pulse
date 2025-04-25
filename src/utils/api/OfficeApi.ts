@@ -2,6 +2,51 @@ import { ICredentialDataDecryptedObject } from 'n8n-workflow';
 import { BasePulseApi } from './BasePulseApi';
 
 export class OfficeApi extends BasePulseApi {
+  // Announcement methods
+  
+  /**
+   * Get a list of announcements
+   * @param additionalFields Additional fields for filtering, sorting, and pagination
+   */
+  async getAnnouncementList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields);
+
+    return this.request<any>('GET', '/api/v3/notification/announcements', undefined, queryParams);
+  }
+
+  /**
+   * Create a new announcement
+   * @param announcementData The data for the new announcement
+   */
+  async createAnnouncement(announcementData: object): Promise<any> {
+    const url = '/api/v3/notification/announcements';
+    const method = 'POST';
+    const body = announcementData;
+
+    return this.request<any>(method, url, body);
+  }
+
+  /**
+   * Update an existing announcement
+   * @param announcementId The ID of the announcement to update
+   * @param announcementData The updated data for the announcement
+   */
+  async updateAnnouncement(announcementId: string, announcementData: object): Promise<any> {
+    const url = `/api/v3/notification/announcements/${announcementId}`;
+    const method = 'PATCH';
+    const body = announcementData;
+
+    return this.request<any>(method, url, body);
+  }
+
   constructor(credentials: ICredentialDataDecryptedObject) {
     super(credentials);
   }
