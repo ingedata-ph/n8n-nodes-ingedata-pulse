@@ -1,7 +1,7 @@
 import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { employeeOperations } from './operations';
+import { employeeOperations, planningOperations } from './operations';
 
 export class OfficeAction extends BasePulseNode {
 	constructor() {
@@ -33,6 +33,10 @@ export class OfficeAction extends BasePulseNode {
 						{
 							name: 'Employee',
 							value: 'employee',
+						},
+						{
+							name: 'Planning',
+							value: 'planning',
 						},
 					],
 					default: 'employee',
@@ -73,6 +77,46 @@ export class OfficeAction extends BasePulseNode {
 						},
 					],
 					default: 'getEmployeeList',
+				},
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'planning',
+							],
+						},
+					},
+					noDataExpression: true,
+					options: [
+						{
+							name: 'Create Planning',
+							value: 'createPlanning',
+							description: 'Create a new planning',
+							action: 'Create a new planning',
+						},
+						{
+							name: 'Get Planning List',
+							value: 'getPlanningList',
+							description: 'Get a list of plannings',
+							action: 'Get planning list',
+						},
+						{
+							name: 'Update Planning',
+							value: 'updatePlanning',
+							description: 'Update an existing planning',
+							action: 'Update an existing planning',
+						},
+						{
+							name: 'Delete Planning',
+							value: 'deletePlanning',
+							description: 'Delete a planning',
+							action: 'Delete a planning',
+						},
+					],
+					default: 'getPlanningList',
 				},
 				// Node properties for operations will be defined here
 				{
@@ -718,7 +762,217 @@ export class OfficeAction extends BasePulseNode {
 						},
 					},
 					description: 'The date the account will expire',
-				}
+				},
+				// Planning properties
+				{
+					displayName: 'Planning ID',
+					name: 'planningId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['updatePlanning', 'deletePlanning'],
+							resource: ['planning'],
+						},
+					},
+					description: 'The ID of the planning to update or delete',
+				},
+				{
+					displayName: 'Name',
+					name: 'name',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createPlanning', 'updatePlanning'],
+							resource: ['planning'],
+						},
+					},
+					description: 'The name of the planning',
+				},
+				{
+					displayName: 'Timezone',
+					name: 'timezone',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createPlanning', 'updatePlanning'],
+							resource: ['planning'],
+						},
+					},
+					description: 'The timezone of the planning (e.g., Africa/Nairobi)',
+				},
+				{
+					displayName: 'Organizational Unit',
+					name: 'organizationalUnit',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createPlanning', 'updatePlanning'],
+							resource: ['planning'],
+						},
+					},
+					description: 'The organizational unit of the planning',
+				},
+				{
+					displayName: 'Working Hours Per Day',
+					name: 'workingHourPerDay',
+					type: 'number',
+					typeOptions: {
+						minValue: 0,
+						numberPrecision: 2,
+					},
+					default: 8,
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createPlanning', 'updatePlanning'],
+							resource: ['planning'],
+						},
+					},
+					description: 'The number of working hours per day',
+				},
+				{
+					displayName: 'Schedule',
+					name: 'schedule',
+					type: 'json',
+					default: '{\n  "monday": ["8:00", "12:00", "14:00", "18:00"],\n  "tuesday": ["8:00", "12:00", "14:00", "18:00"]\n}',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createPlanning', 'updatePlanning'],
+							resource: ['planning'],
+						},
+					},
+					description: 'The schedule of the planning in JSON format. Format: { "day": ["start1", "end1", "start2", "end2"] }',
+				},
+				{
+					displayName: 'Include Related Resources',
+					name: 'included',
+					type: 'multiOptions',
+					options: [
+						{
+							name: 'Employees',
+							value: 'employees',
+						},
+					],
+					default: [],
+					required: false,
+					displayOptions: {
+						show: {
+							operation: ['getPlanningList'],
+							resource: ['planning'],
+						},
+					},
+					description: 'Related resources to include in the response',
+				},
+				{
+          displayName: 'Additional Fields',
+          name: 'additionalFields',
+          type: 'collection',
+          placeholder: 'Add Field',
+          default: {},
+          displayOptions: {
+            show: {
+              resource: ['planning'],
+              operation: ['getPlanningList'],
+            },
+          },
+          description: 'Additional fields to include in the request',
+          options: [
+						{
+              displayName: 'Sort',
+              name: 'sort',
+              type: 'string',
+              default: '',
+              description: 'The sort order to use in the request',
+            },
+            {
+              displayName: 'Page Number',
+              name: 'pageNumber',
+              type: 'number',
+              default: 1,
+              description: 'Pagination - page number',
+            },
+            {
+              displayName: 'Page Size',
+              name: 'pageSize',
+              type: 'number',
+              default: 10,
+              description: 'Pagination - page size',
+            },
+            {
+              displayName: 'Filters',
+              name: 'filters',
+              type: 'fixedCollection',
+              typeOptions: {
+                multipleValues: true,
+              },
+              description: 'The filters to use in the request',
+              default: {},
+              options: [
+                {
+                  name: 'filter',
+                  displayName: 'Filter Values',
+                  values: [
+										{
+											displayName: 'Filter Key',
+											name: 'key',
+											type: 'string',
+											default: '',
+											placeholder: 'e.g., organization_id',
+										},
+										{
+											displayName: 'Values',
+											name: 'values',
+											type: 'string',
+											default: '',
+											placeholder: 'Comma-separated values (e.g., 1,2,3)',
+										},
+									],
+                },
+              ],
+            },
+            {
+              displayName: 'Fields',
+              name: 'fields',
+              type: 'fixedCollection',
+              typeOptions: {
+                multipleValues: true,
+              },
+              description: 'The fields to use in the request',
+              default: {},
+              options: [
+                {
+                  displayName: 'Field',
+                  name: 'field',
+									values: [
+										{
+											displayName: 'Field Key',
+											name: 'key',
+											type: 'string',
+											default: '',
+											placeholder: 'e.g., office/plannings',
+										},
+										{
+											displayName: 'Fields',
+											name: 'fields',
+											type: 'string',
+											default: '',
+											placeholder: 'Comma-separated field names (e.g., id,name)',
+										},
+									],
+                },
+              ],
+            },
+          ],
+        }
 			],
 		});
 	}
@@ -745,6 +999,23 @@ export class OfficeAction extends BasePulseNode {
 							break;
 						case 'updateEmployee':
 							result = await employeeOperations.updateEmployee(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'planning') {
+					switch (operation) {
+						case 'createPlanning':
+							result = await planningOperations.createPlanning(this, i, pulseApi);
+							break;
+						case 'getPlanningList':
+							result = await planningOperations.getPlanningList(this, i, pulseApi);
+							break;
+						case 'updatePlanning':
+							result = await planningOperations.updatePlanning(this, i, pulseApi);
+							break;
+						case 'deletePlanning':
+							result = await planningOperations.deletePlanning(this, i, pulseApi);
 							break;
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);

@@ -29,6 +29,7 @@ export class PulseApiFactory {
       case 'experience':
         return new TalentApi(credentials);
       case 'employee':
+      case 'planning':
         return new OfficeApi(credentials);
 
       case undefined:
