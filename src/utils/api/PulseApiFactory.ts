@@ -31,6 +31,7 @@ export class PulseApiFactory {
       case 'employee':
       case 'planning':
       case 'announcement':
+      case 'holiday':
         return new OfficeApi(credentials);
 
       case undefined:

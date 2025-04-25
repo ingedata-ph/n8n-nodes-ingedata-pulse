@@ -1,7 +1,7 @@
 import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { employeeOperations, planningOperations, announcementOperations } from './operations';
+import { employeeOperations, planningOperations, announcementOperations, holidayOperations } from './operations';
 
 export class OfficeAction extends BasePulseNode {
 	constructor() {
@@ -37,6 +37,10 @@ export class OfficeAction extends BasePulseNode {
 						{
 							name: 'Employee',
 							value: 'employee',
+						},
+						{
+							name: 'Holiday',
+							value: 'holiday',
 						},
 						{
 							name: 'Planning',
@@ -102,6 +106,12 @@ export class OfficeAction extends BasePulseNode {
 							action: 'Create a new announcement',
 						},
 						{
+							name: 'Delete Announcement',
+							value: 'deleteAnnouncement',
+							description: 'Delete an announcement',
+							action: 'Delete an announcement',
+						},
+						{
 							name: 'Get Announcement List',
 							value: 'getAnnouncementList',
 							description: 'Get a list of announcements',
@@ -156,6 +166,46 @@ export class OfficeAction extends BasePulseNode {
 					],
 					default: 'getPlanningList',
 				},
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'holiday',
+							],
+						},
+					},
+					noDataExpression: true,
+					options: [
+						{
+							name: 'Create Holiday',
+							value: 'createHoliday',
+							description: 'Create a new holiday',
+							action: 'Create a new holiday',
+						},
+						{
+							name: 'Get Holiday List',
+							value: 'getHolidayList',
+							description: 'Get a list of holidays',
+							action: 'Get holiday list',
+						},
+						{
+							name: 'Update Holiday',
+							value: 'updateHoliday',
+							description: 'Update an existing holiday',
+							action: 'Update an existing holiday',
+						},
+						{
+							name: 'Delete Holiday',
+							value: 'deleteHoliday',
+							description: 'Delete a holiday',
+							action: 'Delete a holiday',
+						},
+					],
+					default: 'getHolidayList',
+				},
 				// Node properties for operations will be defined here
 				{
 					displayName: 'Employee ID',
@@ -197,14 +247,14 @@ export class OfficeAction extends BasePulseNode {
 				},
 				{
           displayName: 'Additional Fields',
-          name: 'fieldsToUpdate',
+          name: 'additionalFields',
           type: 'collection',
           placeholder: 'Add Field',
           default: {},
           displayOptions: {
             show: {
-              resource: ['planning', 'employee', 'announcement'],
-              operation: ['getPlanningList', 'getEmployeeList', 'getAnnouncementList'],
+              resource: ['planning', 'employee', 'announcement', 'holiday'],
+              operation: ['getPlanningList', 'getEmployeeList', 'getAnnouncementList', 'getHolidayList'],
             },
           },
           description: 'Additional fields to include in the request',
@@ -920,14 +970,14 @@ export class OfficeAction extends BasePulseNode {
 					displayOptions: {
 						show: {
 							resource: ['announcement'],
-							operation: ['updateAnnouncement'],
+							operation: ['updateAnnouncement', 'deleteAnnouncement'],
 						},
 					},
-					description: 'The ID of the announcement to update',
+					description: 'The ID of the announcement to update or delete',
 				},
 				{
           displayName: 'Fields to Update',
-          name: 'additionalFields',
+          name: 'fieldsToUpdate',
           type: 'collection',
           placeholder: 'Add Field',
           default: {},
@@ -1033,6 +1083,63 @@ export class OfficeAction extends BasePulseNode {
 					description: 'Comma-separated list of organizational units for the announcement',
 					placeholder: 'MG, IT, HR',
 				},
+				// Holiday properties
+				{
+					displayName: 'Holiday ID',
+					name: 'id',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['updateHoliday', 'deleteHoliday'],
+							resource: ['holiday'],
+						},
+					},
+					description: 'The ID of the holiday to update or delete',
+				},
+				{
+					displayName: 'Name',
+					name: 'name',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createHoliday', 'updateHoliday'],
+							resource: ['holiday'],
+						},
+					},
+					description: 'The name of the holiday',
+				},
+				{
+					displayName: 'Date',
+					name: 'date',
+					type: 'dateTime',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createHoliday', 'updateHoliday'],
+							resource: ['holiday'],
+						},
+					},
+					description: 'The date of the holiday',
+				},
+				{
+					displayName: 'Organizational Unit',
+					name: 'organizational_unit',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createHoliday', 'updateHoliday'],
+							resource: ['holiday'],
+						},
+					},
+					description: 'The organizational unit for the holiday',
+				},
 			],
 		});
 	}
@@ -1085,11 +1192,31 @@ export class OfficeAction extends BasePulseNode {
 						case 'createAnnouncement':
 							result = await announcementOperations.createAnnouncement(this, i, pulseApi);
 							break;
+						case 'deleteAnnouncement':
+							result = await announcementOperations.deleteAnnouncement(this, i, pulseApi);
+							break;
 						case 'getAnnouncementList':
 							result = await announcementOperations.getAnnouncementList(this, i, pulseApi);
 							break;
 						case 'updateAnnouncement':
 							result = await announcementOperations.updateAnnouncement(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'holiday') {
+					switch (operation) {
+						case 'createHoliday':
+							result = await holidayOperations.createHoliday(this, i, pulseApi);
+							break;
+						case 'getHolidayList':
+							result = await holidayOperations.getHolidayList(this, i, pulseApi);
+							break;
+						case 'updateHoliday':
+							result = await holidayOperations.updateHoliday(this, i, pulseApi);
+							break;
+						case 'deleteHoliday':
+							result = await holidayOperations.deleteHoliday(this, i, pulseApi);
 							break;
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);

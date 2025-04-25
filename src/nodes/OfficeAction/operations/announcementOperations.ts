@@ -113,3 +113,17 @@ export async function updateAnnouncement(
     throw new Error('Error updating announcement: ' + (error as Error).message);
   }
 }
+
+export async function deleteAnnouncement(
+  executeFunctions: IExecuteFunctions,
+  itemIndex: number,
+  pulseApi: OfficeApi,
+): Promise<any> {
+  const announcementId = executeFunctions.getNodeParameter('announcementId', itemIndex) as string;
+
+  try {
+    return await pulseApi.deleteAnnouncement(announcementId);
+  } catch (error) {
+    throw new Error('Error deleting announcement: ' + (error as Error).message);
+  }
+}

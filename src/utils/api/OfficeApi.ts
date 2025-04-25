@@ -2,6 +2,62 @@ import { ICredentialDataDecryptedObject } from 'n8n-workflow';
 import { BasePulseApi } from './BasePulseApi';
 
 export class OfficeApi extends BasePulseApi {
+  // Holiday methods
+  
+  /**
+   * Get a list of holidays
+   * @param additionalFields Additional fields for filtering, sorting, and pagination
+   */
+  async getHolidayList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields);
+
+    return this.request<any>('GET', '/api/v3/office/holidays', undefined, queryParams);
+  }
+
+  /**
+   * Create a new holiday
+   * @param holidayData The data for the new holiday
+   */
+  async createHoliday(holidayData: object): Promise<any> {
+    const url = '/api/v3/office/holidays';
+    const method = 'POST';
+    const body = holidayData;
+
+    return this.request<any>(method, url, body);
+  }
+
+  /**
+   * Update an existing holiday
+   * @param holidayId The ID of the holiday to update
+   * @param holidayData The updated data for the holiday
+   */
+  async updateHoliday(holidayId: string, holidayData: object): Promise<any> {
+    const url = `/api/v3/office/holidays/${holidayId}`;
+    const method = 'PATCH';
+    const body = holidayData;
+
+    return this.request<any>(method, url, body);
+  }
+
+  /**
+   * Delete a holiday
+   * @param holidayId The ID of the holiday to delete
+   */
+  async deleteHoliday(holidayId: string): Promise<any> {
+    const url = `/api/v3/office/holidays/${holidayId}`;
+    const method = 'DELETE';
+
+    return this.request<any>(method, url);
+  }
+
   // Announcement methods
   
   /**
@@ -45,6 +101,17 @@ export class OfficeApi extends BasePulseApi {
     const body = announcementData;
 
     return this.request<any>(method, url, body);
+  }
+
+  /**
+   * Delete an announcement
+   * @param announcementId The ID of the announcement to delete
+   */
+  async deleteAnnouncement(announcementId: string): Promise<any> {
+    const url = `/api/v3/notification/announcements/${announcementId}`;
+    const method = 'DELETE';
+
+    return this.request<any>(method, url);
   }
 
   constructor(credentials: ICredentialDataDecryptedObject) {
