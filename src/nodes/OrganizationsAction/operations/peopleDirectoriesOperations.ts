@@ -1,5 +1,6 @@
 import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
 import { OrganizationsApi } from '../../../utils/api/OrganizationsApi';
+import { log } from 'console';
 
 export async function createPeopleDirectory(
   executeFunctions: IExecuteFunctions,
@@ -27,7 +28,8 @@ export async function createPeopleDirectory(
   const projectIds = (executeFunctions.getNodeParameter('project_ids', itemIndex, '') as string)
     .split(',')
     .map(id => parseInt(id.trim(), 10))
-  
+    .filter(id => !Number.isNaN(id));
+ 
   const peopleDirectoryData = {
     data: {
       type: "iam/organizations/people_directories",

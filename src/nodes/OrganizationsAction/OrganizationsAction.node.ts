@@ -1,4 +1,4 @@
-import { IExecuteFunctions, NodeConnectionType, IDataObject, INodeExecutionData } from 'n8n-workflow';
+import { IExecuteFunctions, NodeConnectionType, IDataObject, INodeExecutionData, ILoadOptionsFunctions } from 'n8n-workflow';
 import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
@@ -71,8 +71,28 @@ export class OrganizationsAction extends BasePulseNode {
 							description: 'Update an existing organization',
 							action: 'Update an organization',
 						},
+						{
+							name: 'Enable/Disable Organization Status',
+							value: 'updateOrganizationStatus',
+							description: 'Enable or disable an organization',
+							action: 'Update an organization status',
+						},
 					],
 					default: 'createOrganization',
+				},
+				{
+					displayName: 'Organization ID',
+					name: 'organizationId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							resource: ['organizations'],
+							operation: ['updateOrganization', 'updateOrganizationStatus'],
+						},
+					},
+					description: 'The ID of the organization to update',
 				},
 				{
 					displayName: 'Name',
@@ -97,24 +117,10 @@ export class OrganizationsAction extends BasePulseNode {
 					displayOptions: {
 						show: {
 							resource: ['organizations'],
-							operation: ['createOrganization', 'updateOrganization'],
+							operation: ['createOrganization', 'updateOrganizationStatus'],
 						},
 					},
 					description: 'Whether the organization is enabled',
-				},
-				{
-					displayName: 'Organization ID',
-					name: 'organizationId',
-					type: 'string',
-					default: '',
-					required: true,
-					displayOptions: {
-						show: {
-							resource: ['organizations'],
-							operation: ['updateOrganization'],
-						},
-					},
-					description: 'The ID of the organization to update',
 				},
 				
 				// People Directories operations
@@ -238,54 +244,18 @@ export class OrganizationsAction extends BasePulseNode {
 					displayName: 'Position',
 					name: 'position',
 					type: 'options',
-					options: [
-						{
-							name: 'Production Manager',
-							value: 'production_manager',
-							description: 'Groups: production, client',
-						},
-						{
-							name: 'Operations Manager',
-							value: 'operations_manager',
-							description: 'Groups: production, client',
-						},
-						{
-							name: 'Client Success Manager',
-							value: 'client_success_manager',
-							description: 'Groups: account, client',
-						},
-						{
-							name: 'Account Executive',
-							value: 'account_executive',
-							description: 'Groups: account, client',
-						},
-						{
-							name: 'HR & Talent Acquisition',
-							value: 'hr_talent_acquisition',
-							description: 'Groups: account, client',
-						},
-						{
-							name: 'Training & Development',
-							value: 'training_development',
-							description: 'Groups: account, client',
-						},
-						{
-							name: 'Data & Technical solutions',
-							value: 'data_technical_solutions',
-							description: 'Groups: account, client',
-						},
-						{
-							name: 'Billing & Finance',
-							value: 'billing_finance',
-							description: 'Groups: account, client',
-						},
-						{
-							name: 'Others',
-							value: 'others',
-							description: 'Groups: production, account, client',
-						},
-					],
-					default: 'production_manager',
+					typeOptions: {
+						loadOptionsMethod: 'getPositionsBasedOnTag',
+						loadOptionsDependsOn: ['tag'],
+						disabled: [
+							{
+								condition: {
+									tag: [''],
+								},
+							},
+						],
+					},
+					default: '',
 					required: true,
 					displayOptions: {
 						show: {
@@ -294,6 +264,7 @@ export class OrganizationsAction extends BasePulseNode {
 						},
 					},
 					description: 'The position for the people directory entry',
+					placeholder: 'Select a people directory position',
 				},
 				{
 					displayName: 'Project IDs',
@@ -465,6 +436,44 @@ export class OrganizationsAction extends BasePulseNode {
 		});
 	}
 
+	methods = {
+		loadOptions: {
+			async getPositionsBasedOnTag(this: ILoadOptionsFunctions) {
+				const tag = this.getCurrentNodeParameter('tag') as string;
+				
+				const optionsByTag: Record<string, { name: string; value: string }[]> = {
+					production: [
+						{ name: 'Production Manager', value: 'production_manager' },
+						{ name: 'Operations Manager', value: 'operations_manager' },
+						{ name: 'Others', value: 'others' },
+					],
+					account: [
+						{ name: 'Client Success Manager', value: 'client_success_manager' },
+						{ name: 'Account Executive', value: 'account_executive' },
+						{ name: 'HR & Talent Acquisition', value: 'hr_talent_acquisition' },
+						{ name: 'Training & Development', value: 'training_development' },
+						{ name: 'Data & Technical solutions', value: 'data_technical_solutions' },
+						{ name: 'Billing & Finance', value: 'billing_finance' },
+						{ name: 'Others', value: 'others' },
+					],
+					client: [
+						{ name: 'Production Manager', value: 'production_manager' },
+						{ name: 'Operations Manager', value: 'operations_manager' },
+						{ name: 'Client Success Manager', value: 'client_success_manager' },
+						{ name: 'Account Executive', value: 'account_executive' },
+						{ name: 'HR & Talent Acquisition', value: 'hr_talent_acquisition' },
+						{ name: 'Training & Development', value: 'training_development' },
+						{ name: 'Data & Technical solutions', value: 'data_technical_solutions' },
+						{ name: 'Billing & Finance', value: 'billing_finance' },
+						{ name: 'Others', value: 'others' },
+					],
+				};
+	
+				return optionsByTag[tag] || [];
+			},
+		},
+	}
+
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
@@ -487,6 +496,9 @@ export class OrganizationsAction extends BasePulseNode {
 							break;
 						case 'updateOrganization':
 							result = await organizationsOperations.updateOrganization(this, i, pulseApi);
+							break;
+						case 'updateOrganizationStatus':
+							result = await organizationsOperations.updateOrganizationStatus(this, i, pulseApi);
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);

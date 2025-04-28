@@ -29,6 +29,26 @@ export async function updateOrganization(
 ): Promise<any> {
   const organizationId = executeFunctions.getNodeParameter('organizationId', itemIndex) as string;
   const name = executeFunctions.getNodeParameter('name', itemIndex) as string;
+  
+  const organizationData = {
+    data: {
+      type: "iam/organizations",
+      id: organizationId,
+      attributes: {
+        name: name
+      }
+    }
+  };
+  
+  return pulseApi.updateOrganization(organizationId, organizationData);
+}
+
+export async function updateOrganizationStatus(
+  executeFunctions: IExecuteFunctions,
+  itemIndex: number,
+  pulseApi: OrganizationsApi,
+): Promise<any> {
+  const organizationId = executeFunctions.getNodeParameter('organizationId', itemIndex) as string;
   const enabled = executeFunctions.getNodeParameter('enabled', itemIndex, true) as boolean;
   
   const organizationData = {
@@ -36,7 +56,6 @@ export async function updateOrganization(
       type: "iam/organizations",
       id: organizationId,
       attributes: {
-        name: name,
         enabled: enabled
       }
     }
