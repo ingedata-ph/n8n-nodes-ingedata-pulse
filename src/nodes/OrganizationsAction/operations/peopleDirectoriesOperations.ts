@@ -67,6 +67,8 @@ export async function updatePeopleDirectory(
   const peopleDirectoryId = executeFunctions.getNodeParameter('peopleDirectoryId', itemIndex) as string;
   const tag = executeFunctions.getNodeParameter('tag', itemIndex) as string;
   const position = executeFunctions.getNodeParameter('position', itemIndex) as string;
+  const personId = executeFunctions.getNodeParameter('person_id', itemIndex) as string;
+  const organizationId = executeFunctions.getNodeParameter('organization_id', itemIndex) as string;
   
   // Get other_contacts as a collection of key-value pairs
   const otherContactsCollection = executeFunctions.getNodeParameter('otherContactsUi.otherContactsValues', itemIndex, []) as IDataObject[];
@@ -95,6 +97,20 @@ export async function updatePeopleDirectory(
         position,
         project_ids: projectIds,
         other_contacts: otherContacts
+      },
+      relationships: {
+        person: {
+          data: {
+            type: "iam/people",
+            id: personId
+          }
+        },
+        organization: {
+          data: {
+            type: "iam/organizations",
+            id: organizationId
+          }
+        }
       }
     }
   };

@@ -179,7 +179,7 @@ export class OrganizationsAction extends BasePulseNode {
 					displayOptions: {
 						show: {
 							resource: ['peopleDirectories'],
-							operation: ['createPeopleDirectory'],
+							operation: ['createPeopleDirectory', 'updatePeopleDirectory'],
 						},
 					},
 					description: 'The ID of the person',
@@ -193,7 +193,7 @@ export class OrganizationsAction extends BasePulseNode {
 					displayOptions: {
 						show: {
 							resource: ['peopleDirectories'],
-							operation: ['createPeopleDirectory'],
+							operation: ['createPeopleDirectory', 'updatePeopleDirectory'],
 						},
 					},
 					description: 'The ID of the organization',
