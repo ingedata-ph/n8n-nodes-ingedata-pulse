@@ -144,28 +144,13 @@ export async function listPeopleDirectories(
   pulseApi: OrganizationsApi,
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
-  const additionalFields = {} as {
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as {
     sort?: string;
     pageNumber?: number;
     pageSize?: number;
     filters?: { filter: Array<{ key: string; values: string }> };
     fields?: { field: Array<{ key: string; fields: string }> };
   };
-  
-  // Get additional fields
-  const optionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
-  
-  if (optionalFields.sort) {
-    additionalFields.sort = optionalFields.sort as string;
-  }
-  
-  if (optionalFields.filters) {
-    additionalFields.filters = optionalFields.filters as { filter: Array<{ key: string; values: string }> };
-  }
-  
-  if (optionalFields.fields) {
-    additionalFields.fields = optionalFields.fields as { field: Array<{ key: string; fields: string }> };
-  }
   
   return pulseApi.listPeopleDirectories(additionalFields, included);
 }

@@ -7,7 +7,8 @@ export async function getSkillsList(
   pulseApi: TalentApi,
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
-    const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as object;
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as object;
+
   return pulseApi.getSkillsList(additionalFields, included);
 }
 
