@@ -73,7 +73,7 @@ export async function createEmployee(
       person = await PeopleApi.createPerson(personData);
       personId = person.data.id;
     } catch (error) {
-      throw new Error('Error creating person: ' + (error as Error).message); 
+      throw new Error('Error creating person: ' + (error as Error).message);
     }
 
   } else {

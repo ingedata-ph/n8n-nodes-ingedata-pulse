@@ -5,6 +5,7 @@ import { TalentApi } from './TalentApi';
 import { BasePulseApi } from './BasePulseApi';
 import { OfficeApi } from './OfficeApi';
 import { OrganizationsApi } from './OrganizationsApi';
+import { RecruitmentApi } from './RecruitmentApi';
 
 export class PulseApiFactory {
   /**
@@ -13,7 +14,7 @@ export class PulseApiFactory {
    * @param resource The resource type (account, people, talent, etc.)
    * @returns The appropriate API helper instance
    */
-  static createApiHelper(credentials: ICredentialDataDecryptedObject, resource?: string): BasePulseApi | AccountApi | PeopleApi | TalentApi | OrganizationsApi | OfficeApi {
+  static createApiHelper(credentials: ICredentialDataDecryptedObject, resource?: string): BasePulseApi | AccountApi | PeopleApi | TalentApi | OrganizationsApi | OfficeApi | RecruitmentApi {
     switch (resource) {
       case 'account':
       case 'accountRole':
@@ -38,6 +39,9 @@ export class PulseApiFactory {
       case 'organizations':
       case 'peopleDirectories':
         return new OrganizationsApi(credentials);
+        
+      case 'candidates':
+        return new RecruitmentApi(credentials);
 
       case undefined:
         return new AccountApi(credentials);
@@ -54,7 +58,7 @@ export class PulseApiFactory {
   static async getPulseApiHelper(
     executeFunctions: IExecuteFunctions,
     resource?: string,
-  ): Promise<BasePulseApi | AccountApi | PeopleApi | TalentApi | OfficeApi | OrganizationsApi> {
+  ): Promise<BasePulseApi | AccountApi | PeopleApi | TalentApi | OfficeApi | OrganizationsApi | RecruitmentApi> {
     const credentials = await executeFunctions.getCredentials('pulseApi');
 
     if (!credentials) {

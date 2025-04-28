@@ -9,6 +9,7 @@ import { PeopleAction } from './src/nodes/PeopleAction/PeopleAction.node';
 import { TalentAction } from './src/nodes/TalentAction/TalentAction.node';
 import { OrganizationsAction } from './src/nodes/OrganizationsAction/OrganizationsAction.node';
 import { OfficeAction } from './src/nodes/OfficeAction/OfficeAction.node';
+import { RecruitmentAction } from './src/nodes/RecruitmentAction/RecruitmentAction.node';
 
 // Export the credentials
 export const credentials = {
@@ -25,4 +26,5 @@ export const nodes = [
 	TalentAction,
 	OrganizationsAction,
 	OfficeAction,
+	RecruitmentAction,
 ];
