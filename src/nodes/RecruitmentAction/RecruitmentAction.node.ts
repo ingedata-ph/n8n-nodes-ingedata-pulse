@@ -2,7 +2,7 @@ import { IExecuteFunctions, NodeConnectionType, INodeProperties, IDataObject, IN
 import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { candidateOperations } from './operations';
+import { candidateOperations, quizzSessionOperations } from './operations';
 
 export class RecruitmentAction extends BasePulseNode {
 	constructor() {
@@ -34,6 +34,10 @@ export class RecruitmentAction extends BasePulseNode {
 						{
 							name: 'Candidates',
 							value: 'candidates',
+						},
+						{
+							name: 'Candidates Quizz Sessions',
+							value: 'quizzSessions',
 						},
 					],
 					default: 'candidates',
@@ -95,6 +99,66 @@ export class RecruitmentAction extends BasePulseNode {
 						},
 					},
 					description: 'The ID of the candidate',
+				},
+
+				// Quizz Sessions operations
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'quizzSessions',
+							],
+						},
+					},
+					noDataExpression: true,
+					options: [
+						{
+							name: 'Create Quizz Session',
+							value: 'createQuizzSession',
+							description: 'Create a new quizz session for candidates',
+							action: 'Create a new quizz session for candidates',
+						},
+						{
+							name: 'Update Quizz Session',
+							value: 'updateQuizzSession',
+							description: 'Update an existing quizz session',
+							action: 'Update a quizz session',
+						},
+						{
+							name: 'Cancel Quizz Session',
+							value: 'cancelQuizzSession',
+							description: 'Cancel candidate quizz session',
+							action: 'Cancel candidate quizz session',
+						},
+						{
+							name: 'Get Quizz Session',
+							value: 'getQuizzSessionById',
+							description: 'Get a specific candidate quizz session details',
+							action: 'Get a candidate quizz session',
+						},
+						{
+							name: 'List Quizz Sessions',
+							value: 'getQuizzSessionsList',
+							description: 'List quizz sessions',
+							action: 'List quizz sessions',
+						},
+						{
+							name: 'Assign New Quizz',
+							value: 'assignQuizz',
+							description: 'Assign a quizz to a candidate session',
+							action: 'Assign a quizz to a candidate session',
+						},
+						{
+							name: 'Share Candidate Quiz Session Link',
+							value: 'shareTestLink',
+							description: 'Share candidate quiz session link',
+							action: 'Share candidate quiz session link',
+						}
+					],
+					default: 'createQuizzSession',
 				},
 				{
 					displayName: 'New Person',
@@ -267,6 +331,100 @@ export class RecruitmentAction extends BasePulseNode {
 					},
 					description: 'The URL of the person\'s picture',
 				},
+				// Quizz Session parameters
+				{
+					displayName: 'Session ID',
+					name: 'sessionId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							resource: ['quizzSessions'],
+							operation: [
+								'updateQuizzSession',
+								'cancelQuizzSession',
+								'assignQuizz',
+								'getQuizzSessionById',
+								'shareTestLink',
+							],
+						},
+					},
+					description: 'The ID of the session',
+				},
+				{
+					displayName: 'Person ID',
+					name: 'personId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							resource: ['quizzSessions'],
+							operation: ['createQuizzSession'],
+						},
+					},
+					description: 'The ID of the person',
+				},
+				{
+					displayName: 'Name',
+					name: 'name',
+					type: 'string',
+					default: 'Session',
+					displayOptions: {
+						show: {
+							resource: ['quizzSessions'],
+							operation: ['updateQuizzSession'],
+						},
+					},
+					description: 'The name of the session',
+				},
+				{
+					displayName: 'Expires At',
+					name: 'expiresAt',
+					type: 'dateTime',
+					default: '',
+					displayOptions: {
+						show: {
+							resource: ['quizzSessions'],
+							operation: ['createQuizzSession', 'updateQuizzSession'],
+						},
+					},
+					description: 'The expiration date of the session',
+				},
+				{
+					displayName: 'Quiz ID',
+					name: 'quizId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							resource: ['quizzSessions'],
+							operation: ['assignQuizz'],
+						},
+					},
+					description: 'The ID of the quiz',
+				},
+				{
+					displayName: 'Include',
+					name: 'included',
+					type: 'multiOptions',
+					options: [
+						{
+							name: 'Quizzes',
+							value: 'quiz',
+						},
+					],
+					default: [],
+					displayOptions: {
+						show: {
+							resource: ['quizzSessions'],
+							operation: ['getQuizzSessionsList', 'getQuizzSessionById'],
+						},
+					},
+					description: 'The resources to include in the response',
+				},
         {
 					displayName: 'Additional Fields',
 					name: 'additionalFields',
@@ -275,8 +433,8 @@ export class RecruitmentAction extends BasePulseNode {
 					default: {},
 					displayOptions: {
 						show: {
-							resource: ['candidates'],
-							operation: ['getCandidatesList'],
+							resource: ['candidates', 'quizzSessions'],
+							operation: ['getCandidatesList', 'getQuizzSessionsList'],
 						},
 					},
 					options: [
@@ -407,7 +565,33 @@ export class RecruitmentAction extends BasePulseNode {
 					}
 				}
 				
-				else {
+				else if (resource === 'quizzSessions') {
+					switch (operation) {
+						case 'createQuizzSession':
+							result = await quizzSessionOperations.createQuizzSession(this, i, pulseApi);
+							break;
+						case 'updateQuizzSession':
+							result = await quizzSessionOperations.updateQuizzSession(this, i, pulseApi);
+							break;
+						case 'cancelQuizzSession':
+							result = await quizzSessionOperations.cancelQuizzSession(this, i, pulseApi);
+							break;
+						case 'getQuizzSessionById':
+							result = await quizzSessionOperations.getQuizzSessionById(this, i, pulseApi);
+							break;
+						case 'getQuizzSessionsList':
+							result = await quizzSessionOperations.getQuizzSessionsList(this, i, pulseApi);
+							break;
+						case 'assignQuizz':
+							result = await quizzSessionOperations.assignQuizz(this, i, pulseApi);
+							break;
+						case 'shareTestLink':
+							result = await quizzSessionOperations.shareTestLink(this, i, pulseApi);
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				} else {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
 				

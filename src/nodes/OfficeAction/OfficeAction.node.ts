@@ -1,10 +1,14 @@
 import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { employeeOperations, planningOperations, announcementOperations, holidayOperations } from './operations';
+import { employeeOperations, planningOperations, announcementOperations, holidayOperations, leaveRequestOperations } from './operations';
 
 export class OfficeAction extends BasePulseNode {
 	constructor() {
+		const now = new Date();
+		const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+		const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString();
+
 		super({
 			displayName: 'Pulse Office Action',
 			name: 'officeAction',
@@ -41,6 +45,10 @@ export class OfficeAction extends BasePulseNode {
 						{
 							name: 'Holiday',
 							value: 'holiday',
+						},
+						{
+							name: 'Leave Request',
+							value: 'leaveRequest',
 						},
 						{
 							name: 'Planning',
@@ -165,6 +173,34 @@ export class OfficeAction extends BasePulseNode {
 						},
 					],
 					default: 'getPlanningList',
+				},
+				{
+					displayName: 'Operation',
+					name: 'operation',
+					type: 'options',
+					displayOptions: {
+						show: {
+							resource: [
+								'leaveRequest',
+							],
+						},
+					},
+					noDataExpression: true,
+					options: [
+						{
+							name: 'Create Leave Request',
+							value: 'createLeaveRequest',
+							description: 'Create a new leave request',
+							action: 'Create a new leave request',
+						},
+						{
+							name: 'Generate Leave Balance Report',
+							value: 'generateLeaveBalanceReport',
+							description: 'Generate leave balance report as Excel file',
+							action: 'Generate leave balance report',
+						},
+					],
+					default: 'createLeaveRequest',
 				},
 				{
 					displayName: 'Operation',
@@ -1140,6 +1176,161 @@ export class OfficeAction extends BasePulseNode {
 					},
 					description: 'The organizational unit for the holiday',
 				},
+				// Leave Request properties
+				{
+					displayName: 'Employee ID',
+					name: 'employeeId',
+					type: 'string',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLeaveRequest'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'The ID of the employee submitting the leave request',
+				},
+				{
+					displayName: 'Leave Type',
+					name: 'leaveType',
+					type: 'options',
+					options: [
+						{
+							name: 'Paid',
+							value: 'paid',
+						},
+						{
+							name: 'Unpaid',
+							value: 'unpaid',
+						},
+						{
+							name: 'Sick Leave',
+							value: 'sick_leave',
+						},
+					],
+					default: 'paid',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLeaveRequest'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'The type of leave request',
+				},
+				{
+					displayName: 'Start Date',
+					name: 'startDate',
+					type: 'dateTime',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLeaveRequest'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'The start date of the leave request',
+				},
+				{
+					displayName: 'End Date',
+					name: 'endDate',
+					type: 'dateTime',
+					default: '',
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['createLeaveRequest'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'The end date of the leave request',
+				},
+				{
+					displayName: 'Details',
+					name: 'details',
+					type: 'string',
+					typeOptions: {
+						rows: 4,
+					},
+					default: '',
+					displayOptions: {
+						show: {
+							operation: ['createLeaveRequest'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'Additional details about the leave request',
+				},
+				{
+					displayName: 'Start Half Day',
+					name: 'startHalfDay',
+					type: 'boolean',
+					default: false,
+					displayOptions: {
+						show: {
+							operation: ['createLeaveRequest'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'Whether the first day of leave is a half day',
+				},
+				{
+					displayName: 'End Half Day',
+					name: 'endHalfDay',
+					type: 'boolean',
+					default: false,
+					displayOptions: {
+						show: {
+							operation: ['createLeaveRequest'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'Whether the last day of leave is a half day',
+				},
+				{
+					displayName: 'Related Document URL',
+					name: 'relatedDocument',
+					type: 'string',
+					default: '',
+					displayOptions: {
+						show: {
+							operation: ['createLeaveRequest'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'URL to a related document (e.g., medical certificate)',
+				},
+				// Generate Leave Balance Report properties
+				{
+					displayName: 'From Date',
+					name: 'fromDate',
+					type: 'dateTime',
+					default: firstDay, // First day of current month
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['generateLeaveBalanceReport'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'Start date for the leave balance report (format: YYYY-MM-DD)',
+				},
+				{
+					displayName: 'To Date',
+					name: 'toDate',
+					type: 'dateTime',
+					default:lastDay,					 // Last day of current month
+					required: true,
+					displayOptions: {
+						show: {
+							operation: ['generateLeaveBalanceReport'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'End date for the leave balance report (format: YYYY-MM-DD)',
+				},
 			],
 		});
 	}
@@ -1218,6 +1409,17 @@ export class OfficeAction extends BasePulseNode {
 						case 'deleteHoliday':
 							result = await holidayOperations.deleteHoliday(this, i, pulseApi);
 							break;
+						default:
+							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'leaveRequest') {
+					switch (operation) {
+						case 'createLeaveRequest':
+							result = await leaveRequestOperations.createLeaveRequest(this, i, pulseApi);
+							break;
+						case 'generateLeaveBalanceReport':
+							result = await leaveRequestOperations.generateLeaveBalanceReport(this, i, pulseApi);
+							break
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
 					}

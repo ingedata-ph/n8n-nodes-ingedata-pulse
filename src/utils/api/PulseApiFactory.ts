@@ -6,6 +6,8 @@ import { BasePulseApi } from './BasePulseApi';
 import { OfficeApi } from './OfficeApi';
 import { OrganizationsApi } from './OrganizationsApi';
 import { RecruitmentApi } from './RecruitmentApi';
+import { QuizzApi } from './QuizzApi';
+import { WorkflowApi } from './WorkflowApi';
 
 export class PulseApiFactory {
   /**
@@ -14,7 +16,7 @@ export class PulseApiFactory {
    * @param resource The resource type (account, people, talent, etc.)
    * @returns The appropriate API helper instance
    */
-  static createApiHelper(credentials: ICredentialDataDecryptedObject, resource?: string): BasePulseApi | AccountApi | PeopleApi | TalentApi | OrganizationsApi | OfficeApi | RecruitmentApi {
+  static createApiHelper(credentials: ICredentialDataDecryptedObject, resource?: string): BasePulseApi | AccountApi | PeopleApi | TalentApi | OrganizationsApi | OfficeApi | RecruitmentApi | QuizzApi | WorkflowApi {
     switch (resource) {
       case 'account':
       case 'accountRole':
@@ -34,14 +36,26 @@ export class PulseApiFactory {
       case 'planning':
       case 'announcement':
       case 'holiday':
+      case 'leaveRequest':
         return new OfficeApi(credentials);
-        
+
       case 'organizations':
       case 'peopleDirectories':
         return new OrganizationsApi(credentials);
-        
+
       case 'candidates':
         return new RecruitmentApi(credentials);
+
+      case 'quizzSessions':
+        return new QuizzApi(credentials);
+
+      case 'projects':
+      case 'projectMembers':
+      case 'projectDocuments':
+      case 'projectData':
+      case 'projectWorkUnits':
+      case 'activities':
+        return new WorkflowApi(credentials);
 
       case undefined:
         return new AccountApi(credentials);
@@ -58,7 +72,7 @@ export class PulseApiFactory {
   static async getPulseApiHelper(
     executeFunctions: IExecuteFunctions,
     resource?: string,
-  ): Promise<BasePulseApi | AccountApi | PeopleApi | TalentApi | OfficeApi | OrganizationsApi | RecruitmentApi> {
+  ): Promise<BasePulseApi | AccountApi | PeopleApi | TalentApi | OfficeApi | OrganizationsApi | RecruitmentApi | QuizzApi | WorkflowApi> {
     const credentials = await executeFunctions.getCredentials('pulseApi');
 
     if (!credentials) {

@@ -221,4 +221,18 @@ export class OfficeApi extends BasePulseApi {
 
     return this.request<any>(method, url, body);
   }
+
+  // Leave Request methods
+
+  /**
+   * Create a new leave request
+   * @param leaveRequestData The data for the new leave request
+   */
+  async createLeaveRequest(leaveRequestData: object): Promise<any> {
+    const url = '/api/v3/office/leave/requests';
+    const method = 'POST';
+    const body = leaveRequestData;
+
+    return this.request<any>(method, url, body);
+  }
 }

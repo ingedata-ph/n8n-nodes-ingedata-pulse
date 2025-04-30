@@ -108,8 +108,6 @@ export class BasePulseApi {
         
         url += `?${queryParts.join('&')}`;
       }
-      // console.log('Request URL:', url);
-      // console.log('options:', options);
       
       const response = await fetch(url, options);
 
@@ -127,7 +125,7 @@ export class BasePulseApi {
       return await response.json() as T;
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`API request failed: ${error.message}`);
+        throw new Error(`API request failedfsdfsddsf: ${error.message}`);
       }
       throw error;
     }
