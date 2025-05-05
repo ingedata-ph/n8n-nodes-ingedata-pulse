@@ -1331,6 +1331,29 @@ export class OfficeAction extends BasePulseNode {
 					},
 					description: 'End date for the leave balance report (format: YYYY-MM-DD)',
 				},
+				{
+					displayName: 'Additional Fields',
+					name: 'additionalFields',
+					type: 'collection',
+					placeholder: 'Add Field',
+					default: {},
+					displayOptions: {
+						show: {
+							operation: ['generateLeaveBalanceReport'],
+							resource: ['leaveRequest'],
+						},
+					},
+					description: 'Additional fields to include in the request',
+					options: [
+						{
+							displayName: 'Report Name',
+							name: 'reportName',
+							type: 'string',
+							default: 'Leave Balance Report',
+							description: 'The name of the leave balance report',
+						},
+					],
+				}
 			],
 		});
 	}
@@ -1350,13 +1373,19 @@ export class OfficeAction extends BasePulseNode {
 				if (resource === 'employee') {
 					switch (operation) {
 						case 'createEmployee':
-							result = await employeeOperations.createEmployee(this, i, pulseApi);
+							result = { 
+								json: await employeeOperations.createEmployee(this, i, pulseApi)
+							};
 							break;
 						case 'getEmployeeList':
-							result = await employeeOperations.getEmployeeList(this, i, pulseApi);
+							result = { 
+								json: await employeeOperations.getEmployeeList(this, i, pulseApi)
+							};
 							break;
 						case 'updateEmployee':
-							result = await employeeOperations.updateEmployee(this, i, pulseApi);
+							result = { 
+								json: await employeeOperations.updateEmployee(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
@@ -1364,16 +1393,24 @@ export class OfficeAction extends BasePulseNode {
 				} else if (resource === 'planning') {
 					switch (operation) {
 						case 'createPlanning':
-							result = await planningOperations.createPlanning(this, i, pulseApi);
+							result = { 
+								json: await planningOperations.createPlanning(this, i, pulseApi)
+							};
 							break;
 						case 'getPlanningList':
-							result = await planningOperations.getPlanningList(this, i, pulseApi);
+							result = { 
+								json: await planningOperations.getPlanningList(this, i, pulseApi)
+							};
 							break;
 						case 'updatePlanning':
-							result = await planningOperations.updatePlanning(this, i, pulseApi);
+							result = { 
+								json: await planningOperations.updatePlanning(this, i, pulseApi)
+							};
 							break;
 						case 'deletePlanning':
-							result = await planningOperations.deletePlanning(this, i, pulseApi);
+							result = { 
+								json: await planningOperations.deletePlanning(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
@@ -1381,16 +1418,24 @@ export class OfficeAction extends BasePulseNode {
 				} else if (resource === 'announcement') {
 					switch (operation) {
 						case 'createAnnouncement':
-							result = await announcementOperations.createAnnouncement(this, i, pulseApi);
+							result = { 
+								json: await announcementOperations.createAnnouncement(this, i, pulseApi)
+							};
 							break;
 						case 'deleteAnnouncement':
-							result = await announcementOperations.deleteAnnouncement(this, i, pulseApi);
+							result = { 
+								json: await announcementOperations.deleteAnnouncement(this, i, pulseApi)
+							};
 							break;
 						case 'getAnnouncementList':
-							result = await announcementOperations.getAnnouncementList(this, i, pulseApi);
+							result = { 
+								json: await announcementOperations.getAnnouncementList(this, i, pulseApi)
+							};
 							break;
 						case 'updateAnnouncement':
-							result = await announcementOperations.updateAnnouncement(this, i, pulseApi);
+							result = { 
+								json: await announcementOperations.updateAnnouncement(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
@@ -1398,16 +1443,24 @@ export class OfficeAction extends BasePulseNode {
 				} else if (resource === 'holiday') {
 					switch (operation) {
 						case 'createHoliday':
-							result = await holidayOperations.createHoliday(this, i, pulseApi);
+							result = { 
+								json: await holidayOperations.createHoliday(this, i, pulseApi)
+							};
 							break;
 						case 'getHolidayList':
-							result = await holidayOperations.getHolidayList(this, i, pulseApi);
+							result = { 
+								json: await holidayOperations.getHolidayList(this, i, pulseApi)
+							};
 							break;
 						case 'updateHoliday':
-							result = await holidayOperations.updateHoliday(this, i, pulseApi);
+							result = { 
+								json: await holidayOperations.updateHoliday(this, i, pulseApi)
+							};
 							break;
 						case 'deleteHoliday':
-							result = await holidayOperations.deleteHoliday(this, i, pulseApi);
+							result = { 
+								json: await holidayOperations.deleteHoliday(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
@@ -1415,10 +1468,15 @@ export class OfficeAction extends BasePulseNode {
 				} else if (resource === 'leaveRequest') {
 					switch (operation) {
 						case 'createLeaveRequest':
-							result = await leaveRequestOperations.createLeaveRequest(this, i, pulseApi);
+							result = { 
+								json: await leaveRequestOperations.createLeaveRequest(this, i, pulseApi)
+							};
 							break;
 						case 'generateLeaveBalanceReport':
-							result = await leaveRequestOperations.generateLeaveBalanceReport(this, i, pulseApi);
+							result = {
+								json: {},
+								binary: await leaveRequestOperations.generateLeaveBalanceReport(this, i, pulseApi)
+							};
 							break
 						default:
 							throw new Error(`Unknown operation: "${operation}"is not supported for resource "${resource}"!`);
@@ -1427,9 +1485,7 @@ export class OfficeAction extends BasePulseNode {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
 
-				returnData.push({
-					json: result,
-				});
+				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {
 					returnData.push({

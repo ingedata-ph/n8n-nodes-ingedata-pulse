@@ -1,5 +1,6 @@
-import { IExecuteFunctions } from 'n8n-workflow';
+import { IExecuteFunctions, INodeExecutionData } from 'n8n-workflow';
 import { OfficeApi } from '../../../utils/api/OfficeApi';
+import { json } from 'stream/consumers';
 
 /**
  * Create a new leave request
@@ -57,16 +58,34 @@ export async function generateLeaveBalanceReport(
   // Get the date range parameters
   const fromDate = executeFunctions.getNodeParameter('fromDate', itemIndex) as string;
   const toDate = executeFunctions.getNodeParameter('toDate', itemIndex) as string;
-  
-  // Get the API URL and token from the pulseApi instance
-  const apiUrl = (pulseApi as any).apiUrl;
-  
-  // Construct the URL for the report
-  const url = `${apiUrl}/api/v3/office/leave/budgets/export?from=${fromDate}&to=${toDate}`;
-  
-  return {
-    data: {
-      url: url,
-    },
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as {
+    reportName?: string;
+  };
+
+  let reportName = additionalFields.reportName as string;
+
+  const response =  await pulseApi.generateLeaveBalanceReport(fromDate, toDate);
+
+  let filename: string;
+  if (reportName && reportName !== '') {
+    // If a report name is provided, set the filename in the response
+     filename = reportName.endsWith('.xlsx') ? reportName : `${reportName}.xlsx`;
+
+  } else {
+    // If no report name is provided, use the default filename
+    filename = 'leave_balance_report.xlsx';
   }
+
+  const buffer = Buffer.from(response);
+
+  // Use helper to prepare binary data
+  const binaryData = await executeFunctions.helpers.prepareBinaryData(
+    buffer,
+    filename,
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  );
+
+  return {
+    data: binaryData,
+  };
 }

@@ -70,6 +70,7 @@ export class BasePulseApi {
     endpoint: string,
     data?: object,
     queryParams?: Record<string, string | string[]>,
+    return_binary_data?: boolean,
   ): Promise<T> {
     const token = await this.getToken();
     console.log('Token:', token);
@@ -80,6 +81,10 @@ export class BasePulseApi {
 
       if (data && method !== 'GET') {
         headers['Content-Type'] = 'application/json';
+      }
+
+      if (return_binary_data) {
+        headers['Content-Disposition'] = 'attachment';
       }
 
       const options: RequestInit = {
@@ -120,6 +125,10 @@ export class BasePulseApi {
       // if method is DELETE return true
       if (method === 'DELETE') {
         return true as unknown as T;
+      }
+
+      if (return_binary_data) {
+        return await response.arrayBuffer() as unknown as T;
       }
 
       return await response.json() as T;

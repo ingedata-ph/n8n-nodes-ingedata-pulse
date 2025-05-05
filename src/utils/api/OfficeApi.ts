@@ -235,4 +235,11 @@ export class OfficeApi extends BasePulseApi {
 
     return this.request<any>(method, url, body);
   }
+
+  async generateLeaveBalanceReport(fromDate: string, toDate: string): Promise<any> {
+    const url = '/api/v3/office/leave/budgets/export?from=' + fromDate + '&to=' + toDate;
+    const method = 'GET';
+
+    return this.request<any>(method, url, undefined, undefined, true);
+  }
 }
