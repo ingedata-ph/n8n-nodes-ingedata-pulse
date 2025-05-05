@@ -407,16 +407,24 @@ export class PeopleAction extends BasePulseNode {
 				if (resource === 'people') {
 					switch (operation) {
 						case 'getPeopleList':
-							result = await peopleOperations.getPeopleList(this, i, pulseApi);
+							result = { 
+								json: await  peopleOperations.getPeopleList(this, i, pulseApi)
+							};
 							break;
 						case 'createPerson':
-							result = await peopleOperations.createPerson(this, i, pulseApi);
+							result = { 
+								json: await  peopleOperations.createPerson(this, i, pulseApi)
+							};
 							break;
 						case 'getPersonById':
-							result = await peopleOperations.getPersonById(this, i, pulseApi);
+							result = { 
+								json: await  peopleOperations.getPersonById(this, i, pulseApi)
+							};
 							break;
 						case 'updatePerson':
-							result = await peopleOperations.updatePerson(this, i, pulseApi);
+							result = { 
+								json: await  peopleOperations.updatePerson(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -427,9 +435,7 @@ export class PeopleAction extends BasePulseNode {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
 				
-				returnData.push({
-					json: result,
-				});
+				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {
 					returnData.push({

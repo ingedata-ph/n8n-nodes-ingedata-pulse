@@ -492,13 +492,19 @@ export class OrganizationsAction extends BasePulseNode {
 				if (resource === 'organizations') {
 					switch (operation) {
 						case 'createOrganization':
-							result = await organizationsOperations.createOrganization(this, i, pulseApi);
+							result = { 
+								json: await  organizationsOperations.createOrganization(this, i, pulseApi)
+							};
 							break;
 						case 'updateOrganization':
-							result = await organizationsOperations.updateOrganization(this, i, pulseApi);
+							result = { 
+								json: await  organizationsOperations.updateOrganization(this, i, pulseApi)
+							};
 							break;
 						case 'updateOrganizationStatus':
-							result = await organizationsOperations.updateOrganizationStatus(this, i, pulseApi);
+							result = { 
+								json: await  organizationsOperations.updateOrganizationStatus(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -509,19 +515,29 @@ export class OrganizationsAction extends BasePulseNode {
 				else if (resource === 'peopleDirectories') {
 					switch (operation) {
 						case 'createPeopleDirectory':
-							result = await peopleDirectoriesOperations.createPeopleDirectory(this, i, pulseApi);
+							result = { 
+								json: await  peopleDirectoriesOperations.createPeopleDirectory(this, i, pulseApi)
+							};
 							break;
 						case 'updatePeopleDirectory':
-							result = await peopleDirectoriesOperations.updatePeopleDirectory(this, i, pulseApi);
+							result = { 
+								json: await  peopleDirectoriesOperations.updatePeopleDirectory(this, i, pulseApi)
+							};
 							break;
 						case 'deletePeopleDirectory':
-							result = await peopleDirectoriesOperations.deletePeopleDirectory(this, i, pulseApi);
+							result = { 
+								json: await  peopleDirectoriesOperations.deletePeopleDirectory(this, i, pulseApi)
+							};
 							break;
 						case 'getPeopleDirectoryById':
-							result = await peopleDirectoriesOperations.getPeopleDirectoryById(this, i, pulseApi);
+							result = { 
+								json: await  peopleDirectoriesOperations.getPeopleDirectoryById(this, i, pulseApi)
+							};
 							break;
 						case 'listPeopleDirectories':
-							result = await peopleDirectoriesOperations.listPeopleDirectories(this, i, pulseApi);
+							result = { 
+								json: await  peopleDirectoriesOperations.listPeopleDirectories(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -532,9 +548,7 @@ export class OrganizationsAction extends BasePulseNode {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
 				
-				returnData.push({
-					json: result,
-				});
+				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {
 					returnData.push({

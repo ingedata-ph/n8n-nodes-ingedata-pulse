@@ -427,16 +427,24 @@ export class AccountAction extends BasePulseNode {
 				if (resource === 'accountRole') {
 					switch (operation) {
 						case 'addAccountRole':
-							result = await accountRoleOperations.addAccountRole(this, i, pulseApi);
+							result = { 
+								json: await  accountRoleOperations.addAccountRole(this, i, pulseApi)
+							};
 							break;
 						case 'getAccountRoleById':
-							result = await accountRoleOperations.getAccountRoleById(this, i, pulseApi);
+							result = { 
+								json: await  accountRoleOperations.getAccountRoleById(this, i, pulseApi)
+							};
 							break;
 						case 'updateAccountRole':
-							result = await accountRoleOperations.updateAccountRole(this, i, pulseApi);
+							result = { 
+								json: await  accountRoleOperations.updateAccountRole(this, i, pulseApi)
+							};
 							break;
 						case 'deleteAccountRole':
-							result = await accountRoleOperations.deleteAccountRole(this, i, pulseApi);
+							result = { 
+								json: await  accountRoleOperations.deleteAccountRole(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -447,19 +455,29 @@ export class AccountAction extends BasePulseNode {
 				else if (resource === 'account') {
 					switch (operation) {
 						case 'getCurrentUser':
-							result = await accountOperations.getCurrentUser(this, i, pulseApi);
+							result = { 
+								json: await  accountOperations.getCurrentUser(this, i, pulseApi)
+							};
 							break;
 						case 'getUserById':
-							result = await accountOperations.getUserById(this, i, pulseApi);
+							result = { 
+								json: await  accountOperations.getUserById(this, i, pulseApi)
+							};
 							break;
 						case 'createAccount':
-							result = await accountOperations.createAccount(this, i, pulseApi);
+							result = { 
+								json: await  accountOperations.createAccount(this, i, pulseApi)
+							};
 							break;
 						case 'updateAccountStatus':
-							result = await accountOperations.updateAccountStatus(this, i, pulseApi);
+							result = { 
+								json: await  accountOperations.updateAccountStatus(this, i, pulseApi)
+							};
 							break;
 						case 'updateAccount':
-							result = await accountOperations.updateAccount(this, i, pulseApi);
+							result = { 
+								json: await  accountOperations.updateAccount(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -470,9 +488,7 @@ export class AccountAction extends BasePulseNode {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
 				
-				returnData.push({
-					json: result,
-				});
+				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {
 					returnData.push({

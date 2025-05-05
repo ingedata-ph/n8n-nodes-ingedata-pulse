@@ -1089,16 +1089,24 @@ export class TalentAction extends BasePulseNode {
 				if (resource === 'talent') {
 					switch (operation) {
 						case 'getTalentList':
-							result = await talentOperations.getTalentList(this, i, pulseApi);
+							result = { 
+								json: await  talentOperations.getTalentList(this, i, pulseApi)
+							};
 							break;
 						case 'createTalent':
-							result = await talentOperations.createTalent(this, i, pulseApi);
+							result = { 
+								json: await  talentOperations.createTalent(this, i, pulseApi)
+							};
 							break;
 						case 'getTalentById':
-							result = await talentOperations.getTalentById(this, i, pulseApi);
+							result = { 
+								json: await  talentOperations.getTalentById(this, i, pulseApi)
+							};
 							break;
 						case 'queryTalent':
-							result = await talentOperations.queryTalent(this, i, pulseApi);
+							result = { 
+								json: await  talentOperations.queryTalent(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -1106,16 +1114,24 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'skill') {
 					switch (operation) {
 						case 'getSkillsList':
-							result = await skillOperations.getSkillsList(this, i, pulseApi);
+							result = { 
+								json: await  skillOperations.getSkillsList(this, i, pulseApi)
+							};
 							break;
 						case 'createSkill':
-							result = await skillOperations.createSkill(this, i, pulseApi);
+							result = { 
+								json: await  skillOperations.createSkill(this, i, pulseApi)
+							};
 							break;
 						case 'updateSkill':
-							result = await skillOperations.updateSkill(this, i, pulseApi);
+							result = { 
+								json: await  skillOperations.updateSkill(this, i, pulseApi)
+							};
 							break;
 						case 'deleteSkill':
-							result = await skillOperations.deleteSkill(this, i, pulseApi);
+							result = { 
+								json: await  skillOperations.deleteSkill(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -1123,16 +1139,24 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'language') {
 					switch (operation) {
 						case 'getLanguagesList':
-							result = await languageOperations.getLanguagesList(this, i, pulseApi);
+							result = { 
+								json: await  languageOperations.getLanguagesList(this, i, pulseApi)
+							};
 							break;
 						case 'createLanguage':
-							result = await languageOperations.createLanguage(this, i, pulseApi);
+							result = { 
+								json: await  languageOperations.createLanguage(this, i, pulseApi)
+							};
 							break;
 						case 'updateLanguage':
-							result = await languageOperations.updateLanguage(this, i, pulseApi);
+							result = { 
+								json: await  languageOperations.updateLanguage(this, i, pulseApi)
+							};
 							break;
 						case 'deleteLanguage':
-							result = await languageOperations.deleteLanguage(this, i, pulseApi);
+							result = { 
+								json: await  languageOperations.deleteLanguage(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -1140,16 +1164,24 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'education') {
 					switch (operation) {
 						case 'getEducationList':
-							result = await educationOperations.getEducationList(this, i, pulseApi);
+							result = { 
+								json: await  educationOperations.getEducationList(this, i, pulseApi)
+							};
 							break;
 						case 'createEducation':
-							result = await educationOperations.createEducation(this, i, pulseApi);
+							result = { 
+								json: await  educationOperations.createEducation(this, i, pulseApi)
+							};
 							break;
 						case 'updateEducation':
-							result = await educationOperations.updateEducation(this, i, pulseApi);
+							result = { 
+								json: await  educationOperations.updateEducation(this, i, pulseApi)
+							};
 							break;
 						case 'deleteEducation':
-							result = await educationOperations.deleteEducation(this, i, pulseApi);
+							result = { 
+								json: await  educationOperations.deleteEducation(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -1157,16 +1189,24 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'certification') {
 					switch (operation) {
 						case 'getCertificationList':
-							result = await certificationOperations.getCertificationList(this, i, pulseApi);
+							result = { 
+								json: await  certificationOperations.getCertificationList(this, i, pulseApi)
+							};
 							break;
 						case 'createCertification':
-							result = await certificationOperations.createCertification(this, i, pulseApi);
+							result = { 
+								json: await  certificationOperations.createCertification(this, i, pulseApi)
+							};
 							break;
 						case 'updateCertification':
-							result = await certificationOperations.updateCertification(this, i, pulseApi);
+							result = { 
+								json: await  certificationOperations.updateCertification(this, i, pulseApi)
+							};
 							break;
 						case 'deleteCertification':
-							result = await certificationOperations.deleteCertification(this, i, pulseApi);
+							result = { 
+								json: await  certificationOperations.deleteCertification(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -1174,16 +1214,24 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'experience') {
 					switch (operation) {
 						case 'getExperienceList':
-							result = await experienceOperations.getExperienceList(this, i, pulseApi);
+							result = { 
+								json: await  experienceOperations.getExperienceList(this, i, pulseApi)
+							};
 							break;
 						case 'createExperience':
-							result = await experienceOperations.createExperience(this, i, pulseApi);
+							result = { 
+								json: await  experienceOperations.createExperience(this, i, pulseApi)
+							};
 							break;
 						case 'updateExperience':
-							result = await experienceOperations.updateExperience(this, i, pulseApi);
+							result = { 
+								json: await  experienceOperations.updateExperience(this, i, pulseApi)
+							};
 							break;
 						case 'deleteExperience':
-							result = await experienceOperations.deleteExperience(this, i, pulseApi);
+							result = { 
+								json: await  experienceOperations.deleteExperience(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -1192,9 +1240,7 @@ export class TalentAction extends BasePulseNode {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
 				
-				returnData.push({
-					json: result,
-				});
+				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {
 					returnData.push({

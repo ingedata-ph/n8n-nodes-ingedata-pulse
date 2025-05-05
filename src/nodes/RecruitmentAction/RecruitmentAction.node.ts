@@ -549,16 +549,24 @@ export class RecruitmentAction extends BasePulseNode {
 				if (resource === 'candidates') {
 					switch (operation) {
 						case 'createCandidate':
-							result = await candidateOperations.createCandidate(this, i, pulseApi);
+							result = { 
+								json: await  candidateOperations.createCandidate(this, i, pulseApi)
+							};
 							break;
 						case 'updateCandidate':
-							result = await candidateOperations.updateCandidate(this, i, pulseApi);
+							result = { 
+								json: await  candidateOperations.updateCandidate(this, i, pulseApi)
+							};
 							break;
 						case 'getCandidateById':
-							result = await candidateOperations.getCandidateById(this, i, pulseApi);
+							result = { 
+								json: await  candidateOperations.getCandidateById(this, i, pulseApi)
+							};
 							break;
 						case 'getCandidatesList':
-							result = await candidateOperations.getCandidatesList(this, i, pulseApi);
+							result = { 
+								json: await  candidateOperations.getCandidatesList(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -568,25 +576,39 @@ export class RecruitmentAction extends BasePulseNode {
 				else if (resource === 'quizzSessions') {
 					switch (operation) {
 						case 'createQuizzSession':
-							result = await quizzSessionOperations.createQuizzSession(this, i, pulseApi);
+							result = { 
+								json: await  quizzSessionOperations.createQuizzSession(this, i, pulseApi)
+							};
 							break;
 						case 'updateQuizzSession':
-							result = await quizzSessionOperations.updateQuizzSession(this, i, pulseApi);
+							result = { 
+								json: await  quizzSessionOperations.updateQuizzSession(this, i, pulseApi)
+							};
 							break;
 						case 'cancelQuizzSession':
-							result = await quizzSessionOperations.cancelQuizzSession(this, i, pulseApi);
+							result = { 
+								json: await  quizzSessionOperations.cancelQuizzSession(this, i, pulseApi)
+							};
 							break;
 						case 'getQuizzSessionById':
-							result = await quizzSessionOperations.getQuizzSessionById(this, i, pulseApi);
+							result = { 
+								json: await  quizzSessionOperations.getQuizzSessionById(this, i, pulseApi)
+							};
 							break;
 						case 'getQuizzSessionsList':
-							result = await quizzSessionOperations.getQuizzSessionsList(this, i, pulseApi);
+							result = { 
+								json: await  quizzSessionOperations.getQuizzSessionsList(this, i, pulseApi)
+							};
 							break;
 						case 'assignQuizz':
-							result = await quizzSessionOperations.assignQuizz(this, i, pulseApi);
+							result = { 
+								json: await  quizzSessionOperations.assignQuizz(this, i, pulseApi)
+							};
 							break;
 						case 'shareTestLink':
-							result = await quizzSessionOperations.shareTestLink(this, i, pulseApi);
+							result = { 
+								json: await  quizzSessionOperations.shareTestLink(this, i, pulseApi)
+							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
@@ -595,9 +617,7 @@ export class RecruitmentAction extends BasePulseNode {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
 				
-				returnData.push({
-					json: result,
-				});
+				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {
 					returnData.push({

@@ -895,17 +895,25 @@ export class WorkflowAction extends BasePulseNode {
         if (resource === 'projects') {
           switch (operation) {
             case 'createProject':
-              result = await projectOperations.createProject(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectOperations.createProject(this, i, pulseApi)
+							};
+							break;
             case 'updateProject':
-              result = await projectOperations.updateProject(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectOperations.updateProject(this, i, pulseApi)
+							};
+							break;
             case 'updateProjectStatus':
-              result = await projectOperations.updateProjectStatus(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectOperations.updateProjectStatus(this, i, pulseApi)
+							};
+							break;
             case 'getProjectList':
-              result = await projectOperations.getProjectList(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectOperations.getProjectList(this, i, pulseApi)
+							};
+							break;
             default:
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
@@ -915,17 +923,25 @@ export class WorkflowAction extends BasePulseNode {
         else if (resource === 'projectMembers') {
           switch (operation) {
             case 'createProjectMember':
-              result = await projectMemberOperations.createProjectMember(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectMemberOperations.createProjectMember(this, i, pulseApi)
+							};
+							break;
             case 'updateProjectMember':
-              result = await projectMemberOperations.updateProjectMember(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectMemberOperations.updateProjectMember(this, i, pulseApi)
+							};
+							break;
             case 'deleteProjectMember':
-              result = await projectMemberOperations.deleteProjectMember(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectMemberOperations.deleteProjectMember(this, i, pulseApi)
+							};
+							break;
             case 'getProjectMemberList':
-              result = await projectMemberOperations.getProjectMemberList(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectMemberOperations.getProjectMemberList(this, i, pulseApi)
+							};
+							break;
             default:
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
@@ -935,20 +951,30 @@ export class WorkflowAction extends BasePulseNode {
         else if (resource === 'projectDocuments') {
           switch (operation) {
             case 'createProjectDocument':
-              result = await projectDocumentOperations.createProjectDocument(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDocumentOperations.createProjectDocument(this, i, pulseApi)
+							};
+							break;
             case 'updateProjectDocument':
-              result = await projectDocumentOperations.updateProjectDocument(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDocumentOperations.updateProjectDocument(this, i, pulseApi)
+							};
+							break;
             case 'deleteProjectDocument':
-              result = await projectDocumentOperations.deleteProjectDocument(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDocumentOperations.deleteProjectDocument(this, i, pulseApi)
+							};
+							break;
             case 'getProjectDocumentList':
-              result = await projectDocumentOperations.getProjectDocumentList(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDocumentOperations.getProjectDocumentList(this, i, pulseApi)
+							};
+							break;
             case 'getProjectDocumentUrl':
-              result = await projectDocumentOperations.getProjectDocumentUrl(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDocumentOperations.getProjectDocumentUrl(this, i, pulseApi)
+							};
+							break;
             default:
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
@@ -958,17 +984,25 @@ export class WorkflowAction extends BasePulseNode {
         else if (resource === 'projectData') {
           switch (operation) {
             case 'createProjectData':
-              result = await projectDataOperations.createProjectData(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDataOperations.createProjectData(this, i, pulseApi)
+							};
+							break;
             case 'updateProjectData':
-              result = await projectDataOperations.updateProjectData(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDataOperations.updateProjectData(this, i, pulseApi)
+							};
+							break;
             case 'getProjectDataList':
-              result = await projectDataOperations.getProjectDataList(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDataOperations.getProjectDataList(this, i, pulseApi)
+							};
+							break;
             case 'updateProjectDataVisibility':
-              result = await projectDataOperations.updateProjectDataVisibility(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectDataOperations.updateProjectDataVisibility(this, i, pulseApi)
+							};
+							break;
             default:
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
@@ -978,14 +1012,20 @@ export class WorkflowAction extends BasePulseNode {
         else if (resource === 'projectWorkUnits') {
           switch (operation) {
             case 'createProjectWorkUnit':
-              result = await projectWorkUnitOperations.createProjectWorkUnit(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectWorkUnitOperations.createProjectWorkUnit(this, i, pulseApi)
+							};
+							break;
             case 'cancelProjectWorkUnit':
-              result = await projectWorkUnitOperations.cancelProjectWorkUnit(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectWorkUnitOperations.cancelProjectWorkUnit(this, i, pulseApi)
+							};
+							break;
             case 'getProjectWorkUnitList':
-              result = await projectWorkUnitOperations.getProjectWorkUnitList(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  projectWorkUnitOperations.getProjectWorkUnitList(this, i, pulseApi)
+							};
+							break;
             default:
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
@@ -995,11 +1035,15 @@ export class WorkflowAction extends BasePulseNode {
         else if (resource === 'activities') {
           switch (operation) {
             case 'assignMember':
-              result = await activityOperations.assignActivityMember(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  activityOperations.assignActivityMember(this, i, pulseApi)
+							};
+							break;
             case 'unassignMember':
-              result = await activityOperations.unassignActivityMember(this, i, pulseApi);
-              break;
+              result = { 
+								json: await  activityOperations.unassignActivityMember(this, i, pulseApi)
+							};
+							break;
             default:
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
@@ -1008,9 +1052,7 @@ export class WorkflowAction extends BasePulseNode {
           throw new Error(`The resource "${resource}" is not supported!`);
         }
         
-        returnData.push({
-          json: result,
-        });
+				returnData.push(result);
       } catch (error) {
         if (this.continueOnFail()) {
           returnData.push({
