@@ -11,6 +11,8 @@ services:
     volumes:
       - n8n_data:/home/node/.n8n
       - ./dist:/home/node/.n8n/custom/n8n-ingedata-pulse
+    extra_hosts:
+      - "pulse.localhost:host-gateway"
 
 volumes:
   n8n_data:

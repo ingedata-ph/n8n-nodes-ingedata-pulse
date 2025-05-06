@@ -39,7 +39,7 @@ describe('PulseApi Credentials', () => {
     expect(apiUrlProperty).toBeDefined();
     expect(apiUrlProperty?.displayName).toBe('API URL');
     expect(apiUrlProperty?.type).toBe('string');
-    expect(apiUrlProperty?.default).toBe('https://pulse.ingedata.ai');
+    expect(apiUrlProperty?.default).toBe('http://pulse.localhost:3000');
     expect(apiUrlProperty?.description).toBe('The URL of the Pulse API. Update to use with the staging environment.');
   });
 });

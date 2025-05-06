@@ -30,7 +30,8 @@
       "dist/credentials/PulseApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/AccountRead/AccountRead.node.js"
+      "dist/nodes/AccountAction/AccountAction.node.js",
+      "dist/nodes/PeopleAction/PeopleAction.node.js"
     ]
   },
   "devDependencies": {

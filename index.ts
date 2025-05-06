@@ -4,7 +4,13 @@ import { INodeType, INodeTypeDescription, ICredentialType } from 'n8n-workflow';
 import { PulseApi } from './src/credentials/PulseApi.credentials';
 
 // Import nodes
-import { AccountRead } from './src/nodes/AccountRead/AccountRead.node';
+import { AccountAction } from './src/nodes/AccountAction/AccountAction.node';
+import { PeopleAction } from './src/nodes/PeopleAction/PeopleAction.node';
+import { TalentAction } from './src/nodes/TalentAction/TalentAction.node';
+import { OrganizationsAction } from './src/nodes/OrganizationsAction/OrganizationsAction.node';
+import { OfficeAction } from './src/nodes/OfficeAction/OfficeAction.node';
+import { RecruitmentAction } from './src/nodes/RecruitmentAction/RecruitmentAction.node';
+import { WorkflowAction } from './src/nodes/WorkflowAction/WorkflowAction.node';
 
 // Export the credentials
 export const credentials = {
@@ -16,5 +22,11 @@ export const credentials = {
 
 // Export the nodes
 export const nodes = [
-	AccountRead,
+	AccountAction,
+	PeopleAction,
+	TalentAction,
+	OrganizationsAction,
+	OfficeAction,
+	RecruitmentAction,
+	WorkflowAction,
 ];
