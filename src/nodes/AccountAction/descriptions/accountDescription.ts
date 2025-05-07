@@ -22,7 +22,7 @@ export const accountOperationsFields: INodeProperties[] = [
       },
       {
         name: 'Get User Account details',
-        value: 'getUserById',
+        value: 'getUserAccountById',
         description: 'Get an user account details',
         action: 'Get user account details',
       },
@@ -39,7 +39,7 @@ export const accountOperationsFields: INodeProperties[] = [
         action: 'Update account status',
       },
       {
-        name: 'Update Account',
+        name: 'Update User Account',
         value: 'updateAccount',
         description: 'Update an account',
         action: 'Update account',
@@ -68,7 +68,7 @@ export const accountFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['getCurrentUser', 'getUserById'],
+        operation: ['getCurrentUser', 'getUserAccountById'],
         resource: ['account'],
       },
     },
@@ -82,7 +82,7 @@ export const accountFields: INodeProperties[] = [
     required: true,
     displayOptions: {
       show: {
-        operation: ['getUserById', 'updateAccountStatus', 'updateAccount'],
+        operation: ['getUserAccountById', 'updateAccountStatus', 'updateAccount'],
         resource: ['account'],
       },
     },

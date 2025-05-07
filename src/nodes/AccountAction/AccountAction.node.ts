@@ -9,7 +9,7 @@ import {accountRoleOperationsFields, accountRoleFields} from './descriptions/acc
 export class AccountAction extends BasePulseNode {
 	constructor() {
 		super({
-			displayName: 'Pulse Account Read',
+			displayName: 'Pulse Account Action',
 			name: 'accountAction',
 			icon: 'file:pulse.svg',
 			group: ['input'],
@@ -105,9 +105,9 @@ export class AccountAction extends BasePulseNode {
 								json: await  accountOperations.getCurrentUser(this, i, pulseApi)
 							};
 							break;
-						case 'getUserById':
+						case 'getUserAccountById':
 							result = { 
-								json: await  accountOperations.getUserById(this, i, pulseApi)
+								json: await  accountOperations.getUserAccountById(this, i, pulseApi)
 							};
 							break;
 						case 'createAccount':

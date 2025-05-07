@@ -32,10 +32,10 @@ export const peopleOperationsFields: INodeProperties[] = [
         action: 'Show person details',
       },
       {
-        name: 'Update Person by ID',
+        name: 'Update Person',
         value: 'updatePerson',
-        description: 'Update a person by ID',
-        action: 'Update person by ID',
+        description: 'Update a person details',
+        action: 'Update person',
       },
     ],
     default: 'getPeopleList',

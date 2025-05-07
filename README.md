@@ -23,6 +23,7 @@ pnpm add n8n-ingedata-pulse
 ## Setup
 
 1. Add your Pulse API credentials in n8n:
+
    - API Key
    - API Secret
    - API URL (defaults to https://pulse.ingedata.ai)
@@ -49,6 +50,7 @@ pnpm add n8n-ingedata-pulse
    ```
 
 ### Development
+
 1. Run local dev, this will watch any changes to your `./src` files
    ```bash
    pnpm dev
