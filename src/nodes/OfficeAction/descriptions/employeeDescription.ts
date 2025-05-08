@@ -271,6 +271,66 @@ export const employeeFields: INodeProperties[] = [
     },
     description: 'The address of the person to create',
   },
+  {
+    displayName: 'Place of Birth',
+    name: 'placeOfBirth',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+        withPerson: [true],
+      },
+    },
+    required: false,
+    description: 'The place of birth of the person to create',
+  },
+  {
+    displayName: 'Spouse Name',
+    name: 'spouseName',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+        withPerson: [true],
+      },
+    },
+    required: false,
+    description: 'The spouse name of the person to create',
+  },
+  {
+    displayName: 'Mother\'s Name',
+    name: 'mothersName',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+        withPerson: [true],
+      },
+    },
+    required: false,
+    description: 'The mother\'s name of the person to create',
+  },
+  {
+    displayName: 'Father\'s Name',
+    name: 'fathersName',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+        withPerson: [true],
+      },
+    },
+    required: false,
+    description: 'The father\'s name of the person to create',
+  },
   // Employee properties
   {
     displayName: 'Organizatonal Unit',
@@ -308,7 +368,7 @@ export const employeeFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
       },
     },
@@ -323,7 +383,7 @@ export const employeeFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
       },
     },
@@ -404,6 +464,20 @@ export const employeeFields: INodeProperties[] = [
     description: 'The date the employee was hired',
   },
   {
+    displayName: 'Starting Date',
+    name: 'startingDate',
+    type: 'dateTime',
+    default: '',
+    required: false,
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+      },
+    },
+    description: 'The starting date of the employee',
+  },
+  {
     displayName: 'Is Manager',
     name: 'isManager',
     type: 'boolean',
@@ -411,7 +485,7 @@ export const employeeFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
       },
     },
@@ -425,7 +499,7 @@ export const employeeFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
       },
     },
@@ -437,7 +511,7 @@ export const employeeFields: INodeProperties[] = [
     type: 'boolean',
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
       },
     },
@@ -452,7 +526,7 @@ export const employeeFields: INodeProperties[] = [
     required: true,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
         terminated: [true],
       },
@@ -467,12 +541,78 @@ export const employeeFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
         terminated: [true],
       },
     },
     description: 'Whether the employee is on hold',
+  },
+  // Identification cards properties
+  {
+    displayName: 'ID Cards',
+    name: 'idCards',
+    placeholder: 'Add ID Card',
+    type: 'fixedCollection',
+    typeOptions: {
+      multipleValues: true,
+    },
+    default: {},
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee']
+      },
+    },
+    options: [
+      {
+        name: 'idCardValues',
+        displayName: 'ID Card',
+        values: [
+          {
+            displayName: 'ID Card Type',
+            name: 'idCardType',
+            type: 'string',
+            default: '',
+            required: true,
+            description: 'The type of ID card of the employee',
+          },
+          {
+            displayName: 'ID Card Number',
+            name: 'idCardNumber',
+            type: 'string',
+            default: '',
+            required: true,
+            description: 'The ID card number of the employee',
+          },
+          {
+            displayName: 'ID Card Issue Date',
+            name: 'idCardIssueDate',
+            type: 'dateTime',
+            default: '',
+            required: false,
+            description: 'The issue date of the ID card of the employee',
+          },
+          {
+            displayName: 'ID Card Issue Place',
+            name: 'idCardIssuePlace',
+            type: 'string',
+            default: '',
+            required: false,
+            description: 'The issue place of the ID card of the employee',
+          },
+          {
+            displayName: 'ID Card Expiration Date',
+            name: 'idCardExpirationDate',
+            type: 'dateTime',
+            default: '',
+            required: false,
+            description: 'The expiration date of the ID card of the employee',
+          },
+        ],
+      },
+    ],
+    description: 'The identification cards of the employee',
   },
   {
     displayName: 'Emergency Contact Name',
@@ -482,7 +622,7 @@ export const employeeFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
       },
     },
@@ -496,7 +636,7 @@ export const employeeFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
       },
     },
@@ -510,11 +650,497 @@ export const employeeFields: INodeProperties[] = [
     required: false,
     displayOptions: {
       show: {
-        operation: ['createEmployee', 'updateEmployee'],
+        operation: ['createEmployee'],
         resource: ['employee'],
       },
     },
     description: 'The relationship of the emergency contact to the employee',
+  },
+  {
+    displayName: 'End of probation date',
+    name: 'endOfProbationDate',
+    type: 'dateTime',
+    default: '',
+    required: false,
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+      },
+    },
+    description: 'The end of probation date of the employee',
+  },
+  {
+    displayName: 'Department',
+    name: 'department',
+    type: 'options',
+    options: [
+      {
+        name: '',
+        value: '',
+      },
+      {
+        name: 'HR',
+        value: 'hr',
+      },
+      {
+        name: 'Training',
+        value: 'training',
+      },
+      {
+        name: 'Production',
+        value: 'production',
+      },
+      {
+        name: 'Operation',
+        value: 'operation',
+      },
+      {
+        name: 'LAB',
+        value: 'lab',
+      },
+      {
+        name: 'Compliance',
+        value: 'compliance',
+      },
+      {
+        name: 'IT/Dev',
+        value: 'it_dev',
+      },
+      {
+        name: 'IT',
+        value: 'it',
+      },
+      {
+        name: 'Finance',
+        value: 'finance',
+      },
+      {
+        name: 'Sales',
+        value: 'sales',
+      },
+    ],
+    default: '',
+    required: false,
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+      },
+    },
+    description: 'The department service of the employee',
+    placeholder: 'Select department',
+  },
+  {
+    displayName: 'Job Classification',
+    name: 'jobClassification',
+    type: 'options',
+    options: [
+      {
+        name: '',
+        value: '',
+      },
+     {
+        name: 'Officer',
+        value: 'officer',
+      },
+      {
+        name: 'Outsourcer',
+        value: 'outsourcer',
+      },
+      {
+        name: 'Agent',
+        value: 'agent',
+      },
+      {
+        name: 'Project manager',
+        value: 'project_manager',
+      },
+      {
+        name: 'Manager',
+        value: 'manager',
+      },
+      {
+        name: 'Director',
+        value: 'director',
+      },
+      {
+        name: 'Team leader',
+        value: 'team_leader',
+      },
+      {
+        name: 'Automation Architect',
+        value: 'automation_architect',
+      },
+      {
+        name: 'Production Assistant',
+        value: 'production_assistant',
+      },
+      {
+        name: 'Data Analyst',
+        value: 'data_analyst',
+      },
+      {
+        name: 'Cloud',
+        value: 'cloud',
+      },
+    ],
+    default: '',
+    required: false,
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+      },
+    },
+    description: 'The job classification is a group of employee position',
+    placeholder: 'Select job classification',
+  },
+  // job level
+  {
+    displayName: 'Category',
+    name: 'jobLevel',
+    type: 'options',
+    options: [
+      {
+        name: '',
+        value: '',
+      },
+      {
+        name: 'HC',
+        value: 'hc',
+      },
+      {
+        name: '5B',
+        value: '5b',
+      },
+      {
+        name: '1B',
+        value: '1b',
+      },
+    ],
+    default: '',
+    required: false,
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+      },
+    },
+    description: 'The job level is the professional category of the employee',
+    placeholder: 'Select job level',
+  },
+  // JOB SUBLEVEL
+  {
+    displayName: 'Group',
+    name: 'jobSubLevel',
+    type: 'options',
+    options: [
+      {
+        name: '',
+        value: '',
+      },
+      {
+        name: 'I',
+        value: 'i',
+      },
+      {
+        name: 'II',
+        value: 'ii',
+      },
+      {
+        name: 'III',
+        value: 'iii',
+      },
+      {
+        name: 'IV',
+        value: 'iv',
+      },
+      {
+        name: 'V',
+        value: 'v',
+      },
+    ],
+    default: '',
+    required: false,
+    displayOptions: {
+      show: {
+        operation: ['createEmployee'],
+        resource: ['employee'],
+      },
+    },
+    description: 'The job sublevel is the professional group of the employee',
+    placeholder: 'Select job sublevel',
+  },
+    //////////////////////////////////////////
+   // Additional fields for updateEmployee //
+  //////////////////////////////////////////
+  {
+    displayName: 'Update Fields',
+    name: 'updateFields',
+    type: 'collection',
+    placeholder: 'Add Field to Update',
+    default: {},
+    displayOptions: {
+      show: {
+        operation: ['updateEmployee'],
+        resource: ['employee'],
+      },
+    },
+    options: [
+      {
+        displayName: 'Manager IDs',
+        name: 'managerIds',
+        type: 'string',
+        default: '',
+        description: 'Comma-separated list of manager IDs to associate with the employee',
+        placeholder: 'manager_id_1, manager_id_2',
+      },
+      {
+        displayName: 'Teams',
+        name: 'teamsNames',
+        type: 'string',
+        default: '',
+        description: 'Comma-separated list of team names to associate with the employee',
+      },
+      {
+        displayName: 'Starting Date',
+        name: 'startingDate',
+        type: 'dateTime',
+        default: '',
+        description: 'The starting date of the employee',
+      },
+      {
+        displayName: 'Is Manager',
+        name: 'isManager',
+        type: 'boolean',
+        default: false,
+        description: 'Whether the employee is a manager',
+      },
+      {
+        displayName: 'Is HR',
+        name: 'isHR',
+        type: 'boolean',
+        default: false,
+        description: 'Whether the employee is an HR',
+      },
+      {
+        displayName: 'Terminated at',
+        name: 'terminatedAt',
+        type: 'dateTime',
+        default: '',
+        description: 'The date the employee was terminated',
+      },
+      {
+        displayName: 'On Hold',
+        name: 'onHold',
+        type: 'boolean',
+        default: false,
+        description: 'Whether the employee is on hold',
+      },
+      {
+        displayName: 'Emergency Contact Name',
+        name: 'emergencyContactName',
+        type: 'string',
+        default: '',
+        description: 'The name of the emergency contact for the employee',
+      },
+      {
+        displayName: 'Emergency Contact Phone',
+        name: 'emergencyContactPhone',
+        type: 'string',
+        default: '',
+        description: 'The phone number of the emergency contact for the employee',
+      },
+      {
+        displayName: 'Emergency Contact Relationship',
+        name: 'emergencyContactRelationship',
+        type: 'string',
+        default: '',
+        description: 'The relationship of the emergency contact to the employee',
+      },
+      {
+        displayName: 'End of probation date',
+        name: 'endOfProbationDate',
+        type: 'dateTime',
+        default: '',
+        description: 'The end of probation date of the employee',
+      },
+      {
+        displayName: 'Department',
+        name: 'department',
+        type: 'options',
+        options: [
+          {
+            name: '',
+            value: '',
+          },
+          {
+            name: 'HR',
+            value: 'hr',
+          },
+          {
+            name: 'Training',
+            value: 'training',
+          },
+          {
+            name: 'Production',
+            value: 'production',
+          },
+          {
+            name: 'Operation',
+            value: 'operation',
+          },
+          {
+            name: 'LAB',
+            value: 'lab',
+          },
+          {
+            name: 'Compliance',
+            value: 'compliance',
+          },
+          {
+            name: 'IT/Dev',
+            value: 'it_dev',
+          },
+          {
+            name: 'IT',
+            value: 'it',
+          },
+          {
+            name: 'Finance',
+            value: 'finance',
+          },
+          {
+            name: 'Sales',
+            value: 'sales',
+          },
+        ],
+        default: '',
+        description: 'The department service of the employee',
+        placeholder: 'Select department',
+      },
+      {
+        displayName: 'Job Classification',
+        name: 'jobClassification',
+        type: 'options',
+        options: [
+          {
+            name: '',
+            value: '',
+          },
+         {
+            name: 'Officer',
+            value: 'officer',
+          },
+          {
+            name: 'Outsourcer',
+            value: 'outsourcer',
+          },
+          {
+            name: 'Agent',
+            value: 'agent',
+          },
+          {
+            name: 'Project manager',
+            value: 'project_manager',
+          },
+          {
+            name: 'Manager',
+            value: 'manager',
+          },
+          {
+            name: 'Director',
+            value: 'director',
+          },
+          {
+            name: 'Team leader',
+            value: 'team_leader',
+          },
+          {
+            name: 'Automation Architect',
+            value: 'automation_architect',
+          },
+          {
+            name: 'Production Assistant',
+            value: 'production_assistant',
+          },
+          {
+            name: 'Data Analyst',
+            value: 'data_analyst',
+          },
+          {
+            name: 'Cloud',
+            value: 'cloud',
+          },
+        ],
+        default: '',
+        description: 'The job classification is a group of employee position',
+        placeholder: 'Select job classification',
+      },
+      // job level
+      {
+        displayName: 'Category',
+        name: 'jobLevel',
+        type: 'options',
+        options: [
+          {
+            name: '',
+            value: '',
+          },
+          {
+            name: 'HC',
+            value: 'hc',
+          },
+          {
+            name: '5B',
+            value: '5b',
+          },
+          {
+            name: '1B',
+            value: '1b',
+          },
+        ],
+        default: '',
+        description: 'The job level is the professional category of the employee',
+        placeholder: 'Select job level',
+      },
+      // JOB SUBLEVEL
+      {
+        displayName: 'Group',
+        name: 'jobSubLevel',
+        type: 'options',
+        options: [
+          {
+            name: '',
+            value: '',
+          },
+          {
+            name: 'I',
+            value: 'i',
+          },
+          {
+            name: 'II',
+            value: 'ii',
+          },
+          {
+            name: 'III',
+            value: 'iii',
+          },
+          {
+            name: 'IV',
+            value: 'iv',
+          },
+          {
+            name: 'V',
+            value: 'v',
+          },
+        ],
+        default: '',
+        description: 'The job sublevel is the professional group of the employee',
+        placeholder: 'Select job sublevel',
+      },
+    ],
   },
   {
     displayName: 'Create an account',

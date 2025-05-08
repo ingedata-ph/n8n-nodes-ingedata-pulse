@@ -55,4 +55,12 @@ export class PeopleApi extends BasePulseApi {
   async updatePersonById(personId: string, personData: object): Promise<any> {
     return this.request<any>('PATCH', `/api/v3/iam/people/${personId}`, personData);
   }
+
+  /**
+   * Create an identity document for a person
+   * @param identityDocumentData The identity document data to create
+   */
+  async createIdentityDocument(identityDocumentData: object): Promise<any> {
+    return this.request<any>('POST', '/api/v3/iam/identity_documents', identityDocumentData);
+  }
 }

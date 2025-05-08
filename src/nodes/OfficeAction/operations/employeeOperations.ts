@@ -1,6 +1,7 @@
-import { IExecuteFunctions } from 'n8n-workflow';
+import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
 import { OfficeApi } from '../../../utils/api/OfficeApi';
 import { PulseApiFactory } from '../../../utils/api/PulseApiFactory';
+import { log } from 'console';
 
 export async function getEmployeeList(
   executeFunctions: IExecuteFunctions,
@@ -49,7 +50,13 @@ export async function createEmployee(
     const secondary_email = executeFunctions.getNodeParameter('secondaryEmail', itemIndex) as string;
     const contact_number = executeFunctions.getNodeParameter('contactNumber', itemIndex) as string;
     const physical_address = executeFunctions.getNodeParameter('address', itemIndex) as string;
-  
+    
+    // Get additional fields that were missing
+    const place_of_birth = executeFunctions.getNodeParameter('placeOfBirth', itemIndex, '') as string;
+    const spouse_name = executeFunctions.getNodeParameter('spouseName', itemIndex, '') as string;
+    const mother_name = executeFunctions.getNodeParameter('mothersName', itemIndex, '') as string;
+    const father_name = executeFunctions.getNodeParameter('fathersName', itemIndex, '') as string;
+    
     const personData = {
       data: {
         type: 'iam/people',
@@ -64,6 +71,10 @@ export async function createEmployee(
           secondary_email,
           contact_number,
           physical_address,
+          place_of_birth,
+          spouse_name,
+          mother_name,
+          father_name,
           organizational_unit,
         }
       }
@@ -86,6 +97,56 @@ export async function createEmployee(
     last_name = person.data.attributes.last_name;
     middle_name = person.data.attributes.middle_name;
   }
+
+      // Get the ID cards data
+  const idCardsData = executeFunctions.getNodeParameter('idCards.idCardValues', itemIndex, []) as Array<{
+    idCardType: string;
+    idCardNumber: string;
+    idCardIssueDate?: string;
+    idCardIssuePlace?: string;
+    idCardExpirationDate?: string;
+  }>;
+
+  // Create identity documents for the person if provided
+  if (idCardsData && idCardsData.length > 0) {
+    const idCardErrors = [];
+    
+    for (const card of idCardsData) {
+      const identityDocumentData = {
+        data: {
+          type: 'iam/identity_documents',
+          attributes: {
+            identification_type: card.idCardType,
+            number: card.idCardNumber,
+            issued_date: card.idCardIssueDate,
+            issued_place: card.idCardIssuePlace,
+            expiration_date: card.idCardExpirationDate,
+          },
+          relationships: {
+            person: {
+              data: {
+                type: 'iam/people',
+                id: personId
+              }
+            }
+          }
+        }
+      };
+      
+      try {
+        await PeopleApi.createIdentityDocument(identityDocumentData);
+      } catch (error) {
+        // Collect errors but continue with other ID cards
+        idCardErrors.push(`Error creating ${card.idCardType} ID card: ${(error as Error).message}`);
+      }
+    }
+    
+    // Log collected errors if any, but continue with employee creation
+    if (idCardErrors.length > 0) {
+      console.warn(`Some ID cards could not be created:\n${idCardErrors.join('\n')}`);
+    }
+  }
+      
 
   const planning_id = executeFunctions.getNodeParameter('planningId', itemIndex) as string;
   const manager_ids = executeFunctions.getNodeParameter('managerIds', itemIndex) as string;
@@ -112,8 +173,17 @@ export async function createEmployee(
   const emergency_phone = executeFunctions.getNodeParameter('emergencyContactPhone', itemIndex) as string;
   const emergency_relationship = executeFunctions.getNodeParameter('emergencyContactRelationship', itemIndex) as string;
   
-  const manager_ids_array = manager_ids.split(',').map((id: string) => parseInt(id.trim(), 10));
+  const manager_ids_array = manager_ids.split(',').map(
+    (id: string) => parseInt(id.trim(), 10)
+  ).filter(id => !Number.isNaN(id));
   const teams_array = teams.split(',').map((team: string) => team.trim());
+
+  const starting_date = executeFunctions.getNodeParameter('startingDate', itemIndex) as string;
+  const end_of_probation_date = executeFunctions.getNodeParameter('endOfProbationDate', itemIndex) as string;
+  const department = executeFunctions.getNodeParameter('department', itemIndex) as string;
+  const job_classification = executeFunctions.getNodeParameter('jobClassification', itemIndex) as string;
+  const job_level = executeFunctions.getNodeParameter('jobLevel', itemIndex) as string;
+  const job_sub_level = executeFunctions.getNodeParameter('jobSubLevel', itemIndex) as string;
   
   const createAccount = executeFunctions.getNodeParameter('createAccount', itemIndex) as boolean;
 
@@ -170,7 +240,13 @@ export async function createEmployee(
         is_hr,
         emergency_name,
         emergency_phone,
-        emergency_relationship
+        emergency_relationship,
+        starting_date,
+        end_of_probation_date,
+        department,
+        job_classification,
+        job_level,
+        job_sub_level
       },
       relationships: {
         planning: {
@@ -198,56 +274,74 @@ export async function updateEmployee(
   // Get the employee ID to update
   const employeeId = executeFunctions.getNodeParameter('employeeId', itemIndex) as string;
   
-  // Get all the parameters from the node properties
+  // Get all the required parameters from the node properties
   const organizational_unit = executeFunctions.getNodeParameter('organizationalUnit', itemIndex) as string;
   const planning_id = executeFunctions.getNodeParameter('planningId', itemIndex) as string;
-  const manager_ids = executeFunctions.getNodeParameter('managerIds', itemIndex) as string;
-  const teams = executeFunctions.getNodeParameter('teamsNames', itemIndex) as string;
-
   const position = executeFunctions.getNodeParameter('positionName', itemIndex) as string;
   const employment_type = executeFunctions.getNodeParameter('employmentType', itemIndex) as string;
   const service_number = executeFunctions.getNodeParameter('serviceNumber', itemIndex) as string;
 
   const hired_at = executeFunctions.getNodeParameter('hiredAt', itemIndex) as string;
-  const is_manager = executeFunctions.getNodeParameter('isManager', itemIndex) as boolean;
-  const is_hr = executeFunctions.getNodeParameter('isHR', itemIndex) as boolean;
 
-  const terminated = executeFunctions.getNodeParameter('terminated', itemIndex) as boolean;
+  const updateFields = executeFunctions.getNodeParameter('updateFields', itemIndex, {}) as  IDataObject;
+  const updateFieldsObject: IDataObject = {};
+  const updateFieldKey: { [key: string]: string } = {
+    'teamsNames': 'teams',
+    'isManager': 'is_manager',
+    'isHR': 'is_hr',
+    'terminatedAt': 'terminated_at',
+    'onHold': 'terminated_temporary',
+    'emergencyContactName': 'emergency_name',
+    'emergencyContactPhone': 'emergency_phone',
+    'emergencyContactRelationship': 'emergency_relationship',
+    'startingDate': 'starting_date',
+    'endOfProbationDate': 'end_of_probation_date',
+    'department': 'department',
+    'jobClassification': 'job_classification',
+    'jobLevel': 'job_level',
+    'jobSubLevel': 'job_sub_level',
+  };
 
-  let terminated_at = undefined;
-  let terminated_temporary = undefined;
-  if (terminated) {
-    terminated_at = executeFunctions.getNodeParameter('terminatedAt', itemIndex) as string;
-    terminated_temporary = executeFunctions.getNodeParameter('onHold', itemIndex) as boolean;
+  // Process update fields
+
+  for (const field in updateFields) {
+    if (updateFields[field] !== undefined) {
+      const key = field as string;
+      if (key === 'teamsNames') {
+        const teams = updateFields[field] as string; 
+        updateFieldsObject['teams'] = teams.split(',').map((team: string) => team.trim());
+        continue;
+      }
+
+      if (key === 'managerIds') {
+        const manager_ids = updateFields[field] as string;
+        updateFieldsObject['manager_ids'] = manager_ids.split(',').map(
+          (id: string) => parseInt(id.trim(), 10)
+        ).filter(id => !Number.isNaN(id));
+        continue;
+      }
+
+      const snake_case_key = updateFieldKey[key] || key;
+      updateFieldsObject[snake_case_key] = updateFields[field];
+    }
   }
 
-  const emergency_name = executeFunctions.getNodeParameter('emergencyContactName', itemIndex) as string;
-  const emergency_phone = executeFunctions.getNodeParameter('emergencyContactPhone', itemIndex) as string;
-  const emergency_relationship = executeFunctions.getNodeParameter('emergencyContactRelationship', itemIndex) as string;
-  
-  const manager_ids_array = manager_ids.split(',').map((id: string) => parseInt(id.trim(), 10));
-  const teams_array = teams.split(',').map((team: string) => team.trim());
 
+  const attributes = {
+    organizational_unit,
+    position,
+    employment_type,
+    service_number,
+    hired_at,
+  }
+
+  // Add the update fields to the attributes object
+  const updatedAttributes = Object.assign({}, attributes, updateFieldsObject);
   // Create the employee data object
   const employeeData = {
     data: {
       type: 'office/employees',
-      attributes: {
-        organizational_unit,
-        manager_ids: manager_ids_array,
-        teams: teams_array,
-        position,
-        employment_type,
-        service_number,
-        terminated_at,
-        terminated_temporary,
-        hired_at,
-        is_manager,
-        is_hr,
-        emergency_name,
-        emergency_phone,
-        emergency_relationship
-      },
+      attributes: updatedAttributes,
       relationships: {
         planning: {
           data: {
