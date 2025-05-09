@@ -6,9 +6,9 @@ This package provides n8n nodes for integration with Ingedata's Pulse platform.
   <img src="src/nodes/OfficeAction/pulse.svg" alt="Pulse Logo" width="100" height="100">
 </div>
 
-[!Pulse Platform](imgs/readme_pulse_platform.png)
-
 ## What is Pulse?
+
+![Pulse Platform](imgs/readme_pulse_platform.png)
 
 Pulse is an Enterprise Resource Planning (ERP) system developed by Ingedata ([GitHub](https://github.com/ingedata-ph/octave)). It is a comprehensive platform designed to streamline business operations, resource management, and data integration across various departments. Pulse facilitates efficient workflow management, talent acquisition, employee administration, project tracking, and organizational structure management.
 
@@ -126,7 +126,9 @@ pnpm add n8n-ingedata-pulse
    - API Secret
    - API URL (defaults to https://pulse.ingedata.ai)
 
-   ![Generate API Key](imgs/readme_generate_api_key.png)
+#### Generate API Key and Secret from Pulse
+
+![Generate API Key](imgs/readme_generate_api_key.png)
 
 2. Use the nodes in your workflows
 
@@ -217,7 +219,7 @@ This workflow demonstrates how to create a new talent profile and upload a resum
    - Get talent_id from the new created talent
    - Add relevant work experience
 
-### Example 2: Managing Office Planning and Announcements
+### Example 2: Managing Office Planning and Announcements / Update Employee
 
 This workflow shows how to create a new office planning schedule and announce it:
 ![a screenshot for office workflow](imgs/readme_full_employee_workflow.png)
