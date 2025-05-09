@@ -45,7 +45,7 @@ export const announcementOperationsFields: INodeProperties[] = [
 
 export const announcementFields: INodeProperties[] = [
   {
-    displayName: 'Announcement ID',
+    displayName: 'Announcement ID *',
     name: 'announcementId',
     type: 'string',
     default: '',
@@ -107,7 +107,7 @@ export const announcementFields: INodeProperties[] = [
     ],
   },
   {
-    displayName: 'Title',
+    displayName: 'Title *',
     name: 'title',
     type: 'string',
     default: '',
@@ -138,7 +138,7 @@ export const announcementFields: INodeProperties[] = [
     description: 'The content of the announcement in Markdown format',
   },
   {
-    displayName: 'Publishing Date',
+    displayName: 'Publishing Date *',
     name: 'publishingAt',
     type: 'dateTime',
     default: '',
@@ -152,7 +152,7 @@ export const announcementFields: INodeProperties[] = [
     description: 'The date when the announcement will be published (cannot be before today)',
   },
   {
-    displayName: 'Organizational Units',
+    displayName: 'Organizational Units *',
     name: 'organizationalUnits',
     type: 'string',
     default: '',

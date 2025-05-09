@@ -45,7 +45,7 @@ export const projectDataOperationsFields: INodeProperties[] = [
 
 export const projectDataFields: INodeProperties[] = [
   {
-    displayName: 'Data ID',
+    displayName: 'Data ID *',
     name: 'dataId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const projectDataFields: INodeProperties[] = [
     description: 'The ID of the project data',
   },
   {
-    displayName: 'Project ID',
+    displayName: 'Project ID *',
     name: 'projectId',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const projectDataFields: INodeProperties[] = [
     description: 'The project ID',
   },
   {
-    displayName: 'Key',
+    displayName: 'Key *',
     name: 'key',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const projectDataFields: INodeProperties[] = [
     description: 'The key of the data',
   },
   {
-    displayName: 'Value',
+    displayName: 'Value *',
     name: 'value',
     type: 'string',
     default: '',
@@ -101,7 +101,7 @@ export const projectDataFields: INodeProperties[] = [
     description: 'The value of the data',
   },
   {
-    displayName: 'Label',
+    displayName: 'Label *',
     name: 'label',
     type: 'string',
     default: '',
@@ -119,7 +119,6 @@ export const projectDataFields: INodeProperties[] = [
     name: 'is_visible',
     type: 'boolean',
     default: true,
-    required: true,
     displayOptions: {
       show: {
         resource: ['projectData'],

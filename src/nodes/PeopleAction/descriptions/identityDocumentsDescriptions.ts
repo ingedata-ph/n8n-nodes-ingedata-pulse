@@ -45,7 +45,7 @@ export const identityDocumentsOperationsFields: INodeProperties[] = [
 
 export const identityDocumentsFields: INodeProperties[] = [
   {
-    displayName: 'Person ID',
+    displayName: 'Person ID *',
     name: 'personId',
     type: 'string',
     default: '',
@@ -180,7 +180,7 @@ export const identityDocumentsFields: INodeProperties[] = [
     ],
   },
   {
-    displayName: 'Identity Document ID',
+    displayName: 'Identity Document ID *',
     name: 'identityDocumentId',
     type: 'string',
     default: '',
@@ -194,7 +194,7 @@ export const identityDocumentsFields: INodeProperties[] = [
     description: 'The ID of the identity document to retrieve or update',
   },
   {
-    displayName: 'Identity Document Type',
+    displayName: 'Identity Document Type *',
     name: 'identityDocumentType',
     type: 'string',
     default: '',
@@ -209,7 +209,7 @@ export const identityDocumentsFields: INodeProperties[] = [
     placeholder: 'e.g., passport, driver_license, national_id, etc.',
   },
   {
-    displayName: 'Identity Document Number',
+    displayName: 'Identity Document Number *',
     name: 'identityDocumentNumber',
     type: 'string',
     default: '',
@@ -223,7 +223,7 @@ export const identityDocumentsFields: INodeProperties[] = [
     description: 'The Serial number of the identity document to create',
   },
   {
-    displayName: 'Issue Place',
+    displayName: 'Issue Place *',
     name: 'issuePlace',
     type: 'string',
     default: '',
@@ -237,7 +237,7 @@ export const identityDocumentsFields: INodeProperties[] = [
     description: 'The place where the identity document was issued',
   },
   {
-    displayName: 'Issue Date',
+    displayName: 'Issue Date *',
     name: 'issueDate',
     type: 'dateTime',
     default: '',
@@ -251,7 +251,7 @@ export const identityDocumentsFields: INodeProperties[] = [
     description: 'The issue date of the identity document',
   },
   {
-    displayName: 'Expiration Date',
+    displayName: 'Expiration Date *',
     name: 'expirationDate',
     type: 'dateTime',
     default: '',

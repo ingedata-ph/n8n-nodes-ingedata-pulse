@@ -45,7 +45,7 @@ export const holidayOperationsFields: INodeProperties[] = [
 
 export const holidayFields: INodeProperties[] = [
   {
-    displayName: 'Holiday ID',
+    displayName: 'Holiday ID *',
     name: 'id',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const holidayFields: INodeProperties[] = [
     description: 'The ID of the holiday to update or delete',
   },
   {
-    displayName: 'Name',
+    displayName: 'Name *',
     name: 'name',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const holidayFields: INodeProperties[] = [
     description: 'The name of the holiday',
   },
   {
-    displayName: 'Date',
+    displayName: 'Date *',
     name: 'date',
     type: 'dateTime',
     default: '',
@@ -87,7 +87,7 @@ export const holidayFields: INodeProperties[] = [
     description: 'The date of the holiday',
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizational_unit',
     type: 'string',
     default: '',

@@ -75,7 +75,7 @@ export const accountFields: INodeProperties[] = [
     description: 'Related resources to include in the response',
   },
   {
-    displayName: 'Account ID',
+    displayName: 'Account ID *',
     name: 'accountId',
     type: 'string',
     default: '',
@@ -89,7 +89,7 @@ export const accountFields: INodeProperties[] = [
     description: 'The ID of the account to get/update',
   },
   {
-    displayName: 'Email',
+    displayName: 'Email *',
     name: 'email',
     type: 'string',
     default: '',
@@ -103,7 +103,7 @@ export const accountFields: INodeProperties[] = [
     description: 'The email address of the new user account',
   },
   {
-    displayName: 'Account type',
+    displayName: 'Account type *',
     name: 'accountType',
     type: 'options',
     required: true,
@@ -131,7 +131,7 @@ export const accountFields: INodeProperties[] = [
     description: 'The type of account to create',
   },
   {
-    displayName: 'Person ID',
+    displayName: 'Person ID *',
     name: 'personId',
     type: 'string',
     default: '',
@@ -145,7 +145,7 @@ export const accountFields: INodeProperties[] = [
     description: 'The ID of the person to associate with this account',
   },
   {
-    displayName: 'Status',
+    displayName: 'Status *',
     name: 'enabled',
     type: 'boolean',
     default: true,

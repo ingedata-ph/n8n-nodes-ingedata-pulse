@@ -39,7 +39,7 @@ export const employeeOperationsFields: INodeProperties[] = [
 
 export const employeeFields: INodeProperties[] = [
   {
-    displayName: 'Employee ID',
+    displayName: 'Employee ID *',
     name: 'employeeId',
     type: 'string',
     default: '',
@@ -91,7 +91,7 @@ export const employeeFields: INodeProperties[] = [
     description: "If true, the employee will be created with a person",
   },
   {
-    displayName: 'Person ID',
+    displayName: 'Person ID *',
     name: 'personId',
     type: 'string',
     default: '',
@@ -107,7 +107,7 @@ export const employeeFields: INodeProperties[] = [
   },
   // Person properties
   {
-    displayName: 'First Name',
+    displayName: 'First Name *',
     name: 'firstName',
     type: 'string',
     default: '',
@@ -136,7 +136,7 @@ export const employeeFields: INodeProperties[] = [
     description: 'The middle name of the person to create',
   },
   {
-    displayName: 'Last Name',
+    displayName: 'Last Name *',
     name: 'lastName',
     type: 'string',
     default: '',
@@ -333,7 +333,7 @@ export const employeeFields: INodeProperties[] = [
   },
   // Employee properties
   {
-    displayName: 'Organizatonal Unit',
+    displayName: 'Organizatonal Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: '',
@@ -347,7 +347,7 @@ export const employeeFields: INodeProperties[] = [
     description: 'The Organizational Unit of the employee',
   },
   {
-    displayName: 'Planning ID',
+    displayName: 'Planning ID *',
     name: 'planningId',
     type: 'string',
     default: '',
@@ -390,7 +390,7 @@ export const employeeFields: INodeProperties[] = [
     description: 'Comma-separated list of team names to associate with the employee',
   },
   {
-    displayName: 'Position',
+    displayName: 'Position *',
     name: 'positionName',
     type: 'string',
     default: '',
@@ -404,7 +404,7 @@ export const employeeFields: INodeProperties[] = [
     description: 'The position of the employee',
   },
   {
-    displayName: 'Employement Type',
+    displayName: 'Employement Type *',
     name: 'employmentType',
     type: 'options',
     options: [
@@ -436,7 +436,7 @@ export const employeeFields: INodeProperties[] = [
     description: 'The employment type of the employee',
   },
   {
-    displayName: 'Service number',
+    displayName: 'Service number *',
     name: 'serviceNumber',
     type: 'string',
     default: '',
@@ -450,7 +450,7 @@ export const employeeFields: INodeProperties[] = [
     description: 'The service number of the employee',
   },
   {
-    displayName: 'Hired at',
+    displayName: 'Hired at *',
     name: 'hiredAt',
     type: 'dateTime',
     default: '',
@@ -519,7 +519,7 @@ export const employeeFields: INodeProperties[] = [
     default: false,
   },
   {
-    displayName: 'Terminated at',
+    displayName: 'Terminated at *',
     name: 'terminatedAt',
     type: 'dateTime',
     default: '',
@@ -570,7 +570,7 @@ export const employeeFields: INodeProperties[] = [
         displayName: 'ID Card',
         values: [
           {
-            displayName: 'ID Card Type',
+            displayName: 'ID Card Type *',
             name: 'idCardType',
             type: 'string',
             default: '',
@@ -578,7 +578,7 @@ export const employeeFields: INodeProperties[] = [
             description: 'The type of ID card of the employee',
           },
           {
-            displayName: 'ID Card Number',
+            displayName: 'ID Card Number *',
             name: 'idCardNumber',
             type: 'string',
             default: '',
@@ -1157,7 +1157,7 @@ export const employeeFields: INodeProperties[] = [
     description: 'Whether to create an account for the employee',
   },
   {
-    displayName: 'Account Email',
+    displayName: 'Account Email *',
     name: 'accountEmail',
     type: 'string',
     default: '',
@@ -1172,7 +1172,7 @@ export const employeeFields: INodeProperties[] = [
     description: 'The email address to use for the account',
   },
   {
-    displayName: 'Account Type',
+    displayName: 'Account Type *',
     name: 'accountType',
     type: 'options',
     options: [

@@ -45,7 +45,7 @@ export const accountRoleOperationsFields: INodeProperties[] = [
 
 export const accountRoleFields: INodeProperties[] = [
   {
-    displayName: 'Account ID',
+    displayName: 'Account ID *',
     name: 'account_id',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const accountRoleFields: INodeProperties[] = [
     description: 'The ID of the account',
   },
   {
-    displayName: 'Account Role ID',
+    displayName: 'Account Role ID *',
     name: 'account_role_id',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const accountRoleFields: INodeProperties[] = [
     description: 'The ID of the account role',
   },
   {
-    displayName: 'Role Name',
+    displayName: 'Role Name *',
     name: 'role_name',
     type: 'options',
     options: [
@@ -117,7 +117,7 @@ export const accountRoleFields: INodeProperties[] = [
     description: 'The name of the role',
   },
   {
-    displayName: 'Organization ID',
+    displayName: 'Organization ID *',
     name: 'organization_id',
     type: 'string',
     default: '',
@@ -132,7 +132,7 @@ export const accountRoleFields: INodeProperties[] = [
     description: 'The ID of the organization (required for Client role)',
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizational_unit',
     type: 'string',
     default: '',
@@ -147,7 +147,7 @@ export const accountRoleFields: INodeProperties[] = [
     description: 'The organizational unit (required for Office Manager, HR staff, or Production Manager roles)',
   },
   {
-    displayName: 'Project IDs',
+    displayName: 'Project IDs *',
     name: 'project_ids',
     type: 'string',
     default: '',

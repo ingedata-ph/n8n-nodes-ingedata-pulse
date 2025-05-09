@@ -45,7 +45,7 @@ export const talentOperationsFields: INodeProperties[] = [
 
 export const talentFields: INodeProperties[] = [
   {
-    displayName: 'Talent ID',
+    displayName: 'Talent ID *',
     name: 'talentId',
     type: 'string',
     default: '',
@@ -72,7 +72,7 @@ export const talentFields: INodeProperties[] = [
     description: "If true, the talent will be created from a resume. If false, need to add person Id.",
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: 'MG',
@@ -87,7 +87,7 @@ export const talentFields: INodeProperties[] = [
     description: 'The organizational unit to associate with this talent',
   },
   {
-    displayName: 'Resume URL',
+    displayName: 'Resume URL *',
     name: 'resumeUrl',
     type: 'string',
     default: '',
@@ -131,7 +131,7 @@ export const talentFields: INodeProperties[] = [
     description: 'If true, a new person will be created for this talent',
   },
   {
-    displayName: 'First Name',
+    displayName: 'First Name *',
     name: 'firstName',
     type: 'string',
     default: '',
@@ -162,7 +162,7 @@ export const talentFields: INodeProperties[] = [
     description: 'The middle name of the person',
   },
   {
-    displayName: 'Last Name',
+    displayName: 'Last Name *',
     name: 'lastName',
     type: 'string',
     default: '',
@@ -178,7 +178,7 @@ export const talentFields: INodeProperties[] = [
     description: 'The last name of the person',
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: 'MG',
@@ -337,7 +337,7 @@ export const talentFields: INodeProperties[] = [
     description: 'The address of the person to create',
   },
   {
-    displayName: 'Person ID',
+    displayName: 'Person ID *',
     name: 'personId',
     type: 'string',
     default: '',
@@ -353,7 +353,7 @@ export const talentFields: INodeProperties[] = [
     description: 'The ID of the person to associate with this talent',
   },
   {
-    displayName: 'Query',
+    displayName: 'Query *',
     name: 'queryPrompt',
     type: 'string',
     default: '',

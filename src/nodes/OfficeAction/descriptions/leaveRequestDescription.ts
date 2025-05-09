@@ -34,7 +34,7 @@ export const leaveRequestOperationsFields: INodeProperties[] = [
 export const leaveRequestFields: INodeProperties[] = [
   // Leave Request properties
   {
-    displayName: 'Employee ID',
+    displayName: 'Employee ID *',
     name: 'employeeId',
     type: 'string',
     default: '',
@@ -48,7 +48,7 @@ export const leaveRequestFields: INodeProperties[] = [
     description: 'The ID of the employee submitting the leave request',
   },
   {
-    displayName: 'Leave Type',
+    displayName: 'Leave Type *',
     name: 'leaveType',
     type: 'options',
     options: [
@@ -76,7 +76,7 @@ export const leaveRequestFields: INodeProperties[] = [
     description: 'The type of leave request',
   },
   {
-    displayName: 'Start Date',
+    displayName: 'Start Date *',
     name: 'startDate',
     type: 'dateTime',
     default: '',
@@ -90,7 +90,7 @@ export const leaveRequestFields: INodeProperties[] = [
     description: 'The start date of the leave request',
   },
   {
-    displayName: 'End Date',
+    displayName: 'End Date *',
     name: 'endDate',
     type: 'dateTime',
     default: '',
@@ -160,7 +160,7 @@ export const leaveRequestFields: INodeProperties[] = [
   },
   // Generate Leave Balance Report properties
   {
-    displayName: 'From Date',
+    displayName: 'From Date *',
     name: 'fromDate',
     type: 'dateTime',
     default: '', // First day of current month
@@ -174,7 +174,7 @@ export const leaveRequestFields: INodeProperties[] = [
     description: 'Start date for the leave balance report (format: YYYY-MM-DD)',
   },
   {
-    displayName: 'To Date',
+    displayName: 'To Date *',
     name: 'toDate',
     type: 'dateTime',
     default: '', // Last day of current month

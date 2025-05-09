@@ -51,7 +51,7 @@ export const peopleDirectoriesOperationsFields: INodeProperties[] = [
 
 export const peopleDirectoriesFields: INodeProperties[] = [
   {
-    displayName: 'Person ID',
+    displayName: 'Person ID *',
     name: 'person_id',
     type: 'string',
     default: '',
@@ -65,7 +65,7 @@ export const peopleDirectoriesFields: INodeProperties[] = [
     description: 'The ID of the person',
   },
   {
-    displayName: 'Organization ID',
+    displayName: 'Organization ID *',
     name: 'organization_id',
     type: 'string',
     default: '',
@@ -79,7 +79,7 @@ export const peopleDirectoriesFields: INodeProperties[] = [
     description: 'The ID of the organization',
   },
   {
-    displayName: 'People Directory ID',
+    displayName: 'People Directory ID *',
     name: 'peopleDirectoryId',
     type: 'string',
     default: '',
@@ -93,7 +93,7 @@ export const peopleDirectoriesFields: INodeProperties[] = [
     description: 'The ID of the people directory entry',
   },
   {
-    displayName: 'Tag',
+    displayName: 'Tag *',
     name: 'tag',
     type: 'options',
     options: [
@@ -121,7 +121,7 @@ export const peopleDirectoriesFields: INodeProperties[] = [
     description: 'The tag for the people directory entry',
   },
   {
-    displayName: 'Position',
+    displayName: 'Position *',
     name: 'position',
     type: 'options',
     typeOptions: {

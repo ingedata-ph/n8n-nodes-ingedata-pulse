@@ -45,7 +45,7 @@ export const certificationOperationsFields: INodeProperties[] = [
 
 export const certificationFields: INodeProperties[] = [
   {
-    displayName: 'Talent ID',
+    displayName: 'Talent ID *',
     name: 'talentId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const certificationFields: INodeProperties[] = [
     description: 'The ID of the talent to associate with this certification entry',
   },
   {
-    displayName: 'Certification ID',
+    displayName: 'Certification ID *',
     name: 'certificationId',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const certificationFields: INodeProperties[] = [
     description: 'The ID of the certification entry to update or delete',
   },
   {
-    displayName: 'Certification Name',
+    displayName: 'Certification Name *',
     name: 'certificationName',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const certificationFields: INodeProperties[] = [
     description: 'The name of the certification',
   },
   {
-    displayName: 'Organization',
+    displayName: 'Organization *',
     name: 'organization',
     type: 'string',
     default: '',
@@ -101,7 +101,7 @@ export const certificationFields: INodeProperties[] = [
     description: 'The organization that issued the certification',
   },
   {
-    displayName: 'Certificate URL',
+    displayName: 'Certificate URL *',
     name: 'url',
     type: 'string',
     default: '',
@@ -115,7 +115,7 @@ export const certificationFields: INodeProperties[] = [
     description: 'The URL associated with the certification',
   },
   {
-    displayName: 'Obtention Date',
+    displayName: 'Obtention Date *',
     name: 'obtentionDate',
     type: 'dateTime',
     default: '',

@@ -45,7 +45,7 @@ export const skillOperationsFields: INodeProperties[] = [
 
 export const skillFields: INodeProperties[] = [
   {
-    displayName: 'Talent ID',
+    displayName: 'Talent ID *',
     name: 'talentId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const skillFields: INodeProperties[] = [
     description: 'The ID of the talent to associate with this skill',
   },
   {
-    displayName: 'Skill ID',
+    displayName: 'Skill ID *',
     name: 'skillId',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const skillFields: INodeProperties[] = [
     description: 'The ID of the skill to update or delete',
   },
   {
-    displayName: 'Skill Name',
+    displayName: 'Skill Name *',
     name: 'skillName',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const skillFields: INodeProperties[] = [
     description: 'The name of the skill',
   },
   {
-    displayName: 'Skill Level',
+    displayName: 'Skill Level *',
     name: 'level',
     type: 'number',
     typeOptions: {

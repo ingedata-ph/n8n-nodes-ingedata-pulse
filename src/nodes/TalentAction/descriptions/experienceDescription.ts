@@ -45,7 +45,7 @@ export const experienceOperationsFields: INodeProperties[] = [
 
 export const experienceFields: INodeProperties[] = [
   {
-    displayName: 'Talent ID',
+    displayName: 'Talent ID *',
     name: 'talentId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const experienceFields: INodeProperties[] = [
     description: 'The ID of the talent to associate with this experience entry',
   },
   {
-    displayName: 'Experience ID',
+    displayName: 'Experience ID *',
     name: 'experienceId',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const experienceFields: INodeProperties[] = [
     description: 'The ID of the experience entry to update or delete',
   },
   {
-    displayName: 'Organization',
+    displayName: 'Organization *',
     name: 'organization',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const experienceFields: INodeProperties[] = [
     description: 'The organization where the experience was gained',
   },
   {
-    displayName: 'Position',
+    displayName: 'Position *',
     name: 'position',
     type: 'string',
     default: '',
@@ -101,7 +101,7 @@ export const experienceFields: INodeProperties[] = [
     description: 'The position held during the experience',
   },
   {
-    displayName: 'Start Date',
+    displayName: 'Start Date *',
     name: 'startDate',
     type: 'dateTime',
     default: '',

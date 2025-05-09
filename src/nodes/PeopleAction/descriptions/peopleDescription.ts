@@ -45,7 +45,7 @@ export const peopleOperationsFields: INodeProperties[] = [
 
 export const peopleFields: INodeProperties[] = [
   {
-    displayName: 'Person ID',
+    displayName: 'Person ID *',
     name: 'personId',
     type: 'string',
     default: '',
@@ -180,7 +180,7 @@ export const peopleFields: INodeProperties[] = [
     ],
   },
   {
-    displayName: 'First Name',
+    displayName: 'First Name *',
     name: 'firstName',
     type: 'string',
     default: '',
@@ -207,7 +207,7 @@ export const peopleFields: INodeProperties[] = [
     description: 'The middle name of the person to create',
   },
   {
-    displayName: 'Last Name',
+    displayName: 'Last Name *',
     name: 'lastName',
     type: 'string',
     default: '',
@@ -335,7 +335,7 @@ export const peopleFields: INodeProperties[] = [
     description: 'The address of the person to create',
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: '',
