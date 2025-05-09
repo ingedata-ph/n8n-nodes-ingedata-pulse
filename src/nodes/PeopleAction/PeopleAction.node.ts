@@ -2,8 +2,13 @@ import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-w
 import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { peopleOperations } from './operations';
-import { peopleOperationsFields, peopleFields } from './descriptions';
+import { peopleOperations, identityDocumentsOperations } from './operations';
+import {
+	peopleOperationsFields,
+	peopleFields,
+	identityDocumentsOperationsFields,
+	identityDocumentsFields,
+} from './descriptions';
 
 export class PeopleAction extends BasePulseNode {
 	constructor() {
@@ -36,6 +41,10 @@ export class PeopleAction extends BasePulseNode {
 							name: 'People',
 							value: 'people',
 						},
+						{
+							name: 'Person Identity Document',
+							value: 'identityDocument',
+						}
 					],
 					default: 'people',
 					noDataExpression: true,
@@ -44,6 +53,8 @@ export class PeopleAction extends BasePulseNode {
 				},
 				...peopleOperationsFields,
 				...peopleFields,
+				...identityDocumentsOperationsFields,
+				...identityDocumentsFields,
 			],
 		});
 	}
@@ -83,6 +94,33 @@ export class PeopleAction extends BasePulseNode {
 						case 'updatePerson':
 							result = { 
 								json: await  peopleOperations.updatePerson(this, i, pulseApi)
+							};
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				}
+
+				else if (resource === 'identityDocument') {
+					switch (operation) {
+						case 'getIdentityDocumentList':
+							result = { 
+								json: await  identityDocumentsOperations.getIdentityDocumentList(this, i, pulseApi)
+							};
+							break;
+						case 'createIdentityDocument':
+							result = { 
+								json: await  identityDocumentsOperations.createIdentityDocument(this, i, pulseApi)
+							};
+							break;
+						case 'getIdentityDocumentById':
+							result = { 
+								json: await  identityDocumentsOperations.getIdentityDocumentById(this, i, pulseApi)
+							};
+							break;
+						case 'updateIdentityDocument':
+							result = { 
+								json: await  identityDocumentsOperations.updateIdentityDocument(this, i, pulseApi)
 							};
 							break;
 						default:
