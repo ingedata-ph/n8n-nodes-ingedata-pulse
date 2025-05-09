@@ -28,8 +28,8 @@ export async function createCandidate(
   const newPerson = executeFunctions.getNodeParameter('newPerson', itemIndex) as boolean;
   const PeopleApi = await PulseApiFactory.getPulseApiHelper(executeFunctions, 'people') as any;
   let personId: string;
-  let personData: any = {};
   let person: any;
+  let personDataAttributes: any = {};
 
   if (newPerson) {
     // Get person data from the node parameters
@@ -39,12 +39,19 @@ export async function createCandidate(
     const organizational_unit = executeFunctions.getNodeParameter('organizationalUnit', itemIndex) as string;
     const picture_url = executeFunctions.getNodeParameter('pictureUrl', itemIndex, '') as string;
 
-    personData = {
+    personDataAttributes = {
       first_name,
       last_name,
       middle_name,
       organizational_unit,
       picture_url,
+    }
+
+    const personData = {
+      data: {
+        type: "iam/people",
+        attributes: personDataAttributes
+      }
     };
 
     try {
@@ -62,7 +69,7 @@ export async function createCandidate(
       throw new Error(`Person with ID ${personId} not found`);
     }
 
-    personData = {
+    personDataAttributes = {
       first_name: person.data.attributes.first_name,
       last_name: person.data.attributes.last_name,
       middle_name: person.data.attributes.middle_name,
@@ -76,7 +83,7 @@ export async function createCandidate(
       type: "recruitment/candidates",
       attributes: {
         id: personId,
-        ...personData,
+        ...personDataAttributes,
       },
       relationships: {
         person: {
