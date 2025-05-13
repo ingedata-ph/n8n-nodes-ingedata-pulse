@@ -26,14 +26,6 @@ describe('PulseApi Credentials', () => {
     expect(apiKeyProperty?.type).toBe('string');
     expect(apiKeyProperty?.default).toBe('');
 
-    // API Secret property
-    const apiSecretProperty = pulseApiCredentials.properties.find(prop => prop.name === 'apiSecret');
-    expect(apiSecretProperty).toBeDefined();
-    expect(apiSecretProperty?.displayName).toBe('API Secret');
-    expect(apiSecretProperty?.type).toBe('string');
-    expect(apiSecretProperty?.typeOptions?.password).toBe(true);
-    expect(apiSecretProperty?.default).toBe('');
-
     // API URL property
     const apiUrlProperty = pulseApiCredentials.properties.find(prop => prop.name === 'apiUrl');
     expect(apiUrlProperty).toBeDefined();

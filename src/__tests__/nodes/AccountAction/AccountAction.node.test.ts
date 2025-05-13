@@ -35,7 +35,6 @@ describe('AccountActionNode', () => {
       getNodeParameter: jest.fn(),
       getCredentials: jest.fn().mockResolvedValue({
         apiKey: 'test-key',
-        apiSecret: 'test-secret',
         apiUrl: 'http://pulse.localhost:3000',
       }),
       prepareOutputData: jest.fn(data => data),

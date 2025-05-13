@@ -129,6 +129,7 @@ pnpm add n8n-ingedata-pulse
 #### Generate API Key and Secret from Pulse
 
 ![Generate API Key](imgs/readme_generate_api_key.png)
+![API key generated](imgs/readme_api_key_generated.png)
 
 2. Use the nodes in your workflows
 

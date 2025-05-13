@@ -1,7 +1,6 @@
 import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
 import { OfficeApi } from '../../../utils/api/OfficeApi';
 import { PulseApiFactory } from '../../../utils/api/PulseApiFactory';
-import { log } from 'console';
 
 export async function getEmployeeList(
   executeFunctions: IExecuteFunctions,

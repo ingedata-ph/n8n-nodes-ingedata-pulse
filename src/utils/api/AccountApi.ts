@@ -26,7 +26,6 @@ export class AccountApi extends BasePulseApi {
    * @param included Optional array of related resources to include
    */
   async getCurrentAccount(included?: string[]): Promise<any> {
-    console.log('Fetching current account information');
     const queryParams: Record<string, string | string[]> = {};
     
     if (included && included.length > 0) {

@@ -1,6 +1,5 @@
 import { ICredentialDataDecryptedObject } from 'n8n-workflow';
 import { BasePulseApi } from './BasePulseApi';
-import { log } from 'console';
 
 export class QuizzApi extends BasePulseApi {
   constructor(credentials: ICredentialDataDecryptedObject) {
@@ -21,7 +20,6 @@ export class QuizzApi extends BasePulseApi {
     included?: string[],
   ): Promise<any> {
     const queryParams = this.buildQueryParams(additionalFields, included);
-    console.log('Query Params:', queryParams);
     
     return this.request<any>('GET', '/api/v3/quiz/sessions', undefined, queryParams);
   }

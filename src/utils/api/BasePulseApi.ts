@@ -4,13 +4,11 @@ export class BasePulseApi {
   protected token = '';
   protected apiUrl: string;
   protected apiKey: string;
-  protected apiSecret: string;
   protected headers: Record<string, string>;
 
   constructor(credentials: ICredentialDataDecryptedObject) {
     this.apiUrl = credentials.apiUrl as string;
     this.apiKey = credentials.apiKey as string;
-    this.apiSecret = credentials.apiSecret as string;
 
     this.headers = {
       'Accept': 'application/json',
@@ -28,11 +26,8 @@ export class BasePulseApi {
         headers: this.headers,
         body: JSON.stringify({
           key: this.apiKey,
-          secret: this.apiSecret,
         }),
       });
-
-      // console.log('Response:', response);
       
       if (!response.ok) {
         const errorData = await response.json() as any;
@@ -73,7 +68,6 @@ export class BasePulseApi {
     return_binary_data?: boolean,
   ): Promise<T> {
     const token = await this.getToken();
-    console.log('Token:', token);
     try {
       const headers: Record<string, string> = {
         Authorization: `Bearer ${token}`,

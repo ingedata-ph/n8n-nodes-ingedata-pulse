@@ -15,15 +15,6 @@ export class PulseApi implements ICredentialType {
 			default: '',
 		},
 		{
-			displayName: 'API Secret',
-			name: 'apiSecret',
-			type: 'string',
-			typeOptions: {
-				password: true,
-			},
-			default: '',
-		},
-		{
 			displayName: 'API URL',
 			name: 'apiUrl',
 			type: 'string',
