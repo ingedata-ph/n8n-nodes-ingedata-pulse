@@ -201,69 +201,93 @@ pnpm test:watch
 
 ## Usage Examples
 
-### Example 1: Creating a Talent Profile with Resume Upload and Add New Experience entry
+### Example 1: Managing Project Activities and Work Units
 
-This workflow demonstrates how to create a new talent profile and upload a resume:
-![a screenshot of a workflow for creating talent from resume](imgs/readme_talent_resume_workflow.png)
+This workflow demonstrates how to create work units and assign team members to activities:
+![a screenshot of activity workflow](imgs/readme_activity_workflow.png)
 
-1. Use a trigger node (like Form Submission with file upload)
-2. Use an **HTTP Request** node to upload the resume file to pulse, send the file as a Binary data
-3. Add an Edit Fields nodes to convert outut from request as a json to get the URL of the resume
-4. Add a **TalentAction** node:
-   - Set "Talent" as resource
+1. Set up a trigger node (e.g., "When Clicking Test Workflow")
+2. Add a **WorkflowAction** node with "Project Members" resource:
+   - Set Operation to "Get" to retrieve project member details
+   - This provides the necessary account information for later assignment
+3. Add a **WorkflowAction** node with "Project Work Units" resource:
    - Set Operation to "Create"
-   - Make Upload Resume as true
-   - Add any additional talent information (Organizational Unit)
-   - Add the Url from previous node
-5. Add a **TalentAction** node with "Experience" resource:
-   - Get talent_id from the new created talent
-   - Add relevant work experience
+   - Configure a name for the work unit
+   - Link to the appropriate project ID
+4. Add a **WorkflowAction** node with "Activity" resource:
+   - Set Operation to "Get List"
+   - Use filters to retrieve activities related to the work unit
+5. Add a final **WorkflowAction** node with "Activity" resource:
+   - Set Operation to "Assign Member"
+   - Specify the activity ID from the previous step
+   - Select the account ID from the project member
+   - Optionally set "Start Working" to true to immediately begin the activity
 
-### Example 2: Managing Office Planning and Announcements / Update Employee
+This workflow automates the process of creating work units and assigning team members to activities, streamlining project management in the Pulse platform.
+![a screenshot of getting member](imgs/readme_get_member.png)
+![a screenshot of work unit creation node](imgs/readme_create_work_unit.png)
+![a screenshot of assign member to an activity](imgs/readme_assign_activity_member.png)
 
-This workflow shows how to create a new office planning schedule and announce it:
-![a screenshot for office workflow](imgs/readme_full_employee_workflow.png)
+### Example 2: Project Creation and Management Workflow
 
-1. Use a trigger node
-2. Add an **OfficeAction** node with "Planning" resource:
+This workflow demonstrates how to create and manage projects in the Pulse platform:
+![a screenshot of project creation workflow](imgs/readme_project_creation_workflow.png)
+
+1. Set up a trigger node (e.g., "When clicking Test workflow")
+2. Add a **WorkflowAction** node with "Projects" resource:
    - Set Operation to "Create"
-   - Configure schedule with working hours
-   - Set appropriate timezone and organizational unit
-3. Add an **OfficeAction** node with "Announcement" resource:
-   - Set Operation to "Create"
-   - Create content announcing the new planning schedule
-   - Set organizational units to target specific departments
-   - Set publishing date
-4. Update an existing employee details with the new planning:
-   - Add an **OfficeAction** node with "Employee" resource
-   - Set Operation to Get Employee List
-   - Add Additional Fileld "Filters" with "key: id" and value the employee_id
-   - Add an **OfficeAction** node with "Employee" resource and Operation Update
-   - Get All the fields that will not change ffrom the previous nodes
-   - Add new value for the one you want to update
+   - Configure project name, organizational unit, and other required fields
+   - This creates a new project in the Pulse platform
+3. Add a **WorkflowAction** node with "Projects" resource:
+   - Set Operation to "Get List"
+   - Use this to retrieve the newly created project or existing projects
+4. Add a **WorkflowAction** node with "Projects" resource:
+   - Set Operation to "Filter List"
+   - Apply filters to narrow down the project list if needed
+5. Add a **WorkflowAction** node with "Projects" resource:
+   - Set Operation to "Update"
+   - Update project name or other project details as needed
+6. Also:
+   - Add a **WorkflowAction** node to get account information
+   - Add a **WorkflowAction** node with "Project Members" resource to add new team members
+   - Add a **WorkflowAction** node to get project Members
 
-![a screenshot of planning creation](imgs/readme_planning_creation.png)
-![Get employee List](imgs/readme_employee_get_list.png)
-![Update Employee](imgs/readme_update_employee_data.png)
+This workflow provides a complete project setup process, from creation to team assignment and document management.
 
-### Example 3: Setting Up a Recruitment Process
+![a screenshot of project creation node](imgs/readme_create_new_project.png)
+![a screenshot of project list node](imgs/readme_filter_list_project.png)
+![a screenshot of project update node](imgs/readme_update_project_name.png)
+![a screenshot of add member](imgs/readme_add_new_member.png)
 
-This workflow demonstrates setting up a recruitment process with candidate tracking and quiz assignment:
-![a screenshot of recruitment workflow](imgs/readme_recruitment_workflow.png)
+### Example 3: Managing Project Data and Documents
 
-1. Use a trigger node
-2. Add a **RecruitmentAction** node with "Candidates" resource:
-   - Set Operation to "Create"
-   - Select "New Person" option
-   - Fill in candidate personal information
-3. Add a **RecruitmentAction** node with "Quizz Sessions" resource:
-   - Set Operation to "Create"
-   - Connect to the candidate created in previous step
-   - Configure session parameters
-4. Use the "Assign Quizz" operation to assign a specific quiz to the session
+This workflow shows how to manage project data and documents:
+![a screenshot of project data workflow](imgs/readme_project_data_workflow.png)
 
-![a screenshot of create candidates](imgs/readme_create_candidates.png)
-![a screenshot of quiz session](imgs/readme_quiz_session.png)
+1. Set up a trigger node (e.g., "When clicking Test workflow")
+2. Add a **WorkflowAction** node with "Projects" resource:
+   - Set Operation to "Get" to retrieve project details
+3. Add a **WorkflowAction** node with "Project Data" resource:
+   - Set Operation to "Get" to retrieve existing project data
+4. Add a **Function** node:
+   - Use this to prepare project data fields with key-value pairs
+   - Format the data according to project requirements
+5. Add a **Split Out** node:
+   - Split the data into individual items for processing
+6. Add a **Loop Over Items** node:
+   - Process each data item individually
+7. Add a **WorkflowAction** node with "Project Data" resource:
+   - Set Operation to "Create" to store custom project data
+   - Configure key, value, and label for each data point
+8. Add a **WorkflowAction** node with "Project Documents" resource:
+   - Set Operation to "Create" to add project documents
+   - Configure document name, category, URL, and access rights
+
+This workflow enables efficient management of project data and documents, allowing teams to store and organize project-related information in a structured way.
+
+![a screenshot of project data field node](imgs/readme_prepare_data_field.png)
+![a screenshot of project data creation node](imgs/readme_create_project_data.png)
+![a screenshot of add project document](imgs/readme_add_project_doc.png)
 
 ## License
 

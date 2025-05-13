@@ -302,4 +302,22 @@ export class WorkflowApi extends BasePulseApi {
 
     return this.request<any>(method, url);
   }
+
+  /**
+   * Get a list of activities
+   * @param additionalFields Additional fields for filtering, sorting, and pagination
+   */
+  async getActivityList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields);
+
+    return this.request<any>('GET', '/api/v3/workflow/activities', undefined, queryParams);
+  }
 }

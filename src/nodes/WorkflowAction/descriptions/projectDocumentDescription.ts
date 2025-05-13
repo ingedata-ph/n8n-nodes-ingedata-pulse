@@ -17,8 +17,8 @@ export const projectDocumentOperationsFields: INodeProperties[] = [
       {
         name: 'Add Project Document',
         value: 'createProjectDocument',
-        description: 'Add a new project document',
-        action: 'Create a new project document',
+        description: 'Add new project document',
+        action: 'Add new project document',
       },
       {
         name: 'Update Project Document',

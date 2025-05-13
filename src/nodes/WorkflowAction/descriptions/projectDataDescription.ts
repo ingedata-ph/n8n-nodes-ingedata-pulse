@@ -15,10 +15,10 @@ export const projectDataOperationsFields: INodeProperties[] = [
     noDataExpression: true,
     options: [
       {
-        name: 'Create Project Data',
+        name: 'Add Project Data',
         value: 'createProjectData',
-        description: 'Create project data',
-        action: 'Create project data',
+        description: 'Add project data',
+        action: 'Add project data',
       },
       {
         name: 'Update Project Data',

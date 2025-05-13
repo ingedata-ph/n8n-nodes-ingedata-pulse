@@ -15,6 +15,12 @@ export const activityOperationsFields: INodeProperties[] = [
     noDataExpression: true,
     options: [
       {
+        name: 'Get List of Activities',
+        value: 'getActivityList',
+        description: 'Get a list of activities',
+        action: 'Get a list of activities',
+      },
+      {
         name: 'Assign Member',
         value: 'assignMember',
         description: 'Assign a member to an activity',
