@@ -123,12 +123,14 @@ pnpm add n8n-ingedata-pulse
    ![Create Pulse API Credential](imgs/readme_create_credential.png)
 
    - API Key
-   - API Secret
    - API URL (defaults to https://pulse.ingedata.ai)
 
-#### Generate API Key and Secret from Pulse
+#### Generate API Key from Pulse
 
 ![Generate API Key](imgs/readme_generate_api_key.png)
+
+#### Generated API Key
+
 ![API key generated](imgs/readme_api_key_generated.png)
 
 2. Use the nodes in your workflows
