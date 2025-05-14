@@ -45,7 +45,7 @@ export const candidateOperationsFields: INodeProperties[] = [
 
 export const candidateFields: INodeProperties[] = [
   {
-    displayName: 'Candidate ID',
+    displayName: 'Candidate ID *',
     name: 'candidateId',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const candidateFields: INodeProperties[] = [
     description: 'Whether to create a new person or use an existing one',
   },
   {
-    displayName: 'Person ID',
+    displayName: 'Person ID *',
     name: 'personId',
     type: 'string',
     default: '',
@@ -88,7 +88,7 @@ export const candidateFields: INodeProperties[] = [
     description: 'The ID of the existing person',
   },
   {
-    displayName: 'First Name',
+    displayName: 'First Name *',
     name: 'firstName',
     type: 'string',
     default: '',
@@ -98,20 +98,6 @@ export const candidateFields: INodeProperties[] = [
         resource: ['candidates'],
         operation: ['createCandidate'],
         newPerson: [true],
-      },
-    },
-    description: 'The first name of the person',
-  },
-  {
-    displayName: 'First Name',
-    name: 'firstName',
-    type: 'string',
-    default: '',
-    required: true,
-    displayOptions: {
-      show: {
-        resource: ['candidates'],
-        operation: ['updateCandidate'],
       },
     },
     description: 'The first name of the person',
@@ -131,34 +117,7 @@ export const candidateFields: INodeProperties[] = [
     description: 'The middle name of the person',
   },
   {
-    displayName: 'Middle Name',
-    name: 'middleName',
-    type: 'string',
-    default: '',
-    displayOptions: {
-      show: {
-        resource: ['candidates'],
-        operation: ['updateCandidate'],
-      },
-    },
-    description: 'The middle name of the person',
-  },
-  {
-    displayName: 'Last Name',
-    name: 'lastName',
-    type: 'string',
-    default: '',
-    required: true,
-    displayOptions: {
-      show: {
-        resource: ['candidates'],
-        operation: ['updateCandidate'],
-      },
-    },
-    description: 'The last name of the person',
-  },
-  {
-    displayName: 'Last Name',
+    displayName: 'Last Name *',
     name: 'lastName',
     type: 'string',
     default: '',
@@ -173,7 +132,7 @@ export const candidateFields: INodeProperties[] = [
     description: 'The last name of the person',
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: '',
@@ -202,7 +161,48 @@ export const candidateFields: INodeProperties[] = [
     description: 'The URL of the person\'s picture',
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'First Name *',
+    name: 'firstName',
+    type: 'string',
+    default: '',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['candidates'],
+        operation: ['updateCandidate'],
+      },
+    },
+    description: 'The first name of the person',
+  },
+  {
+    displayName: 'Middle Name',
+    name: 'middleName',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        resource: ['candidates'],
+        operation: ['updateCandidate'],
+      },
+    },
+    description: 'The middle name of the person',
+  },
+  {
+    displayName: 'Last Name *',
+    name: 'lastName',
+    type: 'string',
+    default: '',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['candidates'],
+        operation: ['updateCandidate'],
+      },
+    },
+    description: 'The last name of the person',
+  },
+  {
+    displayName: 'Organizational Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: '',

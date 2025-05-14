@@ -45,7 +45,7 @@ export const talentOperationsFields: INodeProperties[] = [
 
 export const talentFields: INodeProperties[] = [
   {
-    displayName: 'Talent ID',
+    displayName: 'Talent ID *',
     name: 'talentId',
     type: 'string',
     default: '',
@@ -72,7 +72,7 @@ export const talentFields: INodeProperties[] = [
     description: "If true, the talent will be created from a resume. If false, need to add person Id.",
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: 'MG',
@@ -87,7 +87,7 @@ export const talentFields: INodeProperties[] = [
     description: 'The organizational unit to associate with this talent',
   },
   {
-    displayName: 'Resume URL',
+    displayName: 'Resume URL *',
     name: 'resumeUrl',
     type: 'string',
     default: '',
@@ -117,7 +117,227 @@ export const talentFields: INodeProperties[] = [
     description: 'The MIME type of the uploaded resume, e.g., application/pdf',
   },
   {
-    displayName: 'Person ID',
+    displayName: 'New Person',
+    name: 'newPerson',
+    type: 'boolean',
+    default: false,
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+      },
+    },
+    description: 'If true, a new person will be created for this talent',
+  },
+  {
+    displayName: 'First Name *',
+    name: 'firstName',
+    type: 'string',
+    default: '',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['talent'],
+        operation: ['createTalent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The first name of the person',
+  },
+  {
+    displayName: 'Middle Name',
+    name: 'middleName',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        resource: ['talent'],
+        operation: ['createTalent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The middle name of the person',
+  },
+  {
+    displayName: 'Last Name *',
+    name: 'lastName',
+    type: 'string',
+    default: '',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['talent'],
+        operation: ['createTalent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The last name of the person',
+  },
+  {
+    displayName: 'Organizational Unit *',
+    name: 'organizationalUnit',
+    type: 'string',
+    default: 'MG',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['talent'],
+        operation: ['createTalent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The organizational unit of the person',
+  },
+  {
+    displayName: 'Picture URL',
+    name: 'pictureUrl',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        resource: ['talent'],
+        operation: ['createTalent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The URL of the person\'s picture',
+  },
+  {
+    displayName: 'Gender',
+    name: 'gender',
+    type: 'options',
+    options: [
+      {
+        name: 'Male',
+        value: 'male',
+      },
+      {
+        name: 'Female',
+        value: 'female',
+      },
+    ],
+    default: 'male',
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The gender of the person to create',
+  },
+  {
+    displayName: 'Birthday',
+    name: 'birthday',
+    type: 'dateTime',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The birthday of the person to create',
+  },
+  {
+    displayName: 'Relationship Status',
+    name: 'relationshipStatus',
+    type: 'options',
+    options: [
+      {
+        name: 'Single',
+        value: 'single',
+      },
+      {
+        name: 'Married',
+        value: 'married',
+      },
+    ],
+    default: 'single',
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The relationship status of the person to create',
+  },
+  {
+    displayName: 'Number of Kids',
+    name: 'numberOfKids',
+    type: 'number',
+    typeOptions: {
+      minValue: 0,
+    },
+    default: 0,
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The number of kids of the person to create',
+  },
+  {
+    displayName: 'Secondary Email',
+    name: 'secondaryEmail',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The secondary email of the person to create',
+  },
+  {
+    displayName: 'Phone Number',
+    name: 'contactNumber',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The phone number of the person to create',
+  },
+  {
+    displayName: 'Address',
+    name: 'address',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+        newPerson: [true],
+      },
+    },
+    description: 'The address of the person to create',
+  },
+  {
+    displayName: 'Person ID *',
     name: 'personId',
     type: 'string',
     default: '',
@@ -127,12 +347,13 @@ export const talentFields: INodeProperties[] = [
         operation: ['createTalent'],
         resource: ['talent'],
         fromResume: [false],
+        newPerson: [false],
       },
     },
     description: 'The ID of the person to associate with this talent',
   },
   {
-    displayName: 'Query',
+    displayName: 'Query *',
     name: 'queryPrompt',
     type: 'string',
     default: '',

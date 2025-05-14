@@ -39,7 +39,7 @@ export const projectWorkUnitOperationsFields: INodeProperties[] = [
 
 export const projectWorkUnitFields: INodeProperties[] = [
   {
-    displayName: 'Work Unit ID',
+    displayName: 'Work Unit ID *',
     name: 'workUnitId',
     type: 'string',
     default: '',
@@ -53,7 +53,7 @@ export const projectWorkUnitFields: INodeProperties[] = [
     description: 'The ID of the work unit',
   },
   {
-    displayName: 'Project ID',
+    displayName: 'Project ID *',
     name: 'projectId',
     type: 'string',
     default: '',

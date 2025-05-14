@@ -45,7 +45,7 @@ export const planningOperationsFields: INodeProperties[] = [
 
 export const planningFields: INodeProperties[] = [
   {
-    displayName: 'Planning ID',
+    displayName: 'Planning ID *',
     name: 'planningId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const planningFields: INodeProperties[] = [
     description: 'The ID of the planning to update or delete',
   },
   {
-    displayName: 'Name',
+    displayName: 'Name *',
     name: 'name',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const planningFields: INodeProperties[] = [
     description: 'The name of the planning',
   },
   {
-    displayName: 'Timezone',
+    displayName: 'Timezone *',
     name: 'timezone',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const planningFields: INodeProperties[] = [
     description: 'The timezone of the planning (e.g., Africa/Nairobi)',
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: '',
@@ -119,7 +119,7 @@ export const planningFields: INodeProperties[] = [
     description: 'The number of working hours per day',
   },
   {
-    displayName: 'Schedule',
+    displayName: 'Schedule *',
     name: 'schedule',
     type: 'json',
     default: '{\n  "monday": ["8:00", "12:00", "14:00", "18:00"],\n  "tuesday": ["8:00", "12:00", "14:00", "18:00"]\n}',

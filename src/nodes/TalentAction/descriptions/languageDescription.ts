@@ -45,7 +45,7 @@ export const languageOperationsFields: INodeProperties[] = [
 
 export const languageFields: INodeProperties[] = [
   {
-    displayName: 'Talent ID',
+    displayName: 'Talent ID *',
     name: 'talentId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const languageFields: INodeProperties[] = [
     description: 'The ID of the talent to associate with this language',
   },
   {
-    displayName: 'Language ID',
+    displayName: 'Language ID *',
     name: 'languageId',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const languageFields: INodeProperties[] = [
     description: 'The ID of the language to update or delete',
   },
   {
-    displayName: 'ISO Code',
+    displayName: 'ISO Code *',
     name: 'isoCode',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const languageFields: INodeProperties[] = [
     description: 'The ISO code of the language',
   },
   {
-    displayName: 'Reading Level',
+    displayName: 'Reading Level *',
     name: 'readingLevel',
     type: 'number',
     typeOptions: {
@@ -105,7 +105,7 @@ export const languageFields: INodeProperties[] = [
     description: 'The reading level of the language (1-5)',
   },
   {
-    displayName: 'Writing Level',
+    displayName: 'Writing Level *',
     name: 'writingLevel',
     type: 'number',
     typeOptions: {
@@ -123,7 +123,7 @@ export const languageFields: INodeProperties[] = [
     description: 'The writing level of the language (1-5)',
   },
   {
-    displayName: 'Speaking Level',
+    displayName: 'Speaking Level *',
     name: 'speakingLevel',
     type: 'number',
     typeOptions: {

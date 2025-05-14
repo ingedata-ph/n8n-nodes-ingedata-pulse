@@ -261,6 +261,11 @@ export class WorkflowAction extends BasePulseNode {
 								json: await  activityOperations.unassignActivityMember(this, i, pulseApi)
 							};
 							break;
+            case 'getActivityList':
+              result = {
+                json: await  activityOperations.getActivityList(this, i, pulseApi)
+              };
+              break;
             default:
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }

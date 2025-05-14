@@ -45,7 +45,7 @@ export const projectOperationsFields: INodeProperties[] = [
 
 export const projectFields: INodeProperties[] = [
   {
-    displayName: 'Project ID',
+    displayName: 'Project ID *',
     name: 'projectId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const projectFields: INodeProperties[] = [
     description: 'The ID of the project to update',
   },
   {
-    displayName: 'Name',
+    displayName: 'Name *',
     name: 'name',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const projectFields: INodeProperties[] = [
     description: 'The name of the project',
   },
   {
-    displayName: 'Organizational Unit',
+    displayName: 'Organizational Unit *',
     name: 'organizationalUnit',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const projectFields: INodeProperties[] = [
     description: 'The organizational unit of the project',
   },
   {
-    displayName: 'Organization ID',
+    displayName: 'Organization ID *',
     name: 'organizationId',
     type: 'string',
     default: '',
@@ -101,7 +101,7 @@ export const projectFields: INodeProperties[] = [
     description: 'The organization ID',
   },
   {
-    displayName: 'Project Definition',
+    displayName: 'Project Definition *',
     name: 'projectDefinition',
     type: 'string',
     required: true,
@@ -118,11 +118,10 @@ export const projectFields: INodeProperties[] = [
     description: 'The project definition JSON',
   },
   {
-    displayName: 'Status',
+    displayName: 'Status *',
     name: 'status',
     type: 'boolean',
-    default: '',
-    required: true,
+    default: true,
     displayOptions: {
       show: {
         resource: ['projects'],

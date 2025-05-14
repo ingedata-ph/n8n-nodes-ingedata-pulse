@@ -45,7 +45,7 @@ export const educationOperationsFields: INodeProperties[] = [
 
 export const educationFields: INodeProperties[] = [
   {
-    displayName: 'Talent ID',
+    displayName: 'Talent ID *',
     name: 'talentId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const educationFields: INodeProperties[] = [
     description: 'The ID of the talent to associate with this education entry',
   },
   {
-    displayName: 'Education ID',
+    displayName: 'Education ID *',
     name: 'educationId',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const educationFields: INodeProperties[] = [
     description: 'The ID of the education entry to update or delete',
   },
   {
-    displayName: 'Education Name',
+    displayName: 'Education Name *',
     name: 'educationName',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const educationFields: INodeProperties[] = [
     description: 'The name of the education',
   },
   {
-    displayName: 'Institution',
+    displayName: 'Institution *',
     name: 'institution',
     type: 'string',
     default: '',
@@ -101,7 +101,7 @@ export const educationFields: INodeProperties[] = [
     description: 'The institution where the education was obtained',
   },
   {
-    displayName: 'Degree',
+    displayName: 'Degree *',
     name: 'degree',
     type: 'string',
     default: '',
@@ -115,7 +115,7 @@ export const educationFields: INodeProperties[] = [
     description: 'The degree obtained',
   },
   {
-    displayName: 'Start Date',
+    displayName: 'Start Date *',
     name: 'startDate',
     type: 'dateTime',
     default: '',

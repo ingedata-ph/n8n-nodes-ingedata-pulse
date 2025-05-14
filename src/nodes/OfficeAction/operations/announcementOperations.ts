@@ -97,9 +97,6 @@ export async function updateAnnouncement(
     throw new Error('At least one field must be provided for update');
   }
 
-  console.log("attributes :0", attributes);
-  
-  
   const announcementData = {
     data: {
       type: 'notification/announcements',

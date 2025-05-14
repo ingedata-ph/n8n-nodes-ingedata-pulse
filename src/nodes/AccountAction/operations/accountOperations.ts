@@ -10,7 +10,7 @@ export async function getCurrentUser(
   return pulseApi.getCurrentAccount(included);
 }
 
-export async function getUserById(
+export async function getUserAccountById(
   executeFunctions: IExecuteFunctions,
   itemIndex: number,
   pulseApi: AccountApi,

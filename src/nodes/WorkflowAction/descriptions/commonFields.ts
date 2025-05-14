@@ -9,8 +9,9 @@ export const commonFields: INodeProperties[] = [
     default: {},
     displayOptions: {
       show: {
-        resource: ['projects', 'projectWorkUnits', 'projectData', 'projectDocuments', 'projectMembers'],
+        resource: ['projects', 'projectWorkUnits', 'projectData', 'projectDocuments', 'projectMembers', 'activities'],
         operation: [
+          'getActivityList',
           'getProjectList',
           'getProjectWorkUnitList',
           'getProjectDataList',

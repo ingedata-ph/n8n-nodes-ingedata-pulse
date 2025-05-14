@@ -1,5 +1,6 @@
 import { IExecuteFunctions } from 'n8n-workflow';
 import { TalentApi } from '../../../utils/api/TalentApi';
+import { PulseApiFactory } from '../../../utils/api/PulseApiFactory';
 
 export async function getTalentList(
   executeFunctions: IExecuteFunctions,
@@ -31,8 +32,54 @@ export async function createTalent(
 
     return pulseApi.createTalentFromResume(resumeUrl, organizationalUnit, mimeType);
   } else {
-    const person_id = executeFunctions.getNodeParameter('personId', itemIndex) as string;
+    let person_id: string;
+    const newPerson = executeFunctions.getNodeParameter('newPerson', itemIndex) as boolean;
+    if (newPerson) {
+      const PeopleApi = await PulseApiFactory.getPulseApiHelper(executeFunctions, 'people') as any;
+      const first_name = executeFunctions.getNodeParameter('firstName', itemIndex) as string;
+      const last_name = executeFunctions.getNodeParameter('lastName', itemIndex) as string;
+      const middle_name = executeFunctions.getNodeParameter('middleName', itemIndex, '') as string;
+      const organizational_unit = executeFunctions.getNodeParameter('organizationalUnit', itemIndex) as string;
+      const picture_url = executeFunctions.getNodeParameter('pictureUrl', itemIndex, '') as string;
+      const gender = executeFunctions.getNodeParameter('gender', itemIndex) as string;
+      const relationship_status = executeFunctions.getNodeParameter('relationshipStatus', itemIndex) as string;
+      const birthday = executeFunctions.getNodeParameter('birthday', itemIndex, '') as string;
+      const secondary_email = executeFunctions.getNodeParameter('secondaryEmail', itemIndex, '') as string;
+      const number_of_kids = executeFunctions.getNodeParameter('numberOfKids', itemIndex, 0) as number;
+      const contact_number = executeFunctions.getNodeParameter('contactNumber', itemIndex, '') as string;
+      const address = executeFunctions.getNodeParameter('address', itemIndex, '') as string;
 
+      const personData = {
+        data: {
+          type: "iam/people",
+          attributes: {
+            first_name,
+            last_name,
+            middle_name,
+            organizational_unit,
+            picture_url,
+            gender,
+            relationship_status,
+            birthday,
+            secondary_email,
+            number_of_kids,
+            contact_number,
+            address,
+          },
+        }
+      };
+
+      try {
+        const person = await PeopleApi.createPerson(personData);
+        person_id = person.data.id;
+      } catch (error) {
+        throw new Error('Error creating person: ' + (error as Error).message);
+      }
+    } else {
+      // Use existing person ID
+      person_id = executeFunctions.getNodeParameter('personId', itemIndex) as string;
+    }
+    // Create talent data
     const talentData = {
       data: {
         type: "talent/talents",

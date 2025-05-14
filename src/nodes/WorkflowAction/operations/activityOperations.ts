@@ -35,3 +35,24 @@ export async function assignActivityMember(
     throw new Error('Error assigning member to activity: ' + (error as Error).message);
   }
 }
+
+export async function getActivityList(
+  executeFunctions: IExecuteFunctions,
+  itemIndex: number,
+  pulseApi: WorkflowApi,
+): Promise<any> {
+  const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as {
+    sort?: string;
+    pageNumber?: number;
+    pageSize?: number;
+    filters?: { filter: Array<{ key: string; values: string }> };
+    fields?: { field: Array<{ key: string; fields: string }> };
+  };
+
+
+  try {
+    return await pulseApi.getActivityList(additionalFields);
+  } catch (error) {
+    throw new Error('Error fetching activity list: ' + (error as Error).message);
+  }
+}

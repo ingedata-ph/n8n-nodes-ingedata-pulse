@@ -45,7 +45,7 @@ export const projectMemberOperationsFields: INodeProperties[] = [
 
 export const projectMemberFields: INodeProperties[] = [
   {
-    displayName: 'Member ID',
+    displayName: 'Member ID *',
     name: 'memberId',
     type: 'string',
     default: '',
@@ -59,7 +59,7 @@ export const projectMemberFields: INodeProperties[] = [
     description: 'The ID of the project member',
   },
   {
-    displayName: 'Account ID',
+    displayName: 'Account ID *',
     name: 'accountId',
     type: 'string',
     default: '',
@@ -73,7 +73,7 @@ export const projectMemberFields: INodeProperties[] = [
     description: 'The account ID',
   },
   {
-    displayName: 'Project ID',
+    displayName: 'Project ID *',
     name: 'projectId',
     type: 'string',
     default: '',
@@ -87,7 +87,7 @@ export const projectMemberFields: INodeProperties[] = [
     description: 'The project ID',
   },
   {
-    displayName: 'Actor Roles',
+    displayName: 'Actor Roles *',
     name: 'actorRoles',
     type: 'string',
     default: '',
@@ -106,7 +106,6 @@ export const projectMemberFields: INodeProperties[] = [
     name: 'isManager',
     type: 'boolean',
     default: false,
-    required: true,
     displayOptions: {
       show: {
         resource: ['projectMembers'],

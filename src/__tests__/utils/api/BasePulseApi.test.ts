@@ -20,7 +20,6 @@ describe('BasePulseApi', () => {
   let pulseApi: TestableBasePulseApi;
   const mockCredentials: ICredentialDataDecryptedObject = {
     apiKey: 'test-key',
-    apiSecret: 'test-secret',
     apiUrl: 'https://pulse.ingedata.ai',
   };
 

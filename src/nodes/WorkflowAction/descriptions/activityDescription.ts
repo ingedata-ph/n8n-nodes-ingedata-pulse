@@ -15,6 +15,12 @@ export const activityOperationsFields: INodeProperties[] = [
     noDataExpression: true,
     options: [
       {
+        name: 'Get List of Activities',
+        value: 'getActivityList',
+        description: 'Get a list of activities',
+        action: 'Get a list of activities',
+      },
+      {
         name: 'Assign Member',
         value: 'assignMember',
         description: 'Assign a member to an activity',
@@ -33,7 +39,7 @@ export const activityOperationsFields: INodeProperties[] = [
 
 export const activityFields: INodeProperties[] = [
   {
-    displayName: 'Activity ID',
+    displayName: 'Activity ID *',
     name: 'activityId',
     type: 'string',
     default: '',
@@ -47,7 +53,7 @@ export const activityFields: INodeProperties[] = [
     description: 'The ID of the activity',
   },
   {
-    displayName: 'Account ID',
+    displayName: 'Account ID *',
     name: 'accountId',
     type: 'string',
     default: '',
@@ -65,7 +71,6 @@ export const activityFields: INodeProperties[] = [
     name: 'startWorking',
     type: 'boolean',
     default: false,
-    required: true,
     displayOptions: {
       show: {
         resource: ['activities'],

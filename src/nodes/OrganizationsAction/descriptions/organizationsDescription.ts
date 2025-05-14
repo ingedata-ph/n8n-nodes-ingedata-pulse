@@ -39,7 +39,7 @@ export const organizationsOperationsFields: INodeProperties[] = [
 
 export const organizationsFields: INodeProperties[] = [
   {
-    displayName: 'Organization ID',
+    displayName: 'Organization ID *',
     name: 'organizationId',
     type: 'string',
     default: '',
@@ -53,7 +53,7 @@ export const organizationsFields: INodeProperties[] = [
     description: 'The ID of the organization to update',
   },
   {
-    displayName: 'Name',
+    displayName: 'Name *',
     name: 'name',
     type: 'string',
     default: '',

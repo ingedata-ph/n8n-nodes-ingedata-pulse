@@ -15,19 +15,10 @@ export class PulseApi implements ICredentialType {
 			default: '',
 		},
 		{
-			displayName: 'API Secret',
-			name: 'apiSecret',
-			type: 'string',
-			typeOptions: {
-				password: true,
-			},
-			default: '',
-		},
-		{
 			displayName: 'API URL',
 			name: 'apiUrl',
 			type: 'string',
-			default: 'http://pulse.localhost:3000', // local testing
+			default: 'https://pulse.ingedata.ai',
 			description: 'The URL of the Pulse API. Update to use with the staging environment.',
 		},
 	];

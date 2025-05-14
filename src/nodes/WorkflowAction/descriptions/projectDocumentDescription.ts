@@ -17,8 +17,8 @@ export const projectDocumentOperationsFields: INodeProperties[] = [
       {
         name: 'Add Project Document',
         value: 'createProjectDocument',
-        description: 'Add a new project document',
-        action: 'Create a new project document',
+        description: 'Add new project document',
+        action: 'Add new project document',
       },
       {
         name: 'Update Project Document',
@@ -51,7 +51,7 @@ export const projectDocumentOperationsFields: INodeProperties[] = [
 
 export const projectDocumentFields: INodeProperties[] = [
   {
-    displayName: 'Document ID',
+    displayName: 'Document ID *',
     name: 'documentId',
     type: 'string',
     default: '',
@@ -65,7 +65,7 @@ export const projectDocumentFields: INodeProperties[] = [
     description: 'The ID of the project document',
   },
   {
-    displayName: 'Name',
+    displayName: 'Name *',
     name: 'name',
     type: 'string',
     default: '',
@@ -79,7 +79,7 @@ export const projectDocumentFields: INodeProperties[] = [
     description: 'The name of the document',
   },
   {
-    displayName: 'Category',
+    displayName: 'Category *',
     name: 'category',
     type: 'options',
     options: [
@@ -111,7 +111,7 @@ export const projectDocumentFields: INodeProperties[] = [
     description: 'The category of the document',
   },
   {
-    displayName: 'URL',
+    displayName: 'URL *',
     name: 'url',
     type: 'string',
     default: '',
@@ -125,7 +125,7 @@ export const projectDocumentFields: INodeProperties[] = [
     description: 'The URL of the document',
   },
   {
-    displayName: 'Rights',
+    displayName: 'Rights *',
     name: 'rights',
     type: 'string',
     default: '',
@@ -146,7 +146,7 @@ export const projectDocumentFields: INodeProperties[] = [
     placeholder: 'e.g., financial,lead',
   },
   {
-    displayName: 'Project ID',
+    displayName: 'Project ID *',
     name: 'projectId',
     type: 'string',
     default: '',

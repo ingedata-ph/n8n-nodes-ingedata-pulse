@@ -63,7 +63,7 @@ export const quizzSessionOperationsFields: INodeProperties[] = [
 
 export const quizzSessionFields: INodeProperties[] = [
   {
-    displayName: 'Session ID',
+    displayName: 'Session ID *',
     name: 'sessionId',
     type: 'string',
     default: '',
@@ -83,7 +83,7 @@ export const quizzSessionFields: INodeProperties[] = [
     description: 'The ID of the session',
   },
   {
-    displayName: 'Person ID',
+    displayName: 'Person ID *',
     name: 'personId',
     type: 'string',
     default: '',
@@ -123,7 +123,7 @@ export const quizzSessionFields: INodeProperties[] = [
     description: 'The expiration date of the session',
   },
   {
-    displayName: 'Quiz ID',
+    displayName: 'Quiz ID *',
     name: 'quizId',
     type: 'string',
     default: '',
