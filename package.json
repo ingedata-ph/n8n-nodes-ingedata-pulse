@@ -27,16 +27,16 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/PulseApi.credentials.js"
+      "dist/src/credentials/PulseApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/AccountAction/AccountAction.node.js",
-      "dist/nodes/PeopleAction/PeopleAction.node.js",
-      "dist/nodes/TalentAction/TalentAction.node.js",
-      "dist/nodes/OrganizationsAction/OrganizationsAction.node.js",
-      "dist/nodes/OfficeAction/OfficeAction.node.js",
-      "dist/nodes/RecruitmentAction/RecruitmentAction.node.js",
-      "dist/nodes/WorkflowAction/WorkflowAction.node.js"
+      "dist/src/nodes/AccountAction/AccountAction.node.js",
+      "dist/src/nodes/PeopleAction/PeopleAction.node.js",
+      "dist/src/nodes/TalentAction/TalentAction.node.js",
+      "dist/src/nodes/OrganizationsAction/OrganizationsAction.node.js",
+      "dist/src/nodes/OfficeAction/OfficeAction.node.js",
+      "dist/src/nodes/RecruitmentAction/RecruitmentAction.node.js",
+      "dist/src/nodes/WorkflowAction/WorkflowAction.node.js"
     ]
   },
   "devDependencies": {
