@@ -18,7 +18,7 @@
   "keywords": [
     "n8n-community-node-package"
   ],
-  "author": "",
+  "author": "Ingedata Team",
   "license": "ISC",
   "packageManager": "pnpm@10.5.0",
   "files": [
