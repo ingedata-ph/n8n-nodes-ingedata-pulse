@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-ingedata-pulse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nodes for integration of n8n with Ingedata's Pulse",
   "main": "dist/index.js",
   "scripts": {
