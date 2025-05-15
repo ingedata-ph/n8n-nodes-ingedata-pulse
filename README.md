@@ -1,4 +1,4 @@
-# n8n-ingedata-pulse
+# n8n-nodes-ingedata-pulse
 
 This package provides n8n nodes for integration with Ingedata's Pulse platform.
 
@@ -51,13 +51,13 @@ The WorkflowAction node is the primary tool for customers to interact with Pulse
 Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
 ```bash
-npm install n8n-ingedata-pulse
+npm install n8n-nodes-ingedata-pulse
 ```
 
 Or if you're using pnpm:
 
 ```bash
-pnpm add n8n-ingedata-pulse
+pnpm add n8n-nodes-ingedata-pulse
 ```
 
 ## Setup
