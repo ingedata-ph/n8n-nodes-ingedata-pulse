@@ -1,5 +1,5 @@
 {
-  "name": "n8n-ingedata-pulse",
+  "name": "n8n-nodes-ingedata-pulse",
   "version": "1.0.0",
   "description": "Nodes for integration of n8n with Ingedata's Pulse",
   "main": "dist/index.js",
@@ -8,17 +8,17 @@
     "build": "tsc && gulp build:icons",
     "dev": "gulp build:icons && tsc --watch",
     "dev:icons": "gulp build:icons --watch",
-    "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes credentials package.json",
-    "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "pnpm build && pnpm lint -c .eslintrc.prepublish.js nodes credentials package.json",
+    "format": "prettier \"src/nodes/**/*.ts\" \"src/credentials/**/*.ts\" --write",
+    "lint": "eslint --config eslint.config.js \"src/nodes/**/*.ts\" \"src/credentials/**/*.ts\"",
+    "lintfix": "eslint --config eslint.config.js \"src/nodes/**/*.ts\" \"src/credentials/**/*.ts\" --fix",
+    "prepublishOnly": "pnpm build && eslint --config eslint.prepublish.config.js \"src/nodes/**/*.ts\" \"src/credentials/**/*.ts\"",
     "test": "jest",
     "test:watch": "jest --watch"
   },
   "keywords": [
     "n8n-community-node-package"
   ],
-  "author": "",
+  "author": "Ingedata Team",
   "license": "ISC",
   "packageManager": "pnpm@10.5.0",
   "files": [
@@ -27,11 +27,16 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/PulseApi.credentials.js"
+      "dist/src/credentials/PulseApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/AccountAction/AccountAction.node.js",
-      "dist/nodes/PeopleAction/PeopleAction.node.js"
+      "dist/src/nodes/AccountAction/AccountAction.node.js",
+      "dist/src/nodes/PeopleAction/PeopleAction.node.js",
+      "dist/src/nodes/TalentAction/TalentAction.node.js",
+      "dist/src/nodes/OrganizationsAction/OrganizationsAction.node.js",
+      "dist/src/nodes/OfficeAction/OfficeAction.node.js",
+      "dist/src/nodes/RecruitmentAction/RecruitmentAction.node.js",
+      "dist/src/nodes/WorkflowAction/WorkflowAction.node.js"
     ]
   },
   "devDependencies": {

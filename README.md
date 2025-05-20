@@ -1,4 +1,4 @@
-# n8n-ingedata-pulse
+# n8n-nodes-ingedata-pulse
 
 This package provides n8n nodes for integration with Ingedata's Pulse platform.
 
@@ -10,81 +10,19 @@ This package provides n8n nodes for integration with Ingedata's Pulse platform.
 
 ![Pulse Platform](imgs/readme_pulse_platform.png)
 
-Pulse is an Enterprise Resource Planning (ERP) system developed by Ingedata ([GitHub](https://github.com/ingedata-ph/octave)). It is a comprehensive platform designed to streamline business operations, resource management, and data integration across various departments. Pulse facilitates efficient workflow management, talent acquisition, employee administration, project tracking, and organizational structure management.
+Pulse is an Enterprise Resource Planning (ERP) system developed by [Ingedata](https://ingedata.ai).
+It is a comprehensive platform designed to streamline business operations, resource management, and data integration.
+Pulse facilitates efficient workflow management, project tracking, and collaboration between teams.
 
 As an ERP system, Pulse centralizes data and processes, enabling teams to work more efficiently with integrated workflows and automated business processes.
 
 ## Features
 
-This package provides several nodes for interacting with different aspects of the Pulse platform:
-
-### AccountAction Node
-
-- **Account Operations**:
-  - Create, update, and retrieve account information
-  - Get current user account information
-  - Get user account by ID
-- **Account Role Operations**:
-  - Create, update, and manage account roles
-
-### OfficeAction Node
-
-- **Employee Operations**:
-  - Manage employee records and details
-- **Planning Operations**:
-  - Create, update, delete, and list planning schedules
-  - Manage working hours, timezones, and organizational units
-- **Announcement Operations**:
-  - Create, update, delete, and list company announcements
-  - Manage content, publishing dates, and target organizational units
-- **Holiday Operations**:
-  - Create, update, delete, and list company holidays
-  - Set holiday dates for specific organizational units
-- **Leave Request Operations**:
-  - Create leave requests for employees
-  - Manage various leave types, dates, and supporting documentation
-  - Download Leave Balance Report
-
-### OrganizationsAction Node
-
-- **Organizations Operations**:
-  - Create and update organization records
-  - Manage organization settings and status
-- **People Directories Operations**:
-  - Create, update, delete, and list people directories
-
-### PeopleAction Node
-
-- **People Operations**:
-  - Create, update, and manage people records
-  - Store personal and professional information
-- **Identity Documents Operations**:
-  - Manage identity documents for people records
-
-### RecruitmentAction Node
-
-- **Candidate Operations**:
-  - Create, update, and list candidate information
-- **Quizz Session Operations**:
-  - Create, update, cancel, and list quiz sessions for candidates
-  - Assign quizzes to candidates and track scores
-
-### TalentAction Node
-
-- **Talent Operations**:
-  - Manage talent profiles and information
-- **Skill Operations**:
-  - Add, update, and manage skills for talent profiles
-- **Language Operations**:
-  - Track and update language proficiencies
-- **Education Operations**:
-  - Manage educational background information
-- **Certification Operations**:
-  - Track professional certifications and qualifications
-- **Experience Operations**:
-  - Manage work experience records
+This package provides several nodes for interacting with different aspects of the Pulse platform. For more detailed documentation about these features, please visit [developer.ingedata.ai](https://developer.ingedata.ai).
 
 ### WorkflowAction Node
+
+The WorkflowAction node is the primary tool for customers to interact with Pulse's project management capabilities:
 
 - **Project Operations**:
   - Create, update, and list projects
@@ -102,18 +40,24 @@ This package provides several nodes for interacting with different aspects of th
 - **Activity Operations**:
   - Assign members to activities
 
+### AccountAction Node
+
+- **Account Operations**:
+  - Retrieve account information
+  - Get current user account information
+
 ## Installation
 
-Follow the ([installation guide](https://docs.n8n.io/integrations/community-nodes/installation/)) in the n8n community nodes documentation.
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
 ```bash
-npm install n8n-ingedata-pulse
+npm install n8n-nodes-ingedata-pulse
 ```
 
 Or if you're using pnpm:
 
 ```bash
-pnpm add n8n-ingedata-pulse
+pnpm add n8n-nodes-ingedata-pulse
 ```
 
 ## Setup
@@ -134,73 +78,6 @@ pnpm add n8n-ingedata-pulse
 ![API key generated](imgs/readme_api_key_generated.png)
 
 2. Use the nodes in your workflows
-
-## Development
-
-### Prerequisites
-
-- Node.js (v16 or later)
-- pnpm
-
-### Getting Started
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-3. Build the project:
-   ```bash
-   pnpm build
-   ```
-
-### Development
-
-1. Run local dev, this will watch any changes to your `./src` files
-   ```bash
-   pnpm dev
-   ```
-   Optional to watch changes with icons:
-   ```bash
-   pnpm dev:icons
-   ```
-2. Run docker compose
-   ```bash
-   docker compose up
-   ```
-3. Go to http://localhost:5678
-
-**Note**: You will need to restart docker compose to reload the n8n node as n8n currently has an issue with linking nodes correctly to n8n.
-
-### Testing
-
-Run the tests:
-
-```bash
-pnpm test
-```
-
-Run tests in watch mode:
-
-```bash
-pnpm test:watch
-```
-
-## Project Structure
-
-- `src/credentials/` - Contains credential definitions for Pulse API authentication
-- `src/nodes/` - Contains all node implementations:
-  - `AccountAction/` - Account management nodes
-  - `OfficeAction/` - Office, employee, and planning management nodes
-  - `OrganizationsAction/` - Organization and directory management nodes
-  - `PeopleAction/` - People record management nodes
-  - `RecruitmentAction/` - Candidate and quiz management nodes
-  - `TalentAction/` - Talent profile management nodes
-  - `WorkflowAction/` - Project and workflow management nodes
-  - `common/` - Common base classes and utilities for nodes
-- `src/utils/api/` - Contains utility classes for API interaction with Pulse platform
-- `src/__tests__/` - Contains tests for all components
-- `index.ts` - Main entry point that exports the credentials and nodes
 
 ## Usage Examples
 
