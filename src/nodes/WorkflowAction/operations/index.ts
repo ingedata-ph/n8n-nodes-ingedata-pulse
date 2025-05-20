@@ -4,6 +4,7 @@ import * as projectDocumentOperations from './projectDocumentOperations';
 import * as projectOperations from './projectOperations';
 import * as projectMemberOperations from './projectMemberOperations';
 import * as projectWorkUnitOperations from './projectWorkUnitOperations';
+import * as projectIndicatorsOperations from './projectIndicatorsOperations';
 
 export {
   activityOperations,
@@ -12,4 +13,5 @@ export {
   projectOperations,
   projectMemberOperations,
   projectWorkUnitOperations,
+  projectIndicatorsOperations
 };

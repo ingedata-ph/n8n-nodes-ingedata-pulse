@@ -1,5 +1,4 @@
-import { IExecuteFunctions, NodeConnectionType, IDataObject, INodeExecutionData } from 'n8n-workflow';
-import { INodeTypeDescription } from 'n8n-workflow';
+import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
 import {
@@ -9,6 +8,7 @@ import {
   projectDocumentOperations,
   projectDataOperations,
   projectWorkUnitOperations,
+  projectIndicatorsOperations,
 } from './operations';
 import {
   activityOperationsFields, activityFields,
@@ -17,8 +17,12 @@ import {
   projectDocumentOperationsFields, projectDocumentFields,
   projectDataOperationsFields, projectDataFields,
   projectWorkUnitOperationsFields, projectWorkUnitFields,
+  projectIndicatorsOperationsFields, projectIndicatorsFields,
   commonFields
 } from './descriptions';
+import {
+	resourceLoaders,
+} from './genericFunctions';
 
 export class WorkflowAction extends BasePulseNode {
   constructor() {
@@ -71,6 +75,10 @@ export class WorkflowAction extends BasePulseNode {
               name: 'Project Work Unit',
               value: 'projectWorkUnits',
             },
+            {
+              name: 'Project Indicators',
+              value: 'projectIndicators'
+            }
           ],
           default: 'projects',
           noDataExpression: true,
@@ -89,9 +97,15 @@ export class WorkflowAction extends BasePulseNode {
         ...projectDataFields,
         ...projectWorkUnitOperationsFields,
         ...projectWorkUnitFields,
+        ...projectIndicatorsOperationsFields,
+        ...projectIndicatorsFields,
         ...commonFields
       ],
     });
+  }
+
+  methods = {
+    loadOptions: resourceLoaders
   }
 
   async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
@@ -112,22 +126,22 @@ export class WorkflowAction extends BasePulseNode {
         if (resource === 'projects') {
           switch (operation) {
             case 'createProject':
-              result = { 
+              result = {
 								json: await  projectOperations.createProject(this, i, pulseApi)
 							};
 							break;
             case 'updateProject':
-              result = { 
+              result = {
 								json: await  projectOperations.updateProject(this, i, pulseApi)
 							};
 							break;
             case 'updateProjectStatus':
-              result = { 
+              result = {
 								json: await  projectOperations.updateProjectStatus(this, i, pulseApi)
 							};
 							break;
             case 'getProjectList':
-              result = { 
+              result = {
 								json: await  projectOperations.getProjectList(this, i, pulseApi)
 							};
 							break;
@@ -135,27 +149,27 @@ export class WorkflowAction extends BasePulseNode {
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
         }
-        
+
         // Handle project members operations
         else if (resource === 'projectMembers') {
           switch (operation) {
             case 'createProjectMember':
-              result = { 
+              result = {
 								json: await  projectMemberOperations.createProjectMember(this, i, pulseApi)
 							};
 							break;
             case 'updateProjectMember':
-              result = { 
+              result = {
 								json: await  projectMemberOperations.updateProjectMember(this, i, pulseApi)
 							};
 							break;
             case 'deleteProjectMember':
-              result = { 
+              result = {
 								json: await  projectMemberOperations.deleteProjectMember(this, i, pulseApi)
 							};
 							break;
             case 'getProjectMemberList':
-              result = { 
+              result = {
 								json: await  projectMemberOperations.getProjectMemberList(this, i, pulseApi)
 							};
 							break;
@@ -163,32 +177,32 @@ export class WorkflowAction extends BasePulseNode {
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
         }
-        
+
         // Handle project documents operations
         else if (resource === 'projectDocuments') {
           switch (operation) {
             case 'createProjectDocument':
-              result = { 
+              result = {
 								json: await  projectDocumentOperations.createProjectDocument(this, i, pulseApi)
 							};
 							break;
             case 'updateProjectDocument':
-              result = { 
+              result = {
 								json: await  projectDocumentOperations.updateProjectDocument(this, i, pulseApi)
 							};
 							break;
             case 'deleteProjectDocument':
-              result = { 
+              result = {
 								json: await  projectDocumentOperations.deleteProjectDocument(this, i, pulseApi)
 							};
 							break;
             case 'getProjectDocumentList':
-              result = { 
+              result = {
 								json: await  projectDocumentOperations.getProjectDocumentList(this, i, pulseApi)
 							};
 							break;
             case 'getProjectDocumentUrl':
-              result = { 
+              result = {
 								json: await  projectDocumentOperations.getProjectDocumentUrl(this, i, pulseApi)
 							};
 							break;
@@ -196,27 +210,27 @@ export class WorkflowAction extends BasePulseNode {
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
         }
-        
+
         // Handle project data operations
         else if (resource === 'projectData') {
           switch (operation) {
             case 'createProjectData':
-              result = { 
+              result = {
 								json: await  projectDataOperations.createProjectData(this, i, pulseApi)
 							};
 							break;
             case 'updateProjectData':
-              result = { 
+              result = {
 								json: await  projectDataOperations.updateProjectData(this, i, pulseApi)
 							};
 							break;
             case 'getProjectDataList':
-              result = { 
+              result = {
 								json: await  projectDataOperations.getProjectDataList(this, i, pulseApi)
 							};
 							break;
             case 'updateProjectDataVisibility':
-              result = { 
+              result = {
 								json: await  projectDataOperations.updateProjectDataVisibility(this, i, pulseApi)
 							};
 							break;
@@ -224,22 +238,22 @@ export class WorkflowAction extends BasePulseNode {
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
         }
-        
+
         // Handle project work unit operations
         else if (resource === 'projectWorkUnits') {
           switch (operation) {
             case 'createProjectWorkUnit':
-              result = { 
+              result = {
 								json: await  projectWorkUnitOperations.createProjectWorkUnit(this, i, pulseApi)
 							};
 							break;
             case 'cancelProjectWorkUnit':
-              result = { 
+              result = {
 								json: await  projectWorkUnitOperations.cancelProjectWorkUnit(this, i, pulseApi)
 							};
 							break;
             case 'getProjectWorkUnitList':
-              result = { 
+              result = {
 								json: await  projectWorkUnitOperations.getProjectWorkUnitList(this, i, pulseApi)
 							};
 							break;
@@ -247,17 +261,39 @@ export class WorkflowAction extends BasePulseNode {
               throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
           }
         }
-        
+
+        else if (resource === 'projectIndicators') {
+          switch (operation) {
+            case 'getProjectIndicator':
+              result = {
+                json: await  projectIndicatorsOperations.getProjectIndicators(this, i, pulseApi)
+              };
+              break;
+            case 'getProjectIndicatorKeys':
+              result = {
+                json: await  projectIndicatorsOperations.getProjectIndicatorKeys(this, i, pulseApi)
+              };
+              break;
+            case 'getProjectIndicatorOptions':
+              result = {
+                json: await  projectIndicatorsOperations.getProjectIndicatorOptions(this, i, pulseApi)
+              };
+              break;
+            default:
+              throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+          }
+        }
+
         // Handle activities operations
         else if (resource === 'activities') {
           switch (operation) {
             case 'assignMember':
-              result = { 
+              result = {
 								json: await  activityOperations.assignActivityMember(this, i, pulseApi)
 							};
 							break;
             case 'unassignMember':
-              result = { 
+              result = {
 								json: await  activityOperations.unassignActivityMember(this, i, pulseApi)
 							};
 							break;
@@ -273,7 +309,7 @@ export class WorkflowAction extends BasePulseNode {
         else {
           throw new Error(`The resource "${resource}" is not supported!`);
         }
-        
+
 				returnData.push(result);
       } catch (error) {
         if (this.continueOnFail()) {
