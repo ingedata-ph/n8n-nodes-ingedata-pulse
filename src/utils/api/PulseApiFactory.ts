@@ -1,4 +1,4 @@
-import { IExecuteFunctions, ICredentialDataDecryptedObject } from 'n8n-workflow';
+import { IExecuteFunctions, ICredentialDataDecryptedObject, ILoadOptionsFunctions } from 'n8n-workflow';
 import { AccountApi } from './AccountApi';
 import { PeopleApi } from './PeopleApi';
 import { TalentApi } from './TalentApi';
@@ -56,6 +56,7 @@ export class PulseApiFactory {
       case 'projectData':
       case 'projectWorkUnits':
       case 'activities':
+      case 'projectIndicators':
         return new WorkflowApi(credentials);
 
       case undefined:
@@ -71,7 +72,7 @@ export class PulseApiFactory {
    * Helper function to create a PulseApi instance from n8n credentials
    */
   static async getPulseApiHelper(
-    executeFunctions: IExecuteFunctions,
+    executeFunctions: IExecuteFunctions | ILoadOptionsFunctions,
     resource?: string,
   ): Promise<BasePulseApi | AccountApi | PeopleApi | TalentApi | OfficeApi | OrganizationsApi | RecruitmentApi | QuizzApi | WorkflowApi> {
     const credentials = await executeFunctions.getCredentials('pulseApi');
