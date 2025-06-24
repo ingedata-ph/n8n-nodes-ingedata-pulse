@@ -276,9 +276,9 @@ export class WorkflowApi extends BasePulseApi {
 
     return this.request<any>(method, url);
   }
-  
+
   // Activity methods
-  
+
   /**
    * Assign a member to an activity
    * @param activityId The ID of the activity
@@ -291,7 +291,7 @@ export class WorkflowApi extends BasePulseApi {
 
     return this.request<any>(method, url, body);
   }
-  
+
   /**
    * Unassign a member from an activity
    * @param activityId The ID of the activity
@@ -319,5 +319,61 @@ export class WorkflowApi extends BasePulseApi {
     const queryParams = this.buildQueryParams(additionalFields);
 
     return this.request<any>('GET', '/api/v3/workflow/activities', undefined, queryParams);
+  }
+
+  // Project Indicator methods
+
+  /**
+   * Get project indicator keys
+   * @param projectId The ID of the project
+   */
+  async getProjectIndicatorKeys(projectId: string): Promise<any> {
+    const url = `/api/v3/workflow/projects/${projectId}`;
+    const method = 'GET';
+
+    const projectData = await this.request<any>(method, url);
+
+    return Object.keys(projectData.data.attributes.definition.indicators).map((key) => ({
+      name: key
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' '),
+      value: key,
+    }));
+  }
+
+  /**
+   * Get project indicator options
+   * @param projectId The ID of the project
+   * @param indicatorName The name of the indicator
+   */
+  async getProjectIndicatorOptions(projectId: string, indicatorName: string): Promise<any> {
+    const url = `/api/v3/workflow/indicator_options`;
+    const method = 'GET';
+
+    let queryParams: Record<string, string | string[]> = {};
+
+    queryParams[`filter[project_id]`] = projectId;
+    queryParams[`filter[indicator_name]`] = indicatorName;
+
+    return this.request<any>(method, url, undefined, queryParams);
+  }
+
+  /**
+   * Show indicators by key and period
+   * @param projectId The ID of the project
+   * @param queryParams The query parameters for the request
+   */
+
+  async showIndicatorsByKeyAndPeriod(
+    projectId: string,
+    key: string,
+    period: string,
+    queryParams: Record<string, string | string[]>
+  ): Promise<any> {
+    const url = `/api/v3/workflow/projects/${projectId}/indicators/${key}/${period}`;
+    const method = 'GET';
+
+    return this.request<any>(method, url, undefined, queryParams);
   }
 }

@@ -4,4 +4,5 @@ export * from './projectMemberDescription';
 export * from './projectDocumentDescription';
 export * from './projectDataDescription';
 export * from './projectWorkUnitDescription';
+export * from './projectIndicatorsDescription';
 export * from './commonFields';

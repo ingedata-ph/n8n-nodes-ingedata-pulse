@@ -1,6 +1,5 @@
 import { IExecuteFunctions, IDataObject } from 'n8n-workflow';
 import { OrganizationsApi } from '../../../utils/api/OrganizationsApi';
-import { log } from 'console';
 
 export async function createPeopleDirectory(
   executeFunctions: IExecuteFunctions,

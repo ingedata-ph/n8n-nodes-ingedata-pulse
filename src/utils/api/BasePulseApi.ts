@@ -28,7 +28,7 @@ export class BasePulseApi {
           key: this.apiKey,
         }),
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json() as any;
         throw new Error(`Authentication failed: ${errorData.message || response.statusText}`);
@@ -51,7 +51,7 @@ export class BasePulseApi {
   async getToken(): Promise<string> {
     if (this.token === '') {
       console.log('Token is empty, authenticating...', this.apiUrl);
-      
+
       return this.authenticate();
     }
     return this.token;
@@ -94,7 +94,7 @@ export class BasePulseApi {
       let url = `${this.apiUrl}${endpoint}`;
       if (queryParams && Object.keys(queryParams).length > 0) {
         const queryParts: string[] = [];
-        
+
         for (const [key, value] of Object.entries(queryParams)) {
           if (Array.isArray(value)) {
             // Handle array values with array notation (e.g., included[]=account&included[]=role)
@@ -104,16 +104,38 @@ export class BasePulseApi {
             queryParts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
           }
         }
-        
+
         url += `?${queryParts.join('&')}`;
       }
-      
+
       const response = await fetch(url, options);
 
       if (!response.ok) {
         const errorData = await response.json() as any;
+        console.log(`Error response from API: ${JSON.stringify(errorData)}`);
 
-        throw new Error(`API request failed: ${errorData.message || response.statusText}`);
+        // Extract detailed error information from the API response
+        let errorMessage = '';
+
+        if (errorData.errors && Array.isArray(errorData.errors) && errorData.errors.length > 0) {
+          // JSONAPI error format
+          errorMessage = errorData.errors.map((err: any) =>
+            `${err.title || ''} ${err.detail || ''}`
+          ).join(', ');
+        } else if (errorData.message) {
+          // Simple message format
+          errorMessage = errorData.message;
+        } else if (errorData.error) {
+          // Another common format
+          errorMessage = typeof errorData.error === 'string' ?
+            errorData.error :
+            JSON.stringify(errorData.error);
+        } else {
+          // Fallback to raw error data or status text
+          errorMessage = JSON.stringify(errorData) || response.statusText;
+        }
+
+        throw new Error(errorMessage);
       }
 
       // if method is DELETE return true
@@ -127,10 +149,12 @@ export class BasePulseApi {
 
       return await response.json() as T;
     } catch (error) {
+      // Preserve the original error message instead of wrapping it
       if (error instanceof Error) {
-        throw new Error(`API request failedfsdfsddsf: ${error.message}`);
+        throw error; // Pass through the error with its original message
       }
-      throw error;
+      // For non-Error objects, provide some context
+      throw new Error(`API request failed: ${String(error)}`);
     }
   }
 
