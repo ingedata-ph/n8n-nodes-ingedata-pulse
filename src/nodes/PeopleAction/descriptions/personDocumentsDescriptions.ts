@@ -131,20 +131,6 @@ export const personDocumentsFields: INodeProperties[] = [
     description: 'The name of the document',
   },
   {
-    displayName: 'Serial Number',
-    name: 'number',
-    type: 'string',
-    default: '',
-    required: false,
-    displayOptions: {
-      show: {
-        operation: ['createPersonDocument'],
-        resource: ['personDocument'],
-      },
-    },
-    description: 'The serial number of the document',
-  },
-  {
     displayName: 'Issued Place',
     name: 'issuedPlace',
     type: 'string',
@@ -153,6 +139,7 @@ export const personDocumentsFields: INodeProperties[] = [
       show: {
         operation: ['createPersonDocument'],
         resource: ['personDocument'],
+        documentType: ['id', 'duplicata', 'passport', 'driving_license', 'health_insurance', 'other'],
       },
     },
     description: 'The place where the document was issued',
@@ -166,6 +153,7 @@ export const personDocumentsFields: INodeProperties[] = [
       show: {
         operation: ['createPersonDocument'],
         resource: ['personDocument'],
+        documentType: ['id', 'duplicata', 'passport', 'driving_license', 'health_insurance', 'other'],
       },
     },
     description: 'The date when the document was issued',
@@ -179,6 +167,7 @@ export const personDocumentsFields: INodeProperties[] = [
       show: {
         operation: ['createPersonDocument'],
         resource: ['personDocument'],
+        documentType: ['id', 'duplicata', 'passport', 'driving_license', 'health_insurance', 'other'],
       },
     },
     description: 'The expiration date of the document',
@@ -382,13 +371,6 @@ export const personDocumentsFields: INodeProperties[] = [
         type: 'string',
         default: '',
         description: 'The name of the document',
-      },
-      {
-        displayName: 'Serial Number',
-        name: 'number',
-        type: 'string',
-        default: '',
-        description: 'The serial number of the document',
       },
       {
         displayName: 'Issued Place',

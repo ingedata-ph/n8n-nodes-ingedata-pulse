@@ -23,7 +23,6 @@ export class PulseApiFactory {
         return new AccountApi(credentials);
 
       case 'people':
-      case 'identityDocument':
       case 'personDocument':
         return new PeopleApi(credentials);
 

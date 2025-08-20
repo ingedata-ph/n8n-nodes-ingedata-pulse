@@ -2,12 +2,10 @@ import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-w
 import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { peopleOperations, identityDocumentsOperations, personDocumentsOperations } from './operations';
+import { peopleOperations, personDocumentsOperations } from './operations';
 import {
 	peopleOperationsFields,
 	peopleFields,
-	identityDocumentsOperationsFields,
-	identityDocumentsFields,
 	personDocumentsOperationsFields,
 	personDocumentsFields,
 } from './descriptions';
@@ -44,10 +42,6 @@ export class PeopleAction extends BasePulseNode {
 							value: 'people',
 						},
 						{
-							name: 'Person Identity Document',
-							value: 'identityDocument',
-						},
-						{
 							name: 'Person Document',
 							value: 'personDocument',
 						}
@@ -59,8 +53,6 @@ export class PeopleAction extends BasePulseNode {
 				},
 				...peopleOperationsFields,
 				...peopleFields,
-				...identityDocumentsOperationsFields,
-				...identityDocumentsFields,
 				...personDocumentsOperationsFields,
 				...personDocumentsFields,
 			],
@@ -108,34 +100,6 @@ export class PeopleAction extends BasePulseNode {
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
 					}
 				}
-
-				else if (resource === 'identityDocument') {
-					switch (operation) {
-						case 'getIdentityDocumentList':
-							result = {
-								json: await  identityDocumentsOperations.getIdentityDocumentList(this, i, pulseApi)
-							};
-							break;
-						case 'createIdentityDocument':
-							result = {
-								json: await  identityDocumentsOperations.createIdentityDocument(this, i, pulseApi)
-							};
-							break;
-						case 'getIdentityDocumentById':
-							result = {
-								json: await  identityDocumentsOperations.getIdentityDocumentById(this, i, pulseApi)
-							};
-							break;
-						case 'updateIdentityDocument':
-							result = {
-								json: await  identityDocumentsOperations.updateIdentityDocument(this, i, pulseApi)
-							};
-							break;
-						default:
-							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
-					}
-				}
-
 				else if (resource === 'personDocument') {
 					switch (operation) {
 						case 'getPersonDocumentList':
