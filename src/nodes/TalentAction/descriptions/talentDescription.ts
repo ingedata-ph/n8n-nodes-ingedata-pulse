@@ -32,6 +32,12 @@ export const talentOperationsFields: INodeProperties[] = [
         action: 'Show talent details',
       },
       {
+        name: 'Update Talent Acquisition Details',
+        value: 'updateTalentAcquisition',
+        description: 'Update a talent acquisition',
+        action: 'Update talent acquisition',
+      },
+      {
         name: 'Query Talent',
         value: 'queryTalent',
         description: 'Search for talents by making a query',
@@ -353,6 +359,149 @@ export const talentFields: INodeProperties[] = [
     description: 'The ID of the person to associate with this talent',
   },
   {
+    displayName: 'Received Date *',
+    name: 'receivedDate',
+    type: 'dateTime',
+    default: new Date().toISOString(),
+    required: true,
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+      },
+    },
+    description: 'The date when the talent profile was received',
+  },
+  {
+    displayName: 'Application Trigger',
+    name: 'acquisitionMethod',
+    type: 'options',
+    options: [
+      {
+        name: '',
+        value: ''
+      },
+      {
+        name: 'Outsource IT',
+        value: 'outsource_it',
+      },
+      {
+        name: 'Application',
+        value: 'application',
+      },
+    ],
+    default: '',
+    required: false,
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+      },
+    },
+    description: 'Recruitment campaign that initiated the hiring process ',
+  },
+    {
+    displayName: 'Application Source',
+    name: 'acquisitionSource',
+    type: 'options',
+    options: [
+      {
+        name: '',
+        value: ''
+      },
+      {
+        name: 'Ingedata',
+        value: 'ingedata',
+      },
+      {
+        name: 'LinkedIn',
+        value: 'linkedin',
+      },
+      {
+        name: 'Spontanné',
+        value: 'spontanne',
+      },
+      {
+        name: 'Cooptation',
+        value: 'cooptation',
+      },
+      {
+        name: 'Ecole',
+        value: 'ecole',
+      },
+    ],
+    default: '',
+    required: false,
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+      },
+    },
+    description: 'Source of talent profiles',
+  },
+    {
+    displayName: 'Status',
+    name: 'status',
+    type: 'options',
+    options: [
+      {
+        name: 'To be treated',
+        value: 'to_be_treated',
+      },
+      {
+        name: 'To be tested',
+        value: 'to_be_tested',
+      },
+      {
+        name: 'Black listed',
+        value: 'black_listed',
+      },
+      {
+        name: 'Archived',
+        value: 'archived',
+      },
+    ],
+    default: 'to_be_treated',
+    required: true,
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+      },
+    },
+    description: 'Current talent status',
+  },
+  {
+    displayName: 'Availability',
+    name: 'availability',
+    type: 'options',
+    options: [
+      {
+        name: 'Available',
+        value: 'available',
+      },
+      {
+        name: 'Not Available',
+        value: 'not_available',
+      },
+    ],
+    default: 'available',
+    required: true,
+    displayOptions: {
+      show: {
+        operation: ['createTalent'],
+        resource: ['talent'],
+        fromResume: [false],
+      },
+    },
+    description: 'Current talent availability',
+  },
+  {
     displayName: 'Query *',
     name: 'queryPrompt',
     type: 'string',
@@ -365,5 +514,138 @@ export const talentFields: INodeProperties[] = [
       },
     },
     description: 'The query string to search for talents',
+  },
+  {
+    displayName: 'Talent ID *',
+    name: 'talentId',
+    type: 'string',
+    default: '',
+    required: true,
+    displayOptions: {
+      show: {
+        operation: ['updateTalentAcquisition'],
+        resource: ['talent'],
+      },
+    },
+    description: 'The ID of the talent to update or delete',
+  },
+  {
+    displayName: 'Update Fields',
+    name: 'updateFields',
+    type: 'collection',
+    placeholder: 'Add Field',
+    default: {},
+    displayOptions: {
+      show: {
+        operation: ['updateTalentAcquisition'],
+        resource: ['talent'],
+      },
+    },
+    description: 'Fields to update in the talent',
+    options: [
+      {
+        displayName: 'Received Date',
+        name: 'receivedDate',
+        type: 'dateTime',
+        default: new Date().toISOString(),
+        description: 'The date when the document was received',
+      },
+      {
+        displayName: 'Application Trigger',
+        name: 'acquisitionMethod',
+        type: 'options',
+        options: [
+          {
+            name: '',
+            value: ''
+          },
+          {
+            name: 'Outsource IT',
+            value: 'outsource_it',
+          },
+          {
+            name: 'Application',
+            value: 'application',
+          }
+        ],
+        default: '',
+        description: 'The type of the application trigger',
+      },
+      {
+        displayName: 'Application Source',
+        name: 'acquisitionSource',
+        type: 'options',
+        options: [
+          {
+            name: '',
+            value: ''
+          },
+          {
+            name: 'Ingedata',
+            value: 'ingedata',
+          },
+          {
+            name: 'LinkedIn',
+            value: 'linkedin',
+          },
+          {
+            name: 'Spontanné',
+            value: 'spontanne',
+          },
+          {
+            name: 'Cooptation',
+            value: 'cooptation',
+          },
+          {
+            name: 'Ecole',
+            value: 'ecole',
+          },
+        ],
+        default: '',
+        description: 'Source of talent profiles',
+      },
+      {
+        displayName: 'Availability',
+        name: 'availability',
+        type: 'options',
+        options: [
+          {
+            name: 'Available',
+            value: 'available',
+          },
+          {
+            name: 'Not Available',
+            value: 'not_available',
+          },
+        ],
+        default: 'available',
+        description: 'Current talent availability',
+      },
+      {
+        displayName: 'Status',
+        name: 'status',
+        type: 'options',
+        options: [
+          {
+            name: 'To be treated',
+            value: 'to_be_treated',
+          },
+          {
+            name: 'To be tested',
+            value: 'to_be_tested',
+          },
+          {
+            name: 'Black listed',
+            value: 'black_listed',
+          },
+          {
+            name: 'Archived',
+            value: 'archived',
+          }
+        ],
+        default: 'to_be_treated',
+        description: 'Current talent status',
+      }
+    ],
   },
 ];

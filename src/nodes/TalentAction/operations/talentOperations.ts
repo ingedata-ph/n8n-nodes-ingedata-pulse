@@ -24,7 +24,7 @@ export async function createTalent(
   pulseApi: TalentApi,
 ): Promise<any> {
   const fromResume = executeFunctions.getNodeParameter('fromResume', itemIndex) as boolean;
-  
+
   if (fromResume) {
     const organizationalUnit = executeFunctions.getNodeParameter('organizationalUnit', itemIndex, '') as string;
     const resumeUrl = executeFunctions.getNodeParameter('resumeUrl', itemIndex) as string;
@@ -79,16 +79,28 @@ export async function createTalent(
       // Use existing person ID
       person_id = executeFunctions.getNodeParameter('personId', itemIndex) as string;
     }
+
+    const availability = executeFunctions.getNodeParameter('availability', itemIndex) as string;
+    const status = executeFunctions.getNodeParameter('status', itemIndex) as string;
+    const acquisition_method = executeFunctions.getNodeParameter('acquisitionMethod', itemIndex) as string;
+    const acquisition_source = executeFunctions.getNodeParameter('acquisitionSource', itemIndex) as string;
+    const received_date = executeFunctions.getNodeParameter('receivedDate', itemIndex) as string;
+
     // Create talent data
     const talentData = {
       data: {
         type: "talent/talents",
         attributes: {
-          id: person_id
+          id: person_id,
+          availability,
+          status,
+          acquisition_method,
+          acquisition_source,
+          received_date
         },
       }
     };
-    
+
     return pulseApi.createTalent(talentData);
   }
 }
@@ -121,29 +133,49 @@ export async function queryTalent(
   return pulseApi.queryTalent(queryData);
 }
 
-// export async function updateTalent(
-//   executeFunctions: IExecuteFunctions,
-//   itemIndex: number,
-//   pulseApi: TalentApi,
-// ): Promise<any> {
-//   const talentId = executeFunctions.getNodeParameter('talentId', itemIndex) as string;
-//   const person_id = executeFunctions.getNodeParameter('personId', itemIndex) as string;
-  
-//   const talentData = {
-//     data: {
-//       type: "iam/talents",
-//       id: talentId,
-//       attributes: {},
-//       relationships: {
-//         person: {
-//           data: {
-//             type: "iam/people",
-//             id: person_id
-//           }
-//         }
-//       }
-//     }
-//   };
-  
-//   return pulseApi.updateTalentById(talentId, talentData);
-// }
+export async function updateTalentAcquisition(
+  executeFunctions: IExecuteFunctions,
+  itemIndex: number,
+  pulseApi: TalentApi,
+): Promise<any> {
+  const talentId = executeFunctions.getNodeParameter('talentId', itemIndex) as string;
+  const updateFields = executeFunctions.getNodeParameter('updateFields', itemIndex, {}) as {
+    receivedDate?: string;
+    acquisitionMethod?: string;
+    acquisitionSource?: string;
+    status?: string;
+    availability?: string;
+  };
+
+  const attributes = {} as any;
+
+  if (updateFields.receivedDate) {
+    attributes['received_date'] = updateFields.receivedDate;
+  }
+  if (updateFields.acquisitionMethod !== undefined) {
+    attributes['acquisition_method'] = updateFields.acquisitionMethod;
+  }
+  if (updateFields.acquisitionSource !== undefined) {
+    attributes['acquisition_source'] = updateFields.acquisitionSource;
+  }
+  if (updateFields.status !== undefined) {
+    attributes['status'] = updateFields.status;
+  }
+  if (updateFields.availability !== undefined) {
+    attributes['availability'] = updateFields.availability;
+  }
+
+  const talentData = {
+    data: {
+      type: "talent/talents",
+      id: talentId,
+      attributes: attributes,
+    }
+  };
+
+  if (Object.keys(attributes).length === 0) {
+    throw new Error('No fields to update');
+  }
+
+  return pulseApi.updateTalentById(talentId, talentData);
+}

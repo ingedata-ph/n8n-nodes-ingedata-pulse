@@ -111,23 +111,28 @@ export class TalentAction extends BasePulseNode {
 				if (resource === 'talent') {
 					switch (operation) {
 						case 'getTalentList':
-							result = { 
+							result = {
 								json: await  talentOperations.getTalentList(this, i, pulseApi)
 							};
 							break;
 						case 'createTalent':
-							result = { 
+							result = {
 								json: await  talentOperations.createTalent(this, i, pulseApi)
 							};
 							break;
 						case 'getTalentById':
-							result = { 
+							result = {
 								json: await  talentOperations.getTalentById(this, i, pulseApi)
 							};
 							break;
 						case 'queryTalent':
-							result = { 
+							result = {
 								json: await  talentOperations.queryTalent(this, i, pulseApi)
+							};
+							break;
+						case 'updateTalentAcquisition':
+							result = {
+								json: await  talentOperations.updateTalentAcquisition(this, i, pulseApi)
 							};
 							break;
 						default:
@@ -136,22 +141,22 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'skill') {
 					switch (operation) {
 						case 'getSkillsList':
-							result = { 
+							result = {
 								json: await  skillOperations.getSkillsList(this, i, pulseApi)
 							};
 							break;
 						case 'createSkill':
-							result = { 
+							result = {
 								json: await  skillOperations.createSkill(this, i, pulseApi)
 							};
 							break;
 						case 'updateSkill':
-							result = { 
+							result = {
 								json: await  skillOperations.updateSkill(this, i, pulseApi)
 							};
 							break;
 						case 'deleteSkill':
-							result = { 
+							result = {
 								json: await  skillOperations.deleteSkill(this, i, pulseApi)
 							};
 							break;
@@ -161,22 +166,22 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'language') {
 					switch (operation) {
 						case 'getLanguagesList':
-							result = { 
+							result = {
 								json: await  languageOperations.getLanguagesList(this, i, pulseApi)
 							};
 							break;
 						case 'createLanguage':
-							result = { 
+							result = {
 								json: await  languageOperations.createLanguage(this, i, pulseApi)
 							};
 							break;
 						case 'updateLanguage':
-							result = { 
+							result = {
 								json: await  languageOperations.updateLanguage(this, i, pulseApi)
 							};
 							break;
 						case 'deleteLanguage':
-							result = { 
+							result = {
 								json: await  languageOperations.deleteLanguage(this, i, pulseApi)
 							};
 							break;
@@ -186,22 +191,22 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'education') {
 					switch (operation) {
 						case 'getEducationList':
-							result = { 
+							result = {
 								json: await  educationOperations.getEducationList(this, i, pulseApi)
 							};
 							break;
 						case 'createEducation':
-							result = { 
+							result = {
 								json: await  educationOperations.createEducation(this, i, pulseApi)
 							};
 							break;
 						case 'updateEducation':
-							result = { 
+							result = {
 								json: await  educationOperations.updateEducation(this, i, pulseApi)
 							};
 							break;
 						case 'deleteEducation':
-							result = { 
+							result = {
 								json: await  educationOperations.deleteEducation(this, i, pulseApi)
 							};
 							break;
@@ -211,22 +216,22 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'certification') {
 					switch (operation) {
 						case 'getCertificationList':
-							result = { 
+							result = {
 								json: await  certificationOperations.getCertificationList(this, i, pulseApi)
 							};
 							break;
 						case 'createCertification':
-							result = { 
+							result = {
 								json: await  certificationOperations.createCertification(this, i, pulseApi)
 							};
 							break;
 						case 'updateCertification':
-							result = { 
+							result = {
 								json: await  certificationOperations.updateCertification(this, i, pulseApi)
 							};
 							break;
 						case 'deleteCertification':
-							result = { 
+							result = {
 								json: await  certificationOperations.deleteCertification(this, i, pulseApi)
 							};
 							break;
@@ -236,22 +241,22 @@ export class TalentAction extends BasePulseNode {
 				} else if (resource === 'experience') {
 					switch (operation) {
 						case 'getExperienceList':
-							result = { 
+							result = {
 								json: await  experienceOperations.getExperienceList(this, i, pulseApi)
 							};
 							break;
 						case 'createExperience':
-							result = { 
+							result = {
 								json: await  experienceOperations.createExperience(this, i, pulseApi)
 							};
 							break;
 						case 'updateExperience':
-							result = { 
+							result = {
 								json: await  experienceOperations.updateExperience(this, i, pulseApi)
 							};
 							break;
 						case 'deleteExperience':
-							result = { 
+							result = {
 								json: await  experienceOperations.deleteExperience(this, i, pulseApi)
 							};
 							break;
@@ -261,7 +266,7 @@ export class TalentAction extends BasePulseNode {
 				} else {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
-				
+
 				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {
