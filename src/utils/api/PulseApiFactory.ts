@@ -24,6 +24,7 @@ export class PulseApiFactory {
 
       case 'people':
       case 'identityDocument':
+      case 'personDocument':
         return new PeopleApi(credentials);
 
       case 'talent':

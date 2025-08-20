@@ -185,6 +185,7 @@ export class BasePulseApi {
 
     if (additionalFields.filters?.filter) {
       for (const { key, values } of additionalFields.filters?.filter || []) {
+        console.log(`Adding filter for key: ${key} with values: ${values}`);
         const valuesArray = values.split(',').map((v: string) => v.trim());
         queryParams[`filter[${key}]`] = valuesArray;
       }

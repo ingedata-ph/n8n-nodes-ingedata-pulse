@@ -8,8 +8,6 @@ export async function getIdentityDocumentList(
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
   const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as {
-    operation?: string[];
-    inputs?: object;
     sort?: string;
     pageNumber?: number;
     pageSize?: number;
@@ -31,7 +29,7 @@ export async function createIdentityDocument(
   const issued_place = executeFunctions.getNodeParameter('issuePlace', itemIndex) as string;
   const issued_date = executeFunctions.getNodeParameter('issueDate', itemIndex) as string;
   const expiration_date = executeFunctions.getNodeParameter('expirationDate', itemIndex) as string;
-  
+
 
   const identityDocumentData = {
     data: {
@@ -53,7 +51,7 @@ export async function createIdentityDocument(
       }
     }
   };
-  
+
   return pulseApi.createIdentityDocument(identityDocumentData);
 }
 
@@ -80,7 +78,7 @@ export async function updateIdentityDocument(
     issuedDate?: string;
     expirationDate?: string;
   };
-  
+
   const attributes = {} as any;
   if (updateFields.identityDocumentType) {
     attributes['identification_type'] = updateFields.identityDocumentType;
@@ -110,6 +108,6 @@ export async function updateIdentityDocument(
   if (Object.keys(attributes).length === 0) {
     throw new Error('No fields to update');
   }
-  
+
   return pulseApi.updateIdentityDocument(identityDocumentId, identityDocumentData);
 }
