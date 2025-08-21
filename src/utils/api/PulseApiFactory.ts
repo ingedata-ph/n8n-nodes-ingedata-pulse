@@ -45,6 +45,8 @@ export class PulseApiFactory {
         return new OrganizationsApi(credentials);
 
       case 'candidates':
+      case 'pipelineTemplate':
+      case 'stageTemplate':
         return new RecruitmentApi(credentials);
 
       case 'quizzSessions':

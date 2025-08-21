@@ -2,11 +2,13 @@ import { IExecuteFunctions, NodeConnectionType, INodeProperties, IDataObject, IN
 import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { candidateOperations, quizzSessionOperations } from './operations';
-import { 
-  candidateOperationsFields, candidateFields, 
-  quizzSessionOperationsFields, quizzSessionFields, 
-  commonFields 
+import { candidateOperations, quizzSessionOperations, pipelineTemplateOperations, stageTemplateOperations } from './operations';
+import {
+  candidateOperationsFields, candidateFields,
+  quizzSessionOperationsFields, quizzSessionFields,
+  pipelineTemplateOperationsFields, pipelineTemplateFields,
+  stageTemplateOperationsFields, stageTemplateFields,
+  commonFields
 } from './descriptions';
 
 export class RecruitmentAction extends BasePulseNode {
@@ -44,6 +46,14 @@ export class RecruitmentAction extends BasePulseNode {
 							name: 'Candidates Quizz Sessions',
 							value: 'quizzSessions',
 						},
+						{
+							name: 'Pipeline Templates',
+							value: 'pipelineTemplate',
+						},
+						{
+							name: 'Stage Templates',
+							value: 'stageTemplate',
+						},
 					],
 					default: 'candidates',
 					noDataExpression: true,
@@ -53,9 +63,13 @@ export class RecruitmentAction extends BasePulseNode {
 				// Operations
 				...candidateOperationsFields,
 				...quizzSessionOperationsFields,
+				...pipelineTemplateOperationsFields,
+				...stageTemplateOperationsFields,
 				// Fields
 				...candidateFields,
 				...quizzSessionFields,
+				...pipelineTemplateFields,
+				...stageTemplateFields,
 				...commonFields,
 			],
 		});
@@ -79,22 +93,22 @@ export class RecruitmentAction extends BasePulseNode {
 				if (resource === 'candidates') {
 					switch (operation) {
 						case 'createCandidate':
-							result = { 
+							result = {
 								json: await  candidateOperations.createCandidate(this, i, pulseApi)
 							};
 							break;
 						case 'updateCandidate':
-							result = { 
+							result = {
 								json: await  candidateOperations.updateCandidate(this, i, pulseApi)
 							};
 							break;
 						case 'getCandidateById':
-							result = { 
+							result = {
 								json: await  candidateOperations.getCandidateById(this, i, pulseApi)
 							};
 							break;
 						case 'getCandidatesList':
-							result = { 
+							result = {
 								json: await  candidateOperations.getCandidatesList(this, i, pulseApi)
 							};
 							break;
@@ -102,42 +116,96 @@ export class RecruitmentAction extends BasePulseNode {
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
 					}
 				}
-				
+
 				else if (resource === 'quizzSessions') {
 					switch (operation) {
 						case 'createQuizzSession':
-							result = { 
+							result = {
 								json: await  quizzSessionOperations.createQuizzSession(this, i, pulseApi)
 							};
 							break;
 						case 'updateQuizzSession':
-							result = { 
+							result = {
 								json: await  quizzSessionOperations.updateQuizzSession(this, i, pulseApi)
 							};
 							break;
 						case 'cancelQuizzSession':
-							result = { 
+							result = {
 								json: await  quizzSessionOperations.cancelQuizzSession(this, i, pulseApi)
 							};
 							break;
 						case 'getQuizzSessionById':
-							result = { 
+							result = {
 								json: await  quizzSessionOperations.getQuizzSessionById(this, i, pulseApi)
 							};
 							break;
 						case 'getQuizzSessionsList':
-							result = { 
+							result = {
 								json: await  quizzSessionOperations.getQuizzSessionsList(this, i, pulseApi)
 							};
 							break;
 						case 'assignQuizz':
-							result = { 
+							result = {
 								json: await  quizzSessionOperations.assignQuizz(this, i, pulseApi)
 							};
 							break;
 						case 'shareTestLink':
-							result = { 
+							result = {
 								json: await  quizzSessionOperations.shareTestLink(this, i, pulseApi)
+							};
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				}
+
+				else if (resource === 'pipelineTemplate') {
+					switch (operation) {
+						case 'createPipelineTemplate':
+							result = {
+								json: await pipelineTemplateOperations.createPipelineTemplate(this, i, pulseApi)
+							};
+							break;
+						case 'updatePipelineTemplate':
+							result = {
+								json: await pipelineTemplateOperations.updatePipelineTemplate(this, i, pulseApi)
+							};
+							break;
+						case 'deletePipelineTemplate':
+							result = {
+								json: await pipelineTemplateOperations.deletePipelineTemplate(this, i, pulseApi)
+							};
+							break;
+						case 'getListPipelineTemplates':
+							result = {
+								json: await pipelineTemplateOperations.getPipelineTemplatesList(this, i, pulseApi)
+							};
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				}
+
+				else if (resource === 'stageTemplate') {
+					switch (operation) {
+						case 'createStageTemplate':
+							result = {
+								json: await stageTemplateOperations.createStageTemplate(this, i, pulseApi)
+							};
+							break;
+						case 'updateStageTemplate':
+							result = {
+								json: await stageTemplateOperations.updateStageTemplate(this, i, pulseApi)
+							};
+							break;
+						case 'deleteStageTemplate':
+							result = {
+								json: await stageTemplateOperations.deleteStageTemplate(this, i, pulseApi)
+							};
+							break;
+						case 'getListStageTemplates':
+							result = {
+								json: await stageTemplateOperations.getStageTemplatesList(this, i, pulseApi)
 							};
 							break;
 						default:
@@ -146,7 +214,7 @@ export class RecruitmentAction extends BasePulseNode {
 				} else {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
-				
+
 				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {
