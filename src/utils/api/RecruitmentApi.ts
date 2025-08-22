@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { BasePulseApi } from './BasePulseApi';
 import { ICredentialDataDecryptedObject } from 'n8n-workflow';
 
@@ -122,5 +123,60 @@ export class RecruitmentApi extends BasePulseApi {
    */
   async deleteStageTemplate(stageTemplateId: string): Promise<any> {
     return this.request<any>('DELETE', `/api/v3/recruitment/stage_templates/${stageTemplateId}`);
+  }
+
+  /**
+   * Get a list of recruitment campaigns
+   */
+  async getRecruitmentCampaignsList(
+    additionalFields: {
+      sort?: string;
+      pageNumber?: number;
+      pageSize?: number;
+      filters?: { filter: Array<{ key: string; values: string }> };
+      fields?: { field: Array<{ key: string; fields: string }> };
+    },
+    included?: string[],
+  ): Promise<any> {
+    const queryParams = this.buildQueryParams(additionalFields, included);
+    return this.request<any>('GET', '/api/v3/recruitment/positions', undefined, queryParams);
+  }
+
+  /**
+   * Create a new recruitment campaign
+   */
+  async createRecruitmentCampaign(recruitmentCampaignData: any): Promise<any> {
+    return this.request<any>('POST', '/api/v3/recruitment/positions', recruitmentCampaignData);
+  }
+
+  /**
+   * Update a recruitment campaign by ID
+   */
+  async updateRecruitmentCampaign(recruitmentCampaignId: string, recruitmentCampaignData: any): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/recruitment/positions/${recruitmentCampaignId}`, recruitmentCampaignData);
+  }
+
+  /**
+   * Update a recruitment campaign status to open
+   */
+  async openRecruitmentCampaign(recruitmentCampaignId: string): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/recruitment/positions/${recruitmentCampaignId}/open`);
+  }
+
+  /**
+   * Update a recruitment campaign status to closed
+   */
+  async closeRecruitmentCampaign(recruitmentCampaignId: string): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/recruitment/positions/${recruitmentCampaignId}/close`);
+  }
+
+  /**
+   * Create stages for a recruitment campaign
+   */
+  async createStages(recruitmentCampaignId: string, pipelineTemplateId: string): Promise<any> {
+    return this.request<any>('POST', `/api/v3/recruitment/stages/create_with_templates`, undefined, {
+      pipeline_template_id: pipelineTemplateId,
+      position_id: recruitmentCampaignId
+    });
   }
 }

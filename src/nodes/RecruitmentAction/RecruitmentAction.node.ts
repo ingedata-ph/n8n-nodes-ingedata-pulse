@@ -2,12 +2,19 @@ import { IExecuteFunctions, NodeConnectionType, INodeProperties, IDataObject, IN
 import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { candidateOperations, quizzSessionOperations, pipelineTemplateOperations, stageTemplateOperations } from './operations';
+import {
+	candidateOperations,
+	quizzSessionOperations,
+	pipelineTemplateOperations,
+	stageTemplateOperations,
+	recruitmentCampaignOperations
+} from './operations';
 import {
   candidateOperationsFields, candidateFields,
   quizzSessionOperationsFields, quizzSessionFields,
   pipelineTemplateOperationsFields, pipelineTemplateFields,
   stageTemplateOperationsFields, stageTemplateFields,
+  recruitmentCampaignOperationsFields, recruitmentCampaignFields,
   commonFields
 } from './descriptions';
 
@@ -54,6 +61,10 @@ export class RecruitmentAction extends BasePulseNode {
 							name: 'Stage Templates',
 							value: 'stageTemplate',
 						},
+						{
+							name: 'Recruitment Campaigns',
+							value: 'recruitmentCampaign',
+						}
 					],
 					default: 'candidates',
 					noDataExpression: true,
@@ -65,11 +76,13 @@ export class RecruitmentAction extends BasePulseNode {
 				...quizzSessionOperationsFields,
 				...pipelineTemplateOperationsFields,
 				...stageTemplateOperationsFields,
+				...recruitmentCampaignOperationsFields,
 				// Fields
 				...candidateFields,
 				...quizzSessionFields,
 				...pipelineTemplateFields,
 				...stageTemplateFields,
+				...recruitmentCampaignFields,
 				...commonFields,
 			],
 		});
@@ -206,6 +219,37 @@ export class RecruitmentAction extends BasePulseNode {
 						case 'getListStageTemplates':
 							result = {
 								json: await stageTemplateOperations.getStageTemplatesList(this, i, pulseApi)
+							};
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				}
+				else if (resource === 'recruitmentCampaign') {
+					switch (operation) {
+						case 'createRecruitmentCampaign':
+							result = {
+								json: await recruitmentCampaignOperations.createRecruitmentCampaign(this, i, pulseApi)
+							};
+							break;
+						case 'updateRecruitmentCampaign':
+							result = {
+								json: await recruitmentCampaignOperations.updateRecruitmentCampaign(this, i, pulseApi)
+							};
+							break;
+						case 'openRecruitmentCampaign':
+							result = {
+								json: await recruitmentCampaignOperations.openRecruitmentCampaign(this, i, pulseApi)
+							};
+							break;
+						case 'closeRecruitmentCampaign':
+							result = {
+								json: await recruitmentCampaignOperations.closeRecruitmentCampaign(this, i, pulseApi)
+							};
+							break;
+						case 'getRecruitmentCampaignsList':
+							result = {
+								json: await recruitmentCampaignOperations.getRecruitmentCampaignsList(this, i, pulseApi)
 							};
 							break;
 						default:
