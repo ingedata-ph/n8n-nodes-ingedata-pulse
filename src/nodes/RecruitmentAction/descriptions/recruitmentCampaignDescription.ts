@@ -44,6 +44,36 @@ export const recruitmentCampaignOperationsFields: INodeProperties[] = [
         description: 'Update recruitment campaign status to closed',
         action: 'Close a recruitment campaign',
       },
+      {
+        name: 'Add Candidate',
+        value: 'addCandidate',
+        description: 'Add a candidate to the recruitment campaign',
+        action: 'Add a candidate to recruitment campaign',
+      },
+      {
+        name: 'Move Candidate',
+        value: 'moveCandidate',
+        description: 'Move a candidate to another stage',
+        action: 'Move a candidate to another stage',
+      },
+      {
+        name: 'Hire Candidate',
+        value: 'hireCandidate',
+        description: 'Hire a candidate',
+        action: 'Hire a candidate',
+      },
+      {
+        name: 'Reject Candidate',
+        value: 'rejectCandidate',
+        description: 'Reject a candidate',
+        action: 'Reject a candidate',
+      },
+      {
+        name: 'Remove Candidate',
+        value: 'removeCandidate',
+        description: 'Remove a candidate from recruitment campaign',
+        action: 'Remove a candidate from recruitment campaign',
+      },
     ],
     default: 'createRecruitmentCampaign',
   },
@@ -64,6 +94,22 @@ export const recruitmentCampaignFields: INodeProperties[] = [
     },
     default: '',
     description: 'ID of the recruitment campaign',
+  },
+
+  // query_id for update operation
+  {
+    displayName: 'Query ID *',
+    name: 'query_id',
+    type: 'string',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['recruitmentCampaign'],
+        operation: ['updateRecruitmentCampaign'],
+      },
+    },
+    default: '',
+    description: 'ID of the query to update',
   },
 
   // Fields for Create operation
@@ -481,5 +527,79 @@ export const recruitmentCampaignFields: INodeProperties[] = [
         ],
       },
     ],
+  },
+
+  // Add Candidate operation fields
+  {
+    displayName: 'Talent ID *',
+    name: 'talent_id',
+    type: 'string',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['recruitmentCampaign'],
+        operation: ['addCandidate'],
+      },
+    },
+    default: '',
+    description: 'The ID of the talent to add as candidate',
+  },
+  {
+    displayName: 'Recruitment Campaign ID *',
+    name: 'position_id',
+    type: 'string',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['recruitmentCampaign'],
+        operation: ['addCandidate', 'moveCandidate', 'hireCandidate', 'rejectCandidate'],
+      },
+    },
+    default: '',
+    description: 'The ID of the recruitment campaign position',
+  },
+  {
+    displayName: 'Stage ID *',
+    name: 'stage_id',
+    type: 'string',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['recruitmentCampaign'],
+        operation: ['addCandidate'],
+      },
+    },
+    default: '',
+    description: 'The ID of the stage to assign the candidate to',
+  },
+
+  // Move Candidate operation fields
+  {
+    displayName: 'Candidate ID *',
+    name: 'id',
+    type: 'string',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['recruitmentCampaign'],
+        operation: ['moveCandidate', 'hireCandidate', 'rejectCandidate', 'removeCandidate'],
+      },
+    },
+    default: '',
+    description: 'The ID of the candidate to move/ hire/ reject/ remove',
+  },
+  {
+    displayName: ' New Stage ID *',
+    name: 'stage_id',
+    type: 'string',
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ['recruitmentCampaign'],
+        operation: ['moveCandidate'],
+      },
+    },
+    default: '',
+    description: 'The ID of the new stage to move the candidate to',
   },
 ];

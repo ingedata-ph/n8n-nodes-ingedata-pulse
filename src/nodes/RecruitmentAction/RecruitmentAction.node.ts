@@ -252,6 +252,31 @@ export class RecruitmentAction extends BasePulseNode {
 								json: await recruitmentCampaignOperations.getRecruitmentCampaignsList(this, i, pulseApi)
 							};
 							break;
+						case 'addCandidate':
+							result = {
+								json: await recruitmentCampaignOperations.addCandidate(this, i, pulseApi)
+							};
+							break;
+						case 'moveCandidate':
+							result = {
+								json: await recruitmentCampaignOperations.moveCandidate(this, i, pulseApi)
+							};
+							break;
+						case 'hireCandidate':
+							result = {
+								json: await recruitmentCampaignOperations.hireCandidate(this, i, pulseApi)
+							};
+							break;
+						case 'rejectCandidate':
+							result = {
+								json: await recruitmentCampaignOperations.rejectCandidate(this, i, pulseApi)
+							};
+							break;
+						case 'removeCandidate':
+							result = {
+								json: await recruitmentCampaignOperations.removeCandidate(this, i, pulseApi)
+							};
+							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
 					}

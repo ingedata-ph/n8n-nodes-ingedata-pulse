@@ -179,4 +179,39 @@ export class RecruitmentApi extends BasePulseApi {
       position_id: recruitmentCampaignId
     });
   }
+
+  /**
+   * Create candidates for a recruitment campaign
+   */
+  async createCandidates(candidateData: any): Promise<any> {
+    return this.request<any>('POST', '/api/v3/recruitment/candidates/create_candidates', candidateData);
+  }
+
+  /**
+   * Move a candidate to another stage
+   */
+  async moveCandidate(candidateId: string, stageId: string): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/recruitment/candidates/move?id=${candidateId}&stage_id=${stageId}`);
+  }
+
+  /**
+   * Hire a candidate
+   */
+  async hireCandidate(candidateId: string): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/recruitment/candidates/${candidateId}/hire`);
+  }
+
+  /**
+   * Reject a candidate
+   */
+  async rejectCandidate(candidateId: string): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/recruitment/candidates/${candidateId}/reject`);
+  }
+
+  /**
+   * Remove a candidate
+   */
+  async removeCandidate(candidateId: string): Promise<any> {
+    return this.request<any>('DELETE', `/api/v3/recruitment/candidates/${candidateId}`);
+  }
 }
