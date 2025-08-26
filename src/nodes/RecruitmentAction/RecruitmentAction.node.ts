@@ -4,14 +4,12 @@ import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
 import {
 	candidateOperations,
-	quizzSessionOperations,
 	pipelineTemplateOperations,
 	stageTemplateOperations,
 	recruitmentCampaignOperations
 } from './operations';
 import {
   candidateOperationsFields, candidateFields,
-  quizzSessionOperationsFields, quizzSessionFields,
   pipelineTemplateOperationsFields, pipelineTemplateFields,
   stageTemplateOperationsFields, stageTemplateFields,
   recruitmentCampaignOperationsFields, recruitmentCampaignFields,
@@ -50,10 +48,6 @@ export class RecruitmentAction extends BasePulseNode {
 							value: 'candidates',
 						},
 						{
-							name: 'Candidates Quizz Sessions',
-							value: 'quizzSessions',
-						},
-						{
 							name: 'Pipeline Templates',
 							value: 'pipelineTemplate',
 						},
@@ -73,13 +67,11 @@ export class RecruitmentAction extends BasePulseNode {
 				},
 				// Operations
 				...candidateOperationsFields,
-				...quizzSessionOperationsFields,
 				...pipelineTemplateOperationsFields,
 				...stageTemplateOperationsFields,
 				...recruitmentCampaignOperationsFields,
 				// Fields
 				...candidateFields,
-				...quizzSessionFields,
 				...pipelineTemplateFields,
 				...stageTemplateFields,
 				...recruitmentCampaignFields,
@@ -113,48 +105,6 @@ export class RecruitmentAction extends BasePulseNode {
 						case 'getCandidatesList':
 							result = {
 								json: await  candidateOperations.getCandidatesList(this, i, pulseApi)
-							};
-							break;
-						default:
-							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
-					}
-				}
-
-				else if (resource === 'quizzSessions') {
-					switch (operation) {
-						case 'createQuizzSession':
-							result = {
-								json: await  quizzSessionOperations.createQuizzSession(this, i, pulseApi)
-							};
-							break;
-						case 'updateQuizzSession':
-							result = {
-								json: await  quizzSessionOperations.updateQuizzSession(this, i, pulseApi)
-							};
-							break;
-						case 'cancelQuizzSession':
-							result = {
-								json: await  quizzSessionOperations.cancelQuizzSession(this, i, pulseApi)
-							};
-							break;
-						case 'getQuizzSessionById':
-							result = {
-								json: await  quizzSessionOperations.getQuizzSessionById(this, i, pulseApi)
-							};
-							break;
-						case 'getQuizzSessionsList':
-							result = {
-								json: await  quizzSessionOperations.getQuizzSessionsList(this, i, pulseApi)
-							};
-							break;
-						case 'assignQuizz':
-							result = {
-								json: await  quizzSessionOperations.assignQuizz(this, i, pulseApi)
-							};
-							break;
-						case 'shareTestLink':
-							result = {
-								json: await  quizzSessionOperations.shareTestLink(this, i, pulseApi)
 							};
 							break;
 						default:

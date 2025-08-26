@@ -7,6 +7,7 @@ import {
 	languageOperations,
 	educationOperations,
 	certificationOperations,
+	quizzSessionOperations,
 	experienceOperations
 } from './operations';
 import {
@@ -16,6 +17,7 @@ import {
 	educationOperationsFields, educationFields,
 	certificationOperationsFields, certificationFields,
 	experienceOperationsFields, experienceFields,
+	quizzSessionOperationsFields, quizzSessionFields,
 	commonFields
 } from './descriptions';
 
@@ -70,6 +72,10 @@ export class TalentAction extends BasePulseNode {
 							name: 'Experience',
 							value: 'experience',
 						},
+						{
+							name: 'Talent Quizz Sessions',
+							value: 'quizzSessions',
+						},
 					],
 					default: 'talent',
 					noDataExpression: true,
@@ -88,6 +94,8 @@ export class TalentAction extends BasePulseNode {
 				...certificationFields,
 				...experienceOperationsFields,
 				...experienceFields,
+				...quizzSessionOperationsFields,
+				...quizzSessionFields,
 				...commonFields,
 			],
 		});
@@ -258,6 +266,46 @@ export class TalentAction extends BasePulseNode {
 						case 'deleteExperience':
 							result = {
 								json: await  experienceOperations.deleteExperience(this, i, pulseApi)
+							};
+							break;
+						default:
+							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
+					}
+				} else if (resource === 'quizzSessions') {
+					switch (operation) {
+						case 'createQuizzSession':
+							result = {
+								json: await  quizzSessionOperations.createQuizzSession(this, i, pulseApi)
+							};
+							break;
+						case 'updateQuizzSession':
+							result = {
+								json: await  quizzSessionOperations.updateQuizzSession(this, i, pulseApi)
+							};
+							break;
+						case 'cancelQuizzSession':
+							result = {
+								json: await  quizzSessionOperations.cancelQuizzSession(this, i, pulseApi)
+							};
+							break;
+						case 'getQuizzSessionById':
+							result = {
+								json: await  quizzSessionOperations.getQuizzSessionById(this, i, pulseApi)
+							};
+							break;
+						case 'getQuizzSessionsList':
+							result = {
+								json: await  quizzSessionOperations.getQuizzSessionsList(this, i, pulseApi)
+							};
+							break;
+						case 'assignQuizz':
+							result = {
+								json: await  quizzSessionOperations.assignQuizz(this, i, pulseApi)
+							};
+							break;
+						case 'shareTestLink':
+							result = {
+								json: await  quizzSessionOperations.shareTestLink(this, i, pulseApi)
 							};
 							break;
 						default:

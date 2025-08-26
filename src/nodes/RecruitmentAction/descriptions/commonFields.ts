@@ -9,24 +9,8 @@ export const commonFields: INodeProperties[] = [
     default: {},
     displayOptions: {
       show: {
-        resource: [
-          'talent',
-          'skill',
-          'languages',
-          'education',
-          'certification',
-          'experience',
-          'quizzSessions'
-        ],
-        operation: [
-          'getTalentList',
-          'getSkillsList',
-          'getLanguagesList',
-          'getEducationList',
-          'getCertificationList',
-          'getExperienceList',
-          'getQuizzSessionsList',
-        ],
+        resource: ['candidates', 'pipelineTemplate', 'recruitmentCampaign', 'stageTemplate'],
+        operation: ['getCandidatesList', 'getListPipelineTemplates', 'getRecruitmentCampaignsList', 'getListStageTemplates'],
       },
     },
     options: [
@@ -35,14 +19,14 @@ export const commonFields: INodeProperties[] = [
         name: 'sort',
         type: 'string',
         default: '',
-        description: 'Sort order, e.g., -relevance',
+        description: 'Sort order (e.g., "created_at" or "-created_at" for descending)',
       },
       {
         displayName: 'Page Number',
         name: 'pageNumber',
         type: 'number',
         default: 1,
-        description: 'Pagination - page number (requires page size)',
+        description: 'Pagination - page number',
       },
       {
         displayName: 'Page Size',
@@ -54,6 +38,7 @@ export const commonFields: INodeProperties[] = [
       {
         displayName: 'Filters',
         name: 'filters',
+        placeholder: 'Add Filter',
         type: 'fixedCollection',
         typeOptions: {
           multipleValues: true,
@@ -65,26 +50,28 @@ export const commonFields: INodeProperties[] = [
             displayName: 'Filter',
             values: [
               {
-                displayName: 'Filter Key',
+                displayName: 'Key',
                 name: 'key',
                 type: 'string',
                 default: '',
-                placeholder: 'e.g., organization_id',
+                description: 'The key to filter on',
               },
               {
                 displayName: 'Values',
                 name: 'values',
                 type: 'string',
                 default: '',
-                placeholder: 'Comma-separated values (e.g., 1,2,3)',
+                description: 'Comma-separated list of values',
               },
             ],
           },
         ],
+        description: 'Filter results by specific fields',
       },
       {
         displayName: 'Fields',
         name: 'fields',
+        placeholder: 'Add Field',
         type: 'fixedCollection',
         typeOptions: {
           multipleValues: true,
@@ -93,26 +80,27 @@ export const commonFields: INodeProperties[] = [
         options: [
           {
             name: 'field',
-            displayName: 'Field Group',
+            displayName: 'Field',
             values: [
               {
-                displayName: 'Field Key',
+                displayName: 'Resource Type',
                 name: 'key',
                 type: 'string',
                 default: '',
-                placeholder: 'e.g., iam/organizations/people_directories',
+                description: 'The resource type to specify fields for',
               },
               {
                 displayName: 'Fields',
                 name: 'fields',
                 type: 'string',
                 default: '',
-                placeholder: 'Comma-separated field names (e.g., id,name)',
+                description: 'Comma-separated list of fields to include',
               },
             ],
           },
         ],
+        description: 'Specify which fields to include in the response',
       },
     ],
-  }
+  },
 ];
