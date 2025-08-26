@@ -105,16 +105,6 @@ export class RecruitmentAction extends BasePulseNode {
 				// Handle candidates operations
 				if (resource === 'candidates') {
 					switch (operation) {
-						case 'createCandidate':
-							result = {
-								json: await  candidateOperations.createCandidate(this, i, pulseApi)
-							};
-							break;
-						case 'updateCandidate':
-							result = {
-								json: await  candidateOperations.updateCandidate(this, i, pulseApi)
-							};
-							break;
 						case 'getCandidateById':
 							result = {
 								json: await  candidateOperations.getCandidateById(this, i, pulseApi)

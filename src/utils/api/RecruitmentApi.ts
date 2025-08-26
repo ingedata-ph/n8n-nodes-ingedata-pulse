@@ -25,13 +25,6 @@ export class RecruitmentApi extends BasePulseApi {
   }
 
   /**
-   * Create a new candidate
-   */
-  async createCandidate(candidateData: any): Promise<any> {
-    return this.request<any>('POST', '/api/v3/recruitment/candidates', candidateData);
-  }
-
-  /**
    * Get a candidate by ID
    */
   async getCandidateById(candidateId: string, included?: string[]): Promise<any> {
@@ -41,13 +34,6 @@ export class RecruitmentApi extends BasePulseApi {
     }
     return this.request<any>('GET', `/api/v3/recruitment/candidates/${candidateId}`, undefined, queryParams);
   }
-
-  // /**
-  //  * Update a candidate by ID
-  //  */
-  // async updateCandidateById(candidateId: string, candidateData: any): Promise<any> {
-  //   return this.request<any>('PATCH', `/api/v3/recruitment/candidates/${candidateId}`, candidateData);
-  // }
 
   /**
    * Get a list of pipeline templates
