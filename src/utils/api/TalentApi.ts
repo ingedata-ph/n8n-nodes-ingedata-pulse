@@ -59,7 +59,7 @@ export class TalentApi extends BasePulseApi {
       organizational_unit: organizationalUnit,
       mime_type: mimeType
     };
-    
+
     return this.request<any>('POST', '/api/v3/talent/talents/upload_resume', undefined, queryParams);
   }
 
@@ -88,6 +88,13 @@ export class TalentApi extends BasePulseApi {
       'filter[id]': relevant_talent_id,
     }
     return  await this.request<any>('GET', `/api/v3/talent/talents`, undefined, talentQueryParams);
+  }
+
+  /**
+   * Update a talent by ID
+   */
+  async updateTalentById(talentId: string, talentData: object): Promise<any> {
+    return this.request<any>('PATCH', `/api/v3/talent/talents/${talentId}`, talentData);
   }
 
   // Skill methods

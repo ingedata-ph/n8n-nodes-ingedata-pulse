@@ -23,7 +23,7 @@ export class PulseApiFactory {
         return new AccountApi(credentials);
 
       case 'people':
-      case 'identityDocument':
+      case 'personDocument':
         return new PeopleApi(credentials);
 
       case 'talent':
@@ -45,6 +45,9 @@ export class PulseApiFactory {
         return new OrganizationsApi(credentials);
 
       case 'candidates':
+      case 'pipelineTemplate':
+      case 'stageTemplate':
+      case 'recruitmentCampaign':
         return new RecruitmentApi(credentials);
 
       case 'quizzSessions':

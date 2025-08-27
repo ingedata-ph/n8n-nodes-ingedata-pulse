@@ -8,8 +8,6 @@ export async function getPeopleList(
 ): Promise<any> {
   const included = executeFunctions.getNodeParameter('included', itemIndex, []) as string[];
   const additionalFields = executeFunctions.getNodeParameter('additionalFields', itemIndex, {}) as {
-    operation?: string[];
-    inputs?: object;
     sort?: string;
     pageNumber?: number;
     pageSize?: number;
@@ -36,7 +34,7 @@ export async function createPerson(
   const contact_number = executeFunctions.getNodeParameter('contactNumber', itemIndex) as string;
   const physical_address = executeFunctions.getNodeParameter('address', itemIndex) as string;
   const organizational_unit = executeFunctions.getNodeParameter('organizationalUnit', itemIndex) as string;
-  
+
   const personData = {
     data: {
       type: "iam/people",
@@ -55,7 +53,7 @@ export async function createPerson(
       }
     }
   };
-  
+
   return pulseApi.createPerson(personData);
 }
 
@@ -87,7 +85,7 @@ export async function updatePerson(
   const contact_number = executeFunctions.getNodeParameter('contactNumber', itemIndex) as string;
   const physical_address = executeFunctions.getNodeParameter('address', itemIndex) as string;
   const organizational_unit = executeFunctions.getNodeParameter('organizationalUnit', itemIndex) as string;
-  
+
   const personData = {
     data: {
       type: "iam/people",
@@ -107,6 +105,6 @@ export async function updatePerson(
       }
     }
   };
-  
+
   return pulseApi.updatePersonById(personId, personData);
 }

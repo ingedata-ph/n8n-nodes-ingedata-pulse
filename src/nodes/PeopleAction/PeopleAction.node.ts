@@ -2,12 +2,12 @@ import { IExecuteFunctions, NodeConnectionType, INodeExecutionData } from 'n8n-w
 import { INodeTypeDescription } from 'n8n-workflow';
 import { PulseApiFactory } from '../../utils/api/PulseApiFactory';
 import { BasePulseNode } from '../common/BasePulseNode';
-import { peopleOperations, identityDocumentsOperations } from './operations';
+import { peopleOperations, personDocumentsOperations } from './operations';
 import {
 	peopleOperationsFields,
 	peopleFields,
-	identityDocumentsOperationsFields,
-	identityDocumentsFields,
+	personDocumentsOperationsFields,
+	personDocumentsFields,
 } from './descriptions';
 
 export class PeopleAction extends BasePulseNode {
@@ -42,8 +42,8 @@ export class PeopleAction extends BasePulseNode {
 							value: 'people',
 						},
 						{
-							name: 'Person Identity Document',
-							value: 'identityDocument',
+							name: 'Person Document',
+							value: 'personDocument',
 						}
 					],
 					default: 'people',
@@ -53,8 +53,8 @@ export class PeopleAction extends BasePulseNode {
 				},
 				...peopleOperationsFields,
 				...peopleFields,
-				...identityDocumentsOperationsFields,
-				...identityDocumentsFields,
+				...personDocumentsOperationsFields,
+				...personDocumentsFields,
 			],
 		});
 	}
@@ -77,22 +77,22 @@ export class PeopleAction extends BasePulseNode {
 				if (resource === 'people') {
 					switch (operation) {
 						case 'getPeopleList':
-							result = { 
+							result = {
 								json: await  peopleOperations.getPeopleList(this, i, pulseApi)
 							};
 							break;
 						case 'createPerson':
-							result = { 
+							result = {
 								json: await  peopleOperations.createPerson(this, i, pulseApi)
 							};
 							break;
 						case 'getPersonById':
-							result = { 
+							result = {
 								json: await  peopleOperations.getPersonById(this, i, pulseApi)
 							};
 							break;
 						case 'updatePerson':
-							result = { 
+							result = {
 								json: await  peopleOperations.updatePerson(this, i, pulseApi)
 							};
 							break;
@@ -100,38 +100,37 @@ export class PeopleAction extends BasePulseNode {
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
 					}
 				}
-
-				else if (resource === 'identityDocument') {
+				else if (resource === 'personDocument') {
 					switch (operation) {
-						case 'getIdentityDocumentList':
-							result = { 
-								json: await  identityDocumentsOperations.getIdentityDocumentList(this, i, pulseApi)
+						case 'getPersonDocumentList':
+							result = {
+								json: await  personDocumentsOperations.getPersonDocumentList(this, i, pulseApi)
 							};
 							break;
-						case 'createIdentityDocument':
-							result = { 
-								json: await  identityDocumentsOperations.createIdentityDocument(this, i, pulseApi)
+						case 'createPersonDocument':
+							result = {
+								json: await  personDocumentsOperations.createPersonDocument(this, i, pulseApi)
 							};
 							break;
-						case 'getIdentityDocumentById':
-							result = { 
-								json: await  identityDocumentsOperations.getIdentityDocumentById(this, i, pulseApi)
+						case 'updatePersonDocument':
+							result = {
+								json: await  personDocumentsOperations.updatePersonDocument(this, i, pulseApi)
 							};
 							break;
-						case 'updateIdentityDocument':
-							result = { 
-								json: await  identityDocumentsOperations.updateIdentityDocument(this, i, pulseApi)
+						case 'deletePersonDocument':
+							result = {
+								json: await  personDocumentsOperations.deletePersonDocument(this, i, pulseApi)
 							};
 							break;
 						default:
 							throw new Error(`The operation "${operation}" is not supported for resource "${resource}"!`);
 					}
 				}
-				
+
 				else {
 					throw new Error(`The resource "${resource}" is not supported!`);
 				}
-				
+
 				returnData.push(result);
 			} catch (error) {
 				if (this.continueOnFail()) {

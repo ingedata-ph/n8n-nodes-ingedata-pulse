@@ -4,4 +4,5 @@ export * from './languageDescription';
 export * from './educationDescription';
 export * from './certificationDescription';
 export * from './experienceDescription';
+export * from './quizzSessionDescription';
 export * from './commonFields';
