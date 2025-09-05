@@ -376,21 +376,7 @@ export const talentFields: INodeProperties[] = [
   {
     displayName: 'Application Trigger',
     name: 'acquisitionMethod',
-    type: 'options',
-    options: [
-      {
-        name: '',
-        value: ''
-      },
-      {
-        name: 'Outsource IT',
-        value: 'outsource_it',
-      },
-      {
-        name: 'Application',
-        value: 'application',
-      },
-    ],
+    type: 'string',
     default: '',
     required: false,
     displayOptions: {
@@ -553,21 +539,7 @@ export const talentFields: INodeProperties[] = [
       {
         displayName: 'Application Trigger',
         name: 'acquisitionMethod',
-        type: 'options',
-        options: [
-          {
-            name: '',
-            value: ''
-          },
-          {
-            name: 'Outsource IT',
-            value: 'outsource_it',
-          },
-          {
-            name: 'Application',
-            value: 'application',
-          }
-        ],
+        type: 'string',
         default: '',
         description: 'The type of the application trigger',
       },
